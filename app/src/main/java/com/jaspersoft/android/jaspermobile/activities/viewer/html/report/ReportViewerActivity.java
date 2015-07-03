@@ -44,7 +44,6 @@ import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.jaspersoft.android.jaspermobile.BuildConfig;
-import com.jaspersoft.android.jaspermobile.CrashReport;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.report.ReportOptionsActivity;
 import com.jaspersoft.android.jaspermobile.activities.report.SaveReportActivity_;
@@ -490,6 +489,13 @@ public class ReportViewerActivity extends RoboToolbarActivity
         if (browserIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(chooser);
         }
+    }
+
+    @Override
+    public void onRemoteAnchorClick(String link) {
+        String serverUrl = jsRestClient.getServerProfile().getServerUrl();
+        String resLink = serverUrl + "/" +link;
+        onReferenceClick(resLink);
     }
 
     @Override

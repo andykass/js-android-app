@@ -106,7 +106,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       function DashboardController(callback, scaler, params) {
         this.callback = callback;
         this.scaler = scaler;
-        this._adHocHandler = bind(this._adHocHandler, this);
         this._openRemoteLink = bind(this._openRemoteLink, this);
         this._startReportExecution = bind(this._startReportExecution, this);
         this._processLinkClicks = bind(this._processLinkClicks, this);
@@ -158,7 +157,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       DashboardController.prototype.runDashboard = function() {
-        this._setGlobalErrorListener();
         this._scaleDashboard();
         this.callback.onLoadStart();
         if (this.session != null) {
@@ -279,8 +277,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
             return defaultHandler.call(this);
           case "LocalPage":
             return defaultHandler.call(this);
-          case "AdHocExecution":
-            return this._adHocHandler(link, defaultHandler);
           default:
             return defaultHandler.call(this);
         }
@@ -317,11 +313,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         return this.callback.onReferenceClick(href);
       };
 
-      DashboardController.prototype._adHocHandler = function(link, defaultHandler) {
-        js_mobile.log("_adHocHandler");
-        return defaultHandler.call(this);
-      };
-
       DashboardController.prototype._getDashlets = function(dashboardId) {
         if (dashboardId != null) {
           return $(this.container).find("[" + dashboardId + "] > .dashlet").parent();
@@ -336,14 +327,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
       DashboardController.prototype._showDashlets = function() {
         return this._getDashlets().css("opacity", 1);
-      };
-
-      DashboardController.prototype._setGlobalErrorListener = function() {
-        return window.onerror = (function(_this) {
-          return function(errorMsg, url, lineNumber) {
-            return _this.callback.onWindowError(errorMsg);
-          };
-        })(this);
       };
 
       return DashboardController;
@@ -379,19 +362,19 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 }).call(this);
 
 (function() {
-  define('js.mobile.factor.calculator', [],function() {
-    var FactorCalculator;
-    return FactorCalculator = (function() {
-      function FactorCalculator(diagonal) {
+  define('js.mobile.scale.calculator', [],function() {
+    var ScaleCalculator;
+    return ScaleCalculator = (function() {
+      function ScaleCalculator(diagonal) {
         this.diagonal = diagonal;
         this.diagonal || (this.diagonal = 10.1);
       }
 
-      FactorCalculator.prototype.calculateFactor = function() {
+      ScaleCalculator.prototype.calculateFactor = function() {
         return this.diagonal / 10.1;
       };
 
-      return FactorCalculator;
+      return ScaleCalculator;
 
     })();
   });
@@ -399,20 +382,70 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 }).call(this);
 
 (function() {
-  define('js.mobile.scale.manager', ['js.mobile.factor.calculator'],function() {
-    var ScaleFactor, ScaleManager;
-    ScaleFactor = require('js.mobile.factor.calculator');
+  define('js.mobile.scale.style.report', [],function() {
+    var ScaleStyleReport;
+    return ScaleStyleReport = (function() {
+      function ScaleStyleReport() {}
+
+      ScaleStyleReport.prototype.applyFor = function(factor) {
+        var scaledCanvasCss;
+        jQuery("#scale_style").remove();
+        scaledCanvasCss = "#container { position: absolute; width: " + (100 / factor) + "%; height: " + (100 / factor) + "%; }";
+        jQuery('<style id="scale_style"></style>').text(scaledCanvasCss).appendTo('head');
+      };
+
+      return ScaleStyleReport;
+
+    })();
+  });
+
+}).call(this);
+
+(function() {
+  define('js.mobile.scale.style.dashboard', [],function() {
+    var ScaleStyleDashboard;
+    return ScaleStyleDashboard = (function() {
+      function ScaleStyleDashboard() {}
+
+      ScaleStyleDashboard.prototype.applyFor = function(factor) {
+        var originalDashletInScaledCanvasCss, scaledCanvasCss;
+        jQuery("#scale_style").remove();
+        scaledCanvasCss = ".scaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + factor + " ); -ms-transform: scale( " + factor + " ); -webkit-transform: scale( " + factor + " ); width: " + (100 / factor) + "% !important; height: " + (100 / factor) + "% !important; }";
+        originalDashletInScaledCanvasCss = ".dashboardCanvas > .content > .body div.canvasOverlay.originalDashletInScaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + (1 / factor) + " ); -ms-transform: scale( " + (1 / factor) + " ); -webkit-transform: scale( " + (1 / factor) + " ); width: " + (100 * factor) + "% !important; height: " + (100 * factor) + "% !important; }";
+        jQuery('<style id="scale_style"></style>').text(scaledCanvasCss + originalDashletInScaledCanvasCss).appendTo('head');
+      };
+
+      return ScaleStyleDashboard;
+
+    })();
+  });
+
+}).call(this);
+
+(function() {
+  define('js.mobile.scale.manager', ['require','js.mobile.scale.calculator','js.mobile.scale.style.report','js.mobile.scale.style.dashboard'],function(require) {
+    var ScaleCalculator, ScaleManager, ScaleStyleDashboard, ScaleStyleReport;
+    ScaleCalculator = require('js.mobile.scale.calculator');
+    ScaleStyleReport = require('js.mobile.scale.style.report');
+    ScaleStyleDashboard = require('js.mobile.scale.style.dashboard');
     return ScaleManager = (function() {
-      function ScaleManager(configs) {
-        var diagonal;
-        this.scale_style = configs.scale_style, diagonal = configs.diagonal;
-        this.calculator = new ScaleFactor(diagonal);
+      ScaleManager.getReportManager = function(diagonal) {
+        return new ScaleManager(diagonal, new ScaleStyleReport());
+      };
+
+      ScaleManager.getDashboardManager = function(diagonal) {
+        return new ScaleManager(diagonal, new ScaleStyleDashboard());
+      };
+
+      function ScaleManager(diagonal, scaleStyle) {
+        this.scaleStyle = scaleStyle;
+        this.calculator = new ScaleCalculator(diagonal);
       }
 
       ScaleManager.prototype.applyScale = function() {
         var factor;
         factor = this.calculator.calculateFactor();
-        return this.scale_style.applyFor(factor);
+        return this.scaleStyle.applyFor(factor);
       };
 
       return ScaleManager;
@@ -460,10 +493,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       MobileDashboard.prototype._configure = function(configs) {
-        return this.scaler = new ScaleManager({
-          scale_style: this.scale_style,
-          diagonal: configs.diagonal
-        });
+        return this.scaler = ScaleManager.getDashboardManager(configs.diagonal);
       };
 
       MobileDashboard.run = function(params) {
@@ -473,10 +503,7 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       MobileDashboard.prototype._legacyRun = function(params) {
         var scaler;
         params.session = this.session;
-        scaler = new ScaleManager({
-          scale_style: this.scale_style,
-          diagonal: params.diagonal
-        });
+        scaler = ScaleManager.getDashboardManager(params.diagonal);
         this._controller = new DashboardController(this.callback, scaler, params);
         return this._controller.runDashboard();
       };
@@ -503,11 +530,8 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       function MobileDashboard(args) {
-        var scaler;
-        this.callback = args.callback, this.scale_style = args.scale_style;
-        scaler = new ScaleManager({
-          scale_style: this.scale_style
-        });
+        this.callback = args.callback;
+        this.scaler = ScaleManager.getDashboardManager();
         this.callback.onScriptLoaded();
       }
 
@@ -617,7 +641,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       extend(AndroidCallback, superClass);
 
       function AndroidCallback() {
-        this.onWindowError = bind(this.onWindowError, this);
         this.onAuthError = bind(this.onAuthError, this);
         this.onWindowResizeEnd = bind(this.onWindowResizeEnd, this);
         this.onWindowResizeStart = bind(this.onWindowResizeStart, this);
@@ -684,8 +707,10 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
       };
 
       AndroidCallback.prototype.onLoadDone = function(components) {
+        var componentsString;
+        componentsString = JSON.stringify(components, null, 4);
         this.dispatch(function() {
-          return Android.onLoadDone();
+          return Android.onLoadDone(componentsString);
         });
       };
 
@@ -721,12 +746,6 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
         });
       };
 
-      AndroidCallback.prototype.onWindowError = function(message) {
-        this.dispatch(function() {
-          return Android.onWindowError(message);
-        });
-      };
-
       return AndroidCallback;
 
     })(CallbackDispatcher);
@@ -735,39 +754,16 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 }).call(this);
 
 (function() {
-  define('js.mobile.android.scale.style.dashboard', [],function() {
-    var ScaleStyleDashboard;
-    return ScaleStyleDashboard = (function() {
-      function ScaleStyleDashboard() {}
-
-      ScaleStyleDashboard.prototype.applyFor = function(factor) {
-        var originalDashletInScaledCanvasCss, scaledCanvasCss;
-        jQuery("#scale_style").remove();
-        scaledCanvasCss = ".scaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + factor + " ); -ms-transform: scale( " + factor + " ); -webkit-transform: scale( " + factor + " ); width: " + (100 / factor) + "% !important; height: " + (100 / factor) + "% !important; }";
-        originalDashletInScaledCanvasCss = ".dashboardCanvas > .content > .body div.canvasOverlay.originalDashletInScaledCanvas { transform-origin: 0 0 0; -ms-transform-origin: 0 0 0; -webkit-transform-origin: 0 0 0; transform: scale( " + (1 / factor) + " ); -ms-transform: scale( " + (1 / factor) + " ); -webkit-transform: scale( " + (1 / factor) + " ); width: " + (100 * factor) + "% !important; height: " + (100 * factor) + "% !important; }";
-        jQuery('<style id="scale_style"></style>').text(scaledCanvasCss + originalDashletInScaledCanvasCss).appendTo('head');
-      };
-
-      return ScaleStyleDashboard;
-
-    })();
-  });
-
-}).call(this);
-
-(function() {
-  define('js.mobile.amber2.android.dashboard.client', ['require','js.mobile.amber2.dashboard','js.mobile.android.dashboard.callback','js.mobile.android.scale.style.dashboard'],function(require) {
-    var DashboardCallback, DashboardClient, MobileDashboard, ScaleStyleDashboard;
+  define('js.mobile.amber2.android.dashboard.client', ['require','js.mobile.amber2.dashboard','js.mobile.android.dashboard.callback'],function(require) {
+    var DashboardCallback, DashboardClient, MobileDashboard;
     MobileDashboard = require('js.mobile.amber2.dashboard');
     DashboardCallback = require('js.mobile.android.dashboard.callback');
-    ScaleStyleDashboard = require('js.mobile.android.scale.style.dashboard');
     return DashboardClient = (function() {
       function DashboardClient() {}
 
       DashboardClient.prototype.run = function() {
         return MobileDashboard.getInstance({
-          callback: new DashboardCallback(),
-          scale_style: new ScaleStyleDashboard()
+          callback: new DashboardCallback()
         });
       };
 

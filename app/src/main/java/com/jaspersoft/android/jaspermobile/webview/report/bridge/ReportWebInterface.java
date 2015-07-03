@@ -132,6 +132,17 @@ public final class ReportWebInterface extends WebInterface implements ReportCall
 
     @JavascriptInterface
     @Override
+    public void onRemoteAnchorClick(final String link) {
+        handleCallback(new Runnable() {
+            @Override
+            public void run() {
+                decoratedCallback.onRemoteAnchorClick(link);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    @Override
     public void onReportExecutionClick(final String data) {
         handleCallback(new Runnable() {
             @Override
