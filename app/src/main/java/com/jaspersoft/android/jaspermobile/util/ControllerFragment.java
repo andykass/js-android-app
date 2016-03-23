@@ -34,7 +34,7 @@ import android.view.MenuItem;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.BaseFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 
 import javax.inject.Inject;
 

@@ -1,8 +1,8 @@
 package com.jaspersoft.android.jaspermobile.internal.di.modules.activity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.presentation.contract.RestReportContract;
-import com.jaspersoft.android.jaspermobile.presentation.presenter.ReportViewPresenter;
+import com.jaspersoft.android.jaspermobile.ui.contract.RestReportContract;
+import com.jaspersoft.android.jaspermobile.ui.presenter.ReportViewPresenter;
 
 import dagger.Module;
 import dagger.Provides;

@@ -6,7 +6,7 @@ import com.jaspersoft.android.jaspermobile.data.cache.profile.CredentialsCache;
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportParamsCache;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
-import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeExecOptions;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.VisualizeExecOptions;
 import com.jaspersoft.android.sdk.client.oxm.report.ReportParameter;
 
 import org.junit.Before;

@@ -27,7 +27,7 @@ package com.jaspersoft.android.jaspermobile.internal.di.components;
 import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoaderModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.LibraryCatalogFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.LibraryCatalogFragment;
 
 import dagger.Subcomponent;
 

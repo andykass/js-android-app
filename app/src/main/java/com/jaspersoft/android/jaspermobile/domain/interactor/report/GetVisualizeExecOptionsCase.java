@@ -9,7 +9,7 @@ import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.executor.PreExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.interactor.AbstractUseCase;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
-import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeExecOptions;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.VisualizeExecOptions;
 import com.jaspersoft.android.sdk.client.oxm.report.ReportParameter;
 
 import org.jetbrains.annotations.NotNull;

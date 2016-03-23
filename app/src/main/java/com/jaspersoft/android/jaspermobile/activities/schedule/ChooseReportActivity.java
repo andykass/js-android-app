@@ -28,9 +28,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.LibraryCatalogFragment;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.LibraryCatalogFragment_;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.LibraryCatalogFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.LibraryCatalogFragment_;
 
 /**
  * @author Andrew Tivodar

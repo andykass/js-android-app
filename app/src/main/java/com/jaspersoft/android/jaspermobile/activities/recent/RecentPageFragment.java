@@ -33,8 +33,8 @@ import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.recent.fragment.RecentControllerFragment;
 import com.jaspersoft.android.jaspermobile.activities.recent.fragment.RecentControllerFragment_;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.BaseFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 
 import org.androidannotations.annotations.EFragment;
 
