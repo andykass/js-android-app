@@ -50,7 +50,7 @@ subprojects {
 
     ext.fabricToolsVersion = '1.21.2';
     ext.dexCountToolsVersion = '0.3.0';
-    ext.jasperSdkVersion = '2.3';
+    ext.jasperSdkVersion = '2.5-SNAPSHOT';
 
     repositories {
         // Local .m2 repo, usually living at home dir
