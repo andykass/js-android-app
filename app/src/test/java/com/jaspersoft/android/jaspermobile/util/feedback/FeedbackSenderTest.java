@@ -25,6 +25,7 @@
 package com.jaspersoft.android.jaspermobile.util.feedback;
 
 import android.content.Intent;
+import android.net.Uri;
 
 import com.jaspersoft.android.jaspermobile.BuildConfig;
 
@@ -62,15 +63,15 @@ public class FeedbackSenderTest {
     }
 
     @Test
-    public void shouldCreateIntentWithActionSend() {
+    public void shouldCreateIntentWithActionSendTo() {
         Intent intent = sender.buildIntent();
-        assertThat(intent.getAction(), is(Intent.ACTION_SEND));
+        assertThat(intent.getAction(), is(Intent.ACTION_SENDTO));
     }
 
     @Test
-    public void shouldCreateIntentWithTyperfc822() {
+    public void shouldCreateIntentWithDataMailTo() {
         Intent intent = sender.buildIntent();
-        assertThat(intent.getType(), is("message/rfc822"));
+        assertThat(intent.getData(), is(Uri.parse("mailto:")));
     }
 
     @Test
