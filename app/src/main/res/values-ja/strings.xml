@@ -118,10 +118,10 @@
 
     <!-- Delete Report Dialog -->
     <string name="sdr_drd_title">レポートの削除</string>
-    <string name="sdr_drd_msg">「%s」を削除してもよろしいですか？</string>
+    <string name="sdr_drd_msg">「%1$s」を削除してもよろしいですか？</string>
 
     <!-- Toasts -->
-    <string name="sdr_t_no_app_available">「%s」ビューアがインストールされていません。</string>
+    <string name="sdr_t_no_app_available">「%1$s」ビューアがインストールされていません。</string>
     <string name="sdr_t_report_renaming_error">レポート名を変更できません</string>
     <string name="sdr_t_report_deletion_error">レポートを削除できません</string>
 
@@ -132,8 +132,8 @@
     <string name="st_title_connect_timeout">接続タイムアウト</string>
     <string name="st_title_read_timeout">データ読み込みタイムアウト</string>
     <string name="st_send_crashes">クラッシュレポートを送信</string>
-    <string name="st_summary_sec">%s 秒</string>
-    <string name="st_summary_h">%s 時間</string>
+    <string name="st_summary_sec">%1$s 秒</string>
+    <string name="st_summary_h">%1$s 時間</string>
     <string name="st_invalid_number_format">無効な数値フォーマット</string>
     <string name="st_category_more">詳細</string>
 
@@ -149,7 +149,7 @@
 
     <!-- Others -->
     <string name="loading_msg">読み込み中...</string>
-    <string name="search_result_format">「%s」のサーチ結果</string>
+    <string name="search_result_format">「%1$s」のサーチ結果</string>
     <string name="failed_load_data">データの読み込みが失敗しました。</string>
 
     <!-- Navigation panel -->
@@ -237,7 +237,7 @@
 
     <!-- Remove Favorites Dialog -->
     <string name="sdr_dfd_title">お気に入りから削除</string>
-    <string name="sdr_dfd_msg">本当に「%s 」を削除しますか？</string>
+    <string name="sdr_dfd_msg">本当に「%1$s 」を削除しますか？</string>
 
     <!-- Settings activity -->
     <string name="st_restart_note">注：この設定を変更した後、アプリを再起動して下さい。</string>
@@ -259,8 +259,8 @@
     <string name="hint_organization">所属機関</string>
     <string name="hint_username">ユーザー名</string>
     <string name="hint_password">パスワード</string>
-    <string name="success_add_account"> %s という名前のアカウントが追加されました</string>
-    <string name="failure_add_account">アカウントを追加できませんでした。理由：%s</string>
+    <string name="success_add_account"> %1$s という名前のアカウントが追加されました</string>
+    <string name="failure_add_account">アカウントを追加できませんでした。理由：%1$s</string>
     <string name="account_add">アカウントを追加しています</string>
 
     <!--Dashboard activity-->
@@ -276,5 +276,175 @@
     <string name="recent_card_label">最近表示した項目</string>
     <string name="cancel">キャンセル</string>
     <string name="ok">OK</string>
+
+    <!-- Repository Activity -->
+    <string name="resources_not_found">リソースが見つかりません</string>
+
+    <!-- Progress Dialog -->
+    <string name="r_pd_initializing_msg">初期化しています...</string>
+
+    <!-- File viewing -->
+    <string name="fv_try_again_btn">もう一度試す</string>
+    <string name="fv_can_not_show_message">ファイルの内容を表示することができません</string>
+    <string name="fv_undefined_message">開けません。リソース タイプが定義されていません。</string>
+    <string name="fv_opening_message">ファイルを開いています...</string>
+
+    <!-- Filter Dialog -->
+    <string name="s_fd_option_saved_values">保存した値</string>
+    <string name="s_fd_option_files">ファイル</string>
+    <string name="s_fd_option_others">その他</string>
+
+    <!-- Settings Activity -->
+    <string name="sa_about_info">TIBCO® JasperMobile™ v%1$s&lt;br&gt;&lt;br&gt;TIBCO JasperReports® サーバー 5.5以降のマネージメント ツールおよびレポート ビューア&lt;br&gt;&lt;br&gt;詳細情報は次のページからご覧ください：&lt;br&gt;&lt;a href=http://community.jaspersoft.com/project/tibco-jaspermobile-android&gt;http://community.jaspersoft.com/project/tibco-jaspermobile-android&lt;/a&gt;&lt;br&gt;&lt;br&gt;プライバシーポリシーに関しては次のページをご覧ください：&lt;br&gt;&lt;a href=http://www.tibco.com/company/privacy-cma&gt;http://www.tibco.com/company/privacy-cma&lt;/a&gt;&lt;br&gt;&lt;br&gt;最新情報については、次のページをご覧ください：&lt;br&gt;&lt;a href=https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new&gt;https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2005-2016 TIBCO Software, Inc.</string>
+
+    <!-- Report Options Activity -->
+    <string name="ro_default">デフォルト</string>
+    <string name="ro_page_title">フィルター</string>
+    <string name="ro_save_ro">値を保存する</string>
+    <string name="ro_save_text">保存された値の名前</string>
+    <string name="ro_save_same">このレポートには既に、この名前で保存された値が存在しています。続けると内容は上書きされます。</string>
+    <string name="ro_default_save_name">オプション</string>
+    <string name="ro_delete_ro">保存した値を削除する</string>
+    <string name="ro_reset_ro">値をリセットする</string>
+    <string name="ro_ms_available">利用可能な項目：%1$s</string>
+    <string name="ro_ms_selected">選択された項目：%1$s</string>
+    <string name="ro_no_items_selected">選択したアイテムがありません</string>
+    <string name="ro_select_all">すべて選択</string>
+    <string name="ro_deselect_all">すべての選択を解除する</string>
+    <string name="ro_inverse">逆にする</string>
+    <string name="ro_search">検索リスト...</string>
+    <string name="ro_show">保存された値</string>
+
+    <!-- Resource Info Activity -->
+    <string name="ri_schedule">スケジュール</string>
+    <string name="ri_report_option_title">レポートオプション：</string>
+    <string name="ri_type_title">タイプ：</string>
+    <string name="ri_label_title">ラベル：</string>
+    <string name="ri_description_title">説明：</string>
+    <string name="ri_modified_title">更新日：</string>
+    <string name="ri_creation_title">作成日：</string>
+    <string name="ri_file_format">ファイル形式：</string>
+    <string name="ri_file_size">ファイルサイズ：</string>
+    <string name="ri_version_title">バージョン：</string>
+    <string name="ri_permissions_title">ユーザーアクセス：</string>
+
+    <!-- Resource permission -->
+    <string name="rp_no_access">アクセスなし</string>
+    <string name="rp_administer">変更、削除、管理</string>
+    <string name="rp_read_only">読み取り専用</string>
+    <string name="rp_read_write">変更</string>
+    <string name="rp_read_delete">読み取り専用、削除</string>
+    <string name="rp_read_write_delete">変更、削除</string>
+    <string name="rp_execute_only">実行のみ</string>
+
+    <!-- Schedule -->
+    <string name="sch_new">新しいスケジュール</string>
+    <string name="sch_edit">スケジュールを編集する</string>
+    <string name="sch_job_name">スケジュールされたジョブの名前</string>
+    <string name="sch_file_name">出力ファイル名</string>
+    <string name="sch_run_immediately">すぐに実行する</string>
+    <string name="sch_start_date">スケジュールの開始日</string>
+    <string name="sch_destination">出力先パス</string>
+    <string name="sch_created">ジョブがスケジュールされました</string>
+    <string name="sch_updated">ジョブが更新されました</string>
+    <string name="sch_deleted">スケジュールが削除されました</string>
+    <string name="sch_jobs">スケジュール</string>
+    <string name="sch_not_found">ジョブがスケジュールされていません。</string>
+    <string name="sch_format_paginated">%1$s(ページ区切り付き)</string>
+    <string name="sch_next_run_label">次の実行：%1$s(状態：%2$s)</string>
+    <string name="sch_state_normal">ノーマル</string>
+    <string name="sch_state_complete">完了</string>
+    <string name="sch_state_executing">実行しています</string>
+    <string name="sch_state_error">エラー</string>
+    <string name="sch_state_paused">一時停止</string>
+    <string name="sch_state_unknown">不明</string>
+    <string name="sdr_delete_title">スケジュールが削除されました</string>
+    <string name="sdr_delete_message">本当にこのスケジュールを削除しますか？</string>
+
+    <!-- Report Viewer Activity -->
+    <string name="rv_webview_still_loading">読み込みに時間がかかりすぎています。続けて待機するか、後でもう一度お試しください。</string>
+
+    <!-- Saved Files Activity -->
+    <string name="sdr_saving_multiply_msg">%1$s件のレポートをダウンロードしています</string>
+    <string name="sdr_starting_downloading_msg">ダウンロードを開始しています...</string>
+    <string name="sdr_saving_msg">レポートをダウンロードしています</string>
+    <string name="sdr_saving_error_msg">レポートの保存に失敗しました</string>
+    <string name="sdr_loading_msg">まだレポートをダウンロードしています...</string>
+
+    <string name="sdr_dfd_msg_multi">本当に選択したアイテム(%1$s項目)を削除しますか？</string>
+
+    <!-- Settings activity -->
+    <string name="st_category_resource_cache">リソース キャッシュ</string>
+    <string name="st_title_cache_expiration">キャッシュの有効期限</string>
+    <string name="st_title_clear_cache">キャッシュを消去する</string>
+    <string name="st_summary_cache_enable">指定された時間帯のキャッシュ リソース</string>
+    <string name="st_summary_clear_cache">すべてのキャッシュ リソースを削除する</string>
+    <string name="st_screenshot_enable">画面のキャプチャ</string>
+    <string name="st_action_clear_cache">キャッシュがクリアされました</string>
+    <string name="st_action_clear_cache_fail">キャッシュをクリアできません</string>
+
+    <!-- Error messages -->
+    <string name="error_report_cancelled">レポートの実行がキャンセルされました</string>
+    <string name="error_report_failed">レポートの実行に失敗しました</string>
+    <string name="error_export_failed">レポートの書き出しに失敗しました</string>
+    <string name="error_export_cancelled">レポートの書き出しがキャンセルされました</string>
+    <string name="error_schedule_duplicate_file_name">出力ファイル名が重複しています</string>
+    <string name="error_schedule_in_the_past">開始日が過去の日付となっています。現在以降の日付を設定してください。</string>
+    <string name="error_schedule_special_characters">ベースとなる出力名に無効な文字が含まれています。</string>
+    <string name="error_schedule_folder_not_exist">ジョブの出力フォルダが見つかりません。</string>
+    <string name="error_schedule_folder_not_writable">あなたには、フォルダにジョブを出力して保存する権限がありません。</string>
+    <string name="error_schedule_output_filename_too_long">ジョブの出力ファイル名が長すぎます。許容できる長さ：%1$s</string>
+    <string name="error_schedule_label_too_long">ジョブ ラベル名が長すぎます。許容できる長さ：%1$s</string>
+    <string name="error_undefined">未知のエラーが発生しました</string>
+    <string name="error_saved_values_duplicate">他のレポートのこのフォルダに、その名前で保存されたオプションが既に存在しています。</string>
+    <string name="error_saved_values_label_too_long">保存されたオプションのラベルが長すぎます。利用可能な文字数は最高で%1$s文字です。</string>
+
+    <!-- Others -->
+    <string name="wrong_action">このアクションを実行することができません。</string>
+    <string name="voice_command_btn">ボイス コマンド</string>
+    <string name="voice_command_title">いくつかのコマンドを言ってください</string>
+    <string name="voice_command_undefined">コマンドを認識することができません。</string>
+    <string name="voice_command_help">音声コマンドを使ってリソースと対話することが可能です。実行と発見： 2つのコマンドがサポートされています。たとえば、レポートの実行を開始するには、リソース名を指定してから「実行」と言ってください。</string>
+    <string name="voice_command_not_show_again">二度と表示しないでください</string>
+
+    <!-- Casting -->
+    <string name="cast_logo_presentation_message">常にオン、簡単にアクセスできます</string>
+    <string name="cast_ready_message">レポートをキャストする準備ができました</string>
+    <string name="cast_scroll_message">レポートが公開されています。矢印ボタンを長押しして上下にスクロールしてください。</string>
+
+    <!-- WebView errors -->
+    <string name="error_webview_auth_msg">サーバ上でのユーザー認証に失敗しました。</string>
+    <string name="error_webview_auth_title">認証エラー</string>
+    <string name="error_webview_timeout_msg">サーバーへの接続に時間がかかりすぎています。後ほどもう一度お試しください。</string>
+    <string name="error_webview_timeout_title">接続タイムアウト</string>
+    <string name="error_webview_too_many_requests_msg">読み込み中に多すぎる要求がなされました</string>
+    <string name="error_webview_too_many_requests_title">多すぎる要求</string>
+    <string name="error_webview_generic_msg">一般的なエラー</string>
+    <string name="error_webview_generic_title">不明のエラー</string>
+    <string name="error_webview_bad_url_msg">入力したURLを確認してください..</string>
+    <string name="error_webview_bad_url_title">URLの形式が無効です</string>
+    <string name="error_webview_connect_msg">サーバーへの接続に失敗しました</string>
+    <string name="error_webview_connect_title">接続</string>
+    <string name="error_webview_ssl_handshake_msg">SSLハンドシェイクの実行に失敗しました</string>
+    <string name="error_webview_ssl_handshake_title">SSLハンドシェイクに失敗しました</string>
+    <string name="error_webview_host_lookup_msg">サーバーまたはプロキシのホスト名が検索できませんでした</string>
+    <string name="error_webview_host_lookup_title">ホスト検索エラー</string>
+    <string name="error_webview_proxy_auth_msg">プロキシでユーザー認証に失敗しました</string>
+    <string name="error_webview_proxy_auth_title">プロキシ認証エラー</string>
+    <string name="error_webview_redirect_loop_msg">リダイレクトが多すぎます</string>
+    <string name="error_webview_redirect_loop_title">リダイレクト ループ エラー</string>
+    <string name="error_webview_unsupported_auth_scheme_msg">サポートされていない認証方式です(ベーシックまたはダイジェストではありません)</string>
+    <string name="error_webview_unsupported_auth_scheme_title">認証スキームのエ​​ラー</string>
+    <string name="error_webview_unsupported_scheme_msg">サポートされていないURIスキーム</string>
+    <string name="error_webview_unsupported_scheme_title">URIスキーム エラー</string>
+    <string name="error_webview_error_file_msg">一般的なファイル エラー</string>
+    <string name="error_webview_error_file_title">ファイル</string>
+    <string name="error_webview_file_not_found_msg">ファイルが見つかりません</string>
+    <string name="error_webview_file_not_found_title">ファイル</string>
+    <string name="error_webview_io_msg">サーバーに接続できませんでした。後ほどもう一度お試しください。</string>
+    <string name="error_webview_io_title">IOエラー</string>
+
+    <!-- Permissions -->
+    <string name="enable_write_permission">保存できません。アクセスが拒否されました</string>
 
 </resources>

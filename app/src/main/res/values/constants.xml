@@ -68,4 +68,6 @@
         <item>js.testdevice@gmail.com</item>
     </string-array>
 
+    <!-- Resource Info Activity -->
+    <string name="ri_uri_title" translatable="false">URI:</string>
 </resources>
