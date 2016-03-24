@@ -26,6 +26,7 @@ package com.jaspersoft.android.jaspermobile.util.feedback;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -42,7 +43,6 @@ import javax.inject.Inject;
  */
 @PerProfile
 public final class FeedbackSender {
-    private static final String MESSAGE_TYPE = "message/rfc822";
     private final Context mContext;
     private final Message mFeedback;
 
@@ -72,9 +72,9 @@ public final class FeedbackSender {
     @NonNull
     @VisibleForTesting
     Intent buildIntent() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setType(MESSAGE_TYPE);
         intent.putExtra(Intent.EXTRA_EMAIL, mContext.getResources().getStringArray(R.array.feedback_subject_email));
         intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.sa_show_feedback));
         intent.putExtra(Intent.EXTRA_TEXT, mFeedback.create());
