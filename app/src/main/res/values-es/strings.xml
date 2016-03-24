@@ -64,7 +64,9 @@
     <string name="r_pd_running_report_msg">Ejecutando informe...</string>
 
     <!-- Error messages -->
-    <string name="r_error_server_not_supported">La versión del servidor es anterior a la 5.5 (no admitida) o la URL es incorrecta.</string>
+    <string name="r_error_server_not_supported">La versión del servidor es anterior a la 5.5 (no
+        admitida) o la URL es incorrecta.
+    </string>
 
     <!-- Search Activity -->
     <string name="s_hint">Recursos de la búsqueda</string>
@@ -95,7 +97,9 @@
     <string name="rv_dialog_reload">Actualizar</string>
 
     <!-- Toasts -->
-    <string name="rv_t_external_storage_not_available">La tarjeta de memoria externa no está disponible. Monte la tarjeta e inténtelo de nuevo.</string>
+    <string name="rv_t_external_storage_not_available">La tarjeta de memoria externa no está
+        disponible. Monte la tarjeta e inténtelo de nuevo.
+    </string>
 
     <!-- Save Report Activity -->
     <string name="sr_ab_title">Guardar informe</string>
@@ -118,10 +122,10 @@
 
     <!-- Delete Report Dialog -->
     <string name="sdr_drd_title">Eliminar informe</string>
-    <string name="sdr_drd_msg">¿Desea eliminar realmente \"%s\"?</string>
+    <string name="sdr_drd_msg">¿Desea eliminar realmente \"%1$s\"?</string>
 
     <!-- Toasts -->
-    <string name="sdr_t_no_app_available">No se ha instalado ningún visor de \"%s\".</string>
+    <string name="sdr_t_no_app_available">No se ha instalado ningún visor de \"%1$s\".</string>
     <string name="sdr_t_report_renaming_error">No se puede cambiar el nombre del informe.</string>
     <string name="sdr_t_report_deletion_error">No se puede eliminar el informe.</string>
 
@@ -132,16 +136,21 @@
     <string name="st_title_connect_timeout">Tiempo de espera de la conexión</string>
     <string name="st_title_read_timeout">Tiempo de espera de lectura de datos</string>
     <string name="st_send_crashes">Enviar informes de errores</string>
-    <string name="st_summary_sec">%s s</string>
-    <string name="st_summary_h">%s h</string>
+    <string name="st_summary_sec">%1$s s</string>
+    <string name="st_summary_h">%1$s h</string>
     <string name="st_invalid_number_format">Formato de número no válido</string>
     <string name="st_category_more">Más</string>
 
     <!-- Error messages -->
-    <string name="error_http_400"> Solicitud errónea. La solicitud no es válida.</string>
-    <string name="error_http_401">Faltan las credenciales de autenticación o no son correctas.</string>
-    <string name="error_http_403">Permiso denegado. Se ha entendido la solicitud, pero se ha rechazado.</string>
-    <string name="error_http_404">No encontrado. La solicitud de URI no es válida o la solicitud de recurso no existe.</string>
+    <string name="error_http_400">Solicitud errónea. La solicitud no es válida.</string>
+    <string name="error_http_401">Faltan las credenciales de autenticación o no son correctas.
+    </string>
+    <string name="error_http_403">Permiso denegado. Se ha entendido la solicitud, pero se ha
+        rechazado.
+    </string>
+    <string name="error_http_404">No encontrado. La solicitud de URI no es válida o la solicitud de
+        recurso no existe.
+    </string>
     <string name="error_http_500">Error interno del servidor.</string>
     <string name="error_http_502">Puerta de enlace errónea.</string>
     <string name="error_http_503">Servicio no disponible.</string>
@@ -149,7 +158,7 @@
 
     <!-- Others -->
     <string name="loading_msg">Cargando...</string>
-    <string name="search_result_format">Buscar resultados para \'%s\'</string>
+    <string name="search_result_format">Buscar resultados para \'%1$s\'</string>
     <string name="failed_load_data">Error al cargar los datos.</string>
     <string name="request_was_cancelled_explicitly">Cancelado</string>
 
@@ -178,10 +187,14 @@
 
     <!-- Password Dialog -->
     <string name="h_ad_title_server_sign_in">Inicio de sesión en el servidor</string>
-    <string name="h_ad_label_wrong_password">El nombre de usuario o la contraseña es incorrecta. Por favor introduzca sus credenciales nuevamente.</string>
+    <string name="h_ad_label_wrong_password">El nombre de usuario o la contraseña es incorrecta. Por
+        favor introduzca sus credenciales nuevamente.
+    </string>
 
     <!-- Rate Dialog -->
-    <string name="h_rd_description">Si disfruta usar TIBCO® JasperMobile™, por favor dedique un momento a calificarla. No le tomará más de un minuto. ¡Gracias por su apoyo!</string>
+    <string name="h_rd_description">Si disfruta usar TIBCO® JasperMobile™, por favor dedique un
+        momento a calificarla. No le tomará más de un minuto. ¡Gracias por su apoyo!
+    </string>
 
     <!-- Error messages -->
     <string name="sp_error_reserved_alias">Alias reservado.</string>
@@ -212,12 +225,16 @@
     <string name="sr_report_name">Nombre del archivo</string>
     <string name="sr_from">Desde la página</string>
     <string name="sr_to">Hasta la página</string>
-    <string name="sr_failed_to_create_local_repo">No se pudo crear el almacenamiento local de archivos</string>
+    <string name="sr_failed_to_create_local_repo">No se pudo crear el almacenamiento local de
+        archivos
+    </string>
     <string name="sr_failed_to_execute_report">No se pudo ejecutar el informe</string>
 
     <!-- Error messages -->
     <string name="sr_error_field_is_empty">El campo es obligatorio.</string>
-    <string name="sr_error_characters_not_allowed">Los siguientes caracteres no están permitidos: * \\ / \" \' : ? | &lt; &gt; + [ ]</string>
+    <string name="sr_error_characters_not_allowed">Los siguientes caracteres no están permitidos: *
+        \\ / \" \' : ? | &lt; &gt; + [ ]
+    </string>
     <string name="sr_error_report_exists">Ya existe un archivo con ese nombre.</string>
 
     <!-- Favorites activity -->
@@ -235,15 +252,18 @@
     <string name="sdr_rrd_title">Renombrar archivo</string>
     <string name="sdr_rrd_hint">Nombre del archivo</string>
     <string name="sdr_rrd_error_name_is_empty">El campo es obligatorio.</string>
-    <string name="sdr_rrd_error_characters_not_allowed">Los siguientes caracteres no están permitidos: * \\ / \" \' : ? | &lt; &gt; + [ ]</string>
+    <string name="sdr_rrd_error_characters_not_allowed">Los siguientes caracteres no están
+        permitidos: * \\ / \" \' : ? | &lt; &gt; + [ ]
+    </string>
     <string name="sdr_rrd_error_report_exists">Ya existe un archivo con ese nombre.</string>
 
     <!-- Remove Favorites Dialog -->
     <string name="sdr_dfd_title">Eliminar de los favoritos</string>
-    <string name="sdr_dfd_msg">¿Realmente desea eliminar \"%s\"?</string>
+    <string name="sdr_dfd_msg">¿Realmente desea eliminar \"%1$s\"?</string>
 
     <!-- Settings activity -->
-    <string name="st_restart_note">NOTA: Reinicie la app después de cambiar esta configuración.</string>
+    <string name="st_restart_note">NOTA: Reinicie la app después de cambiar esta configuración.
+    </string>
 
     <!-- Error messages -->
     <string name="r_error_server_not_found">No se encontró el servidor.</string>
@@ -260,8 +280,8 @@
     <string name="hint_organization">Organización</string>
     <string name="hint_username">Nombre de usuario</string>
     <string name="hint_password">Contraseña</string>
-    <string name="success_add_account">Se añadió la cuenta con el nombre %s</string>
-    <string name="failure_add_account">No se pudo añadir la cuenta. Motivo: %s</string>
+    <string name="success_add_account">Se añadió la cuenta con el nombre %1$s</string>
+    <string name="failure_add_account">No se pudo añadir la cuenta. Motivo: %1$s</string>
     <string name="account_add">Añadiendo cuenta</string>
 
     <!--Dashboard activity-->
@@ -277,5 +297,175 @@
     <string name="recent_card_label">Recientemente visto</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">Aceptar</string>
+
+    <!-- Repository Activity -->
+    <string name="resources_not_found">No se encontraron recursos</string>
+
+    <!-- Progress Dialog -->
+    <string name="r_pd_initializing_msg">Inicializando...</string>
+
+    <!-- File viewing -->
+    <string name="fv_try_again_btn">Intentar de nuevo</string>
+    <string name="fv_can_not_show_message">No se puede mostrar el contenido del archivo</string>
+    <string name="fv_undefined_message">No se puede abrir. Tipo de recurso no identificado</string>
+    <string name="fv_opening_message">Abriendo archivo...</string>
+
+    <!-- Filter Dialog -->
+    <string name="s_fd_option_saved_values">Valores guardados</string>
+    <string name="s_fd_option_files">Archivos</string>
+    <string name="s_fd_option_others">Otros</string>
+
+    <!-- Settings Activity -->
+    <string name="sa_about_info">TIBCO® JasperMobile™ %1$sv&lt;br&gt;&lt;br&gt;Herramienta de administración y visor de informes para TIBCO JasperReports® Server 5.5 y superior.&lt;br&gt;&lt;br&gt;Para más información visite:&lt;br&gt;&lt;a href=http://community.jaspersoft.com/project/tibco-jaspermobile-android&gt;http://community.jaspersoft.com/project/tibco-jaspermobile-android&lt;/a&gt;&lt;br&gt;&lt;br&gt;Para información de la política de privacidad visite:&lt;br&gt;&lt;a href=http://www.tibco.com/company/privacy-cma&gt;http://www.tibco.com/company/privacy-cma&lt;/a&gt;&lt;br&gt;&lt;br&gt;Para información sobre la última actualización visite:&lt;br&gt;&lt;a href=https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new&gt;https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new&lt;/a&gt;&lt;br&gt;&lt;br&gt;Copyright © 2005-2016 TIBCO Software, Inc.</string>
+
+    <!-- Report Options Activity -->
+    <string name="ro_default">Predeterminado</string>
+    <string name="ro_page_title">Filtros</string>
+    <string name="ro_save_ro">Guardar valores</string>
+    <string name="ro_save_text">El nombre de los valores guardados</string>
+    <string name="ro_save_same">Este informe ya tiene valores guardados con este nombre. Serán sobrescritos.</string>
+    <string name="ro_default_save_name">Opciones</string>
+    <string name="ro_delete_ro">Eliminar valores guardados</string>
+    <string name="ro_reset_ro">Restablecer valores</string>
+    <string name="ro_ms_available">Disponible: %1$s</string>
+    <string name="ro_ms_selected">Seleccionado: %1$s</string>
+    <string name="ro_no_items_selected">No hay elementos seleccionados</string>
+    <string name="ro_select_all">Seleccionar todo</string>
+    <string name="ro_deselect_all">Deseleccionar todo</string>
+    <string name="ro_inverse">Invertir</string>
+    <string name="ro_search">Buscar lista...</string>
+    <string name="ro_show">Valores guardados</string>
+
+    <!-- Resource Info Activity -->
+    <string name="ri_schedule">Programación</string>
+    <string name="ri_report_option_title">Opciones del informe:</string>
+    <string name="ri_type_title">Tipo:</string>
+    <string name="ri_label_title">Etiqueta:</string>
+    <string name="ri_description_title">Descripción:</string>
+    <string name="ri_modified_title">Fecha de modificación:</string>
+    <string name="ri_creation_title">Fecha de creación:</string>
+    <string name="ri_file_format">Formato de archivo:</string>
+    <string name="ri_file_size">Tamaño de archivo:</string>
+    <string name="ri_version_title">Versión:</string>
+    <string name="ri_permissions_title">Acceso de usuario:</string>
+
+    <!-- Resource permission -->
+    <string name="rp_no_access">No hay acceso</string>
+    <string name="rp_administer">Modificar, eliminar, administrar</string>
+    <string name="rp_read_only">Solo lectura</string>
+    <string name="rp_read_write">Modificar</string>
+    <string name="rp_read_delete">Solo lectura, eliminar</string>
+    <string name="rp_read_write_delete">Modificar, eliminar</string>
+    <string name="rp_execute_only">Solo ejecutar</string>
+
+    <!-- Schedule -->
+    <string name="sch_new">Nueva programación</string>
+    <string name="sch_edit">Editar programación</string>
+    <string name="sch_job_name">Nombre del trabajo programado</string>
+    <string name="sch_file_name">Nombre del archivo de salida</string>
+    <string name="sch_run_immediately">Ejecutar inmediatamente</string>
+    <string name="sch_start_date">Fecha de inicio de la programación</string>
+    <string name="sch_destination">Ruta de destino de salida</string>
+    <string name="sch_created">Trabajo programado</string>
+    <string name="sch_updated">Trabajo actualizado</string>
+    <string name="sch_deleted">Programación eliminada</string>
+    <string name="sch_jobs">Programaciones</string>
+    <string name="sch_not_found">No hay trabajos programados.</string>
+    <string name="sch_format_paginated">%1$s (Paginado)</string>
+    <string name="sch_next_run_label">Siguiente ejecución: %1$s (estado: %2$s)</string>
+    <string name="sch_state_normal">Normal</string>
+    <string name="sch_state_complete">Completo</string>
+    <string name="sch_state_executing">Ejecutando</string>
+    <string name="sch_state_error">Error</string>
+    <string name="sch_state_paused">En pausa</string>
+    <string name="sch_state_unknown">Desconocido</string>
+    <string name="sdr_delete_title">Eliminar programación</string>
+    <string name="sdr_delete_message">¿Realmente desea eliminar esta programación?</string>
+
+    <!-- Report Viewer Activity -->
+    <string name="rv_webview_still_loading">Está tomando mucho tiempo cargar. Por favor espere o intente de nuevo más tarde.</string>
+
+    <!-- Saved Files Activity -->
+    <string name="sdr_saving_multiply_msg">%1$s informes descargándose</string>
+    <string name="sdr_starting_downloading_msg">Comenzando a descargar...</string>
+    <string name="sdr_saving_msg">Informe descargándose</string>
+    <string name="sdr_saving_error_msg">No se pudo guardar el informe</string>
+    <string name="sdr_loading_msg">El informe aún se está descargando...</string>
+
+    <string name="sdr_dfd_msg_multi">¿Realmente desea quitar los elementos seleccionados (%1$s elementos)?</string>
+
+    <!-- Settings activity -->
+    <string name="st_category_resource_cache">Caché de recursos</string>
+    <string name="st_title_cache_expiration">Periodo de vencimiento del caché</string>
+    <string name="st_title_clear_cache">Borrar el caché</string>
+    <string name="st_summary_cache_enable">Mantener los recursos en el caché durante un periodo de tiempo especificado</string>
+    <string name="st_summary_clear_cache">Eliminar todos los recursos del caché</string>
+    <string name="st_screenshot_enable">Capturas de pantalla</string>
+    <string name="st_action_clear_cache">Caché borrado</string>
+    <string name="st_action_clear_cache_fail">No se puede borrar el caché</string>
+
+    <!-- Error messages -->
+    <string name="error_report_cancelled">Ejecución del informe cancelada</string>
+    <string name="error_report_failed">No se pudo ejecutar el informe</string>
+    <string name="error_export_failed">No se pudo exportar el informe</string>
+    <string name="error_export_cancelled">Exportación del informe cancelada</string>
+    <string name="error_schedule_duplicate_file_name">Nombre del archivo de salida duplicado</string>
+    <string name="error_schedule_in_the_past">La fecha de inicio está en el pasado. Debe estar en el futuro.</string>
+    <string name="error_schedule_special_characters">El nombre base de salida contiene caracteres inválidos.</string>
+    <string name="error_schedule_folder_not_exist">No se encontró la carpeta de salida del trabajo.</string>
+    <string name="error_schedule_folder_not_writable">No tiene permisos para guardar la salida del trabajo en la carpeta.</string>
+    <string name="error_schedule_output_filename_too_long">El nombre del archivo de salida del trabajo es demasiado largo. Longitud aceptada: %1$s</string>
+    <string name="error_schedule_label_too_long">La etiqueta del trabajo es demasiado larga. Longitud aceptada: %1$s</string>
+    <string name="error_undefined">Ocurrió un error indefinido</string>
+    <string name="error_saved_values_duplicate">Ya existen unas opciones guardadas con el mismo nombre en esta carpeta, de otro informe.</string>
+    <string name="error_saved_values_label_too_long">La etiqueta de las opciones guardadas es demasiado larga. La longitud máxima es %1$s caracteres.</string>
+
+    <!-- Others -->
+    <string name="wrong_action">No se puede realizar esta acción</string>
+    <string name="voice_command_btn">Comando de voz</string>
+    <string name="voice_command_title">Diga algún comando</string>
+    <string name="voice_command_undefined">No se reconoce el comando</string>
+    <string name="voice_command_help">Puede usar comandos de voz para interactuar con los recursos. Hay dos comandos compatibles: ejecutar y buscar. Por ejemplo, puede decir ejecutar con el nombre del recurso para comenzar la ejecución del informe.</string>
+    <string name="voice_command_not_show_again">No mostrar de nuevo</string>
+
+    <!-- Casting -->
+    <string name="cast_logo_presentation_message">Siempre encendido y fácil de acceder</string>
+    <string name="cast_ready_message">Preparado para transmitir informes</string>
+    <string name="cast_scroll_message">El informe se está presentando. Mantenga presionados los botones de flecha para desplazar hacia arriba o hacia abajo.</string>
+
+    <!-- WebView errors -->
+    <string name="error_webview_auth_msg">No se pudo autenticar el usuario en el servidor</string>
+    <string name="error_webview_auth_title">Error de autenticación</string>
+    <string name="error_webview_timeout_msg">El servidor está tardando mucho en comunicarse. Intente más tarde.</string>
+    <string name="error_webview_timeout_title">Tiempo de espera de la conexión agotado</string>
+    <string name="error_webview_too_many_requests_msg">Demasiadas solicitudes durante esta carga</string>
+    <string name="error_webview_too_many_requests_title">Demasiadas solicitudes</string>
+    <string name="error_webview_generic_msg">Error genérico</string>
+    <string name="error_webview_generic_title">Error desconocido</string>
+    <string name="error_webview_bad_url_msg">Compruebe el URL ingresado...</string>
+    <string name="error_webview_bad_url_title">URL malformado</string>
+    <string name="error_webview_connect_msg">No se pudo conectar con el servidor</string>
+    <string name="error_webview_connect_title">Conexión</string>
+    <string name="error_webview_ssl_handshake_msg">No se pudo realizar un protocolo de enlace SSL</string>
+    <string name="error_webview_ssl_handshake_title">El protocolo de enlace SSL falló</string>
+    <string name="error_webview_host_lookup_msg">No se pudo realizar una búsqueda del nombre de host del servidor o del proxy</string>
+    <string name="error_webview_host_lookup_title">Error de búsqueda del host</string>
+    <string name="error_webview_proxy_auth_msg">Error de autenticación de proxy</string>
+    <string name="error_webview_proxy_auth_title">Demasiadas redirecciones</string>
+    <string name="error_webview_redirect_loop_msg">Demasiados redireccionamientos</string>
+    <string name="error_webview_redirect_loop_title">Error de ciclo de redireccionamiento</string>
+    <string name="error_webview_unsupported_auth_scheme_msg">Esquema de autenticación no compatible (no es básico o digest)</string>
+    <string name="error_webview_unsupported_auth_scheme_title">Error de esquema de autenticación</string>
+    <string name="error_webview_unsupported_scheme_msg">Esquema URI no compatible</string>
+    <string name="error_webview_unsupported_scheme_title">Error de esquema URI</string>
+    <string name="error_webview_error_file_msg">Error de archivo genérico</string>
+    <string name="error_webview_error_file_title">Archivo</string>
+    <string name="error_webview_file_not_found_msg">Archivo no encontrado</string>
+    <string name="error_webview_file_not_found_title">Archivo</string>
+    <string name="error_webview_io_msg">El servidor no pudo comunicarse. Intente más tarde.</string>
+    <string name="error_webview_io_title">Error de ES</string>
+
+    <!-- Permissions -->
+    <string name="enable_write_permission">No puede guardar. Permiso denegado</string>
 
 </resources>

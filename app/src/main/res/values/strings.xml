@@ -63,7 +63,7 @@
     <string name="sp_error_reserved_alias">Alias reserved.</string>
 
     <!-- Repository Activity -->
-    <string name="resources_not_found" translatable="false">No resources found</string>
+    <string name="resources_not_found">No resources found</string>
     <string name="r_search_nothing_to_display">No items match your search.</string>
 
     <!-- Action Bar -->
@@ -82,7 +82,7 @@
 
     <!-- Progress Dialog -->
     <string name="r_pd_running_report_msg">Running report...</string>
-    <string name="r_pd_initializing_msg" translatable="false">Initializing...</string>
+    <string name="r_pd_initializing_msg">Initializing...</string>
 
     <!-- Search Activity -->
     <string name="s_hint">Search resources</string>
@@ -93,18 +93,18 @@
     <string name="s_ab_sort_by">Sort by</string>
 
     <!-- File viewing -->
-    <string name="fv_try_again_btn" translatable="false">Try again</string>
-    <string name="fv_can_not_show_message" translatable="false">Can not show file content</string>
-    <string name="fv_undefined_message" translatable="false">Can not open. Resource type undefined</string>
-    <string name="fv_opening_message" translatable="false">Opening file...</string>
+    <string name="fv_try_again_btn">Try again</string>
+    <string name="fv_can_not_show_message">Can not show file content</string>
+    <string name="fv_undefined_message">Can not open. Resource type undefined</string>
+    <string name="fv_opening_message">Opening file...</string>
 
     <!-- Filter Dialog -->
     <string name="s_fd_option_all">All</string>
     <string name="s_fd_option_reports">Reports</string>
-    <string name="s_fd_option_saved_values" translatable="false">Saved values</string>
+    <string name="s_fd_option_saved_values">Saved values</string>
     <string name="s_fd_option_dashboards">Dashboards</string>
-    <string name="s_fd_option_files" translatable="false">Files</string>
-    <string name="s_fd_option_others" translatable="false">Others</string>
+    <string name="s_fd_option_files">Files</string>
+    <string name="s_fd_option_others">Others</string>
     <string name="s_fd_sort_label">Label</string>
     <string name="s_fd_sort_date">Creation date</string>
 
@@ -113,75 +113,74 @@
 
     <!-- Settings Activity -->
     <string name="sa_show_about">About</string>
-    <string name="sa_about_info" translatable="false"><![CDATA[TIBCO® JasperMobile™ v%s<br><br>Management tool and report viewer for TIBCO JasperReports® Server 5.5 and greater.<br><br>For more information visit:<br><a href="http://community.jaspersoft.com/project/tibco-jaspermobile-android">http://community.jaspersoft.com/project/tibco-jaspermobile-android</a><br><br>For privacy policy information visit:<br><a href="http://www.tibco.com/company/privacy-cma">http://www.tibco.com/company/privacy-cma</a><br><br>For latest update information visit:<br><a href="https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new">https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new</a><br><br>Copyright © 2005-2016 TIBCO Software, Inc.]]></string>
+    <string name="sa_about_info"><![CDATA[TIBCO® JasperMobile™ v%1$s<br><br>Management tool and report viewer for TIBCO JasperReports® Server 5.5 and greater.<br><br>For more information visit:<br><a href="http://community.jaspersoft.com/project/tibco-jaspermobile-android">http://community.jaspersoft.com/project/tibco-jaspermobile-android</a><br><br>For privacy policy information visit:<br><a href="http://www.tibco.com/company/privacy-cma">http://www.tibco.com/company/privacy-cma</a><br><br>For latest update information visit:<br><a href="https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new">https://github.com/Jaspersoft/js-android-app/wiki/What\'s-new</a><br><br>Copyright © 2005-2016 TIBCO Software, Inc.]]></string>
     <string name="sa_about_privacy">Privacy Policy</string>
     <string name="sa_show_feedback">Feedback</string>
 
     <!-- Report Options Activity -->
     <string name="ro_run_report_btn">Run Report</string>
-    <string name="ro_default" translatable="false">Default</string>
-    <string name="ro_page_title" translatable="false">Filters</string>
-    <string name="ro_save_ro" translatable="false">Save values</string>
-    <string name="ro_save_text" translatable="false">The Name for the Saved Values</string>
-    <string name="ro_save_same" translatable="false">This report already has saved values with this name. They will be overwritten.</string>
-    <string name="ro_default_save_name" translatable="false">Options</string>
-    <string name="ro_delete_ro" translatable="false">Delete saved values</string>
-    <string name="ro_reset_ro" translatable="false">Reset values</string>
-    <string name="ro_ms_available" translatable="false">Available: %s</string>
-    <string name="ro_ms_selected" translatable="false">Selected: %s</string>
-    <string name="ro_no_items_selected" translatable="false">No items selected</string>
-    <string name="ro_select_all" translatable="false">Select all</string>
-    <string name="ro_deselect_all" translatable="false">Deselect all</string>
-    <string name="ro_inverse" translatable="false">Inverse</string>
-    <string name="ro_search" translatable="false">Search list…</string>
-    <string name="ro_show" translatable="false">Saved values</string>
+    <string name="ro_default">Default</string>
+    <string name="ro_page_title">Filters</string>
+    <string name="ro_save_ro">Save values</string>
+    <string name="ro_save_text">The Name for the Saved Values</string>
+    <string name="ro_save_same">This report already has saved values with this name. They will be overwritten.</string>
+    <string name="ro_default_save_name">Options</string>
+    <string name="ro_delete_ro">Delete saved values</string>
+    <string name="ro_reset_ro">Reset values</string>
+    <string name="ro_ms_available">Available: %1$s</string>
+    <string name="ro_ms_selected">Selected: %1$s</string>
+    <string name="ro_no_items_selected">No items selected</string>
+    <string name="ro_select_all">Select all</string>
+    <string name="ro_deselect_all">Deselect all</string>
+    <string name="ro_inverse">Inverse</string>
+    <string name="ro_search">Search list…</string>
+    <string name="ro_show">Saved values</string>
 
     <!-- Resource Info Activity -->
-    <string name="ri_schedule" translatable="false">Schedule</string>
-    <string name="ri_report_option_title" translatable="false">Report options:</string>
-    <string name="ri_type_title" translatable="false">Type:</string>
-    <string name="ri_label_title" translatable="false">Label:</string>
-    <string name="ri_description_title" translatable="false">Description:</string>
-    <string name="ri_uri_title" translatable="false">URI:</string>
-    <string name="ri_modified_title" translatable="false">Modified date:</string>
-    <string name="ri_creation_title" translatable="false">Creation date:</string>
-    <string name="ri_file_format" translatable="false">File format:</string>
-    <string name="ri_file_size" translatable="false">File size:</string>
-    <string name="ri_version_title" translatable="false">Version:</string>
-    <string name="ri_permissions_title" translatable="false">User Access:</string>
+    <string name="ri_schedule">Schedule</string>
+    <string name="ri_report_option_title">Report options:</string>
+    <string name="ri_type_title">Type:</string>
+    <string name="ri_label_title">Label:</string>
+    <string name="ri_description_title">Description:</string>
+    <string name="ri_modified_title">Modified date:</string>
+    <string name="ri_creation_title">Creation date:</string>
+    <string name="ri_file_format">File format:</string>
+    <string name="ri_file_size">File size:</string>
+    <string name="ri_version_title">Version:</string>
+    <string name="ri_permissions_title">User Access:</string>
 
     <!-- Resource permission -->
-    <string name="rp_no_access" translatable="false">No access</string>
-    <string name="rp_administer" translatable="false">Modify, Delete, Administrate</string>
-    <string name="rp_read_only" translatable="false">Read-Only</string>
-    <string name="rp_read_write" translatable="false">Modify</string>
-    <string name="rp_read_delete" translatable="false">Read-Only, Delete</string>
-    <string name="rp_read_write_delete" translatable="false">Modify, Delete</string>
-    <string name="rp_execute_only" translatable="false">Execute only</string>
+    <string name="rp_no_access">No access</string>
+    <string name="rp_administer">Modify, Delete, Administrate</string>
+    <string name="rp_read_only">Read-Only</string>
+    <string name="rp_read_write">Modify</string>
+    <string name="rp_read_delete">Read-Only, Delete</string>
+    <string name="rp_read_write_delete">Modify, Delete</string>
+    <string name="rp_execute_only">Execute only</string>
 
     <!-- Schedule -->
-    <string name="sch_new" translatable="false">New schedule</string>
-    <string name="sch_edit" translatable="false">Edit schedule</string>
-    <string name="sch_job_name" translatable="false">Scheduled Job Name</string>
-    <string name="sch_file_name" translatable="false">Output file name</string>
-    <string name="sch_run_immediately" translatable="false">Run immediately</string>
-    <string name="sch_start_date" translatable="false">Schedule start date</string>
-    <string name="sch_destination" translatable="false">Output destination path</string>
-    <string name="sch_created" translatable="false">Job scheduled</string>
-    <string name="sch_updated" translatable="false">Job updated</string>
-    <string name="sch_deleted" translatable="false">Schedule deleted</string>
-    <string name="sch_jobs" translatable="false">Schedules</string>
-    <string name="sch_not_found" translatable="false">No job is scheduled.</string>
-    <string name="sch_format_paginated" translatable="false">%s(Paginated)</string>
-    <string name="sch_next_run_label" translatable="false">Next run: %s (state: %s)</string>
-    <string name="sch_state_normal" translatable="false">Normal</string>
-    <string name="sch_state_complete" translatable="false">Complete</string>
-    <string name="sch_state_executing" translatable="false">Executing</string>
-    <string name="sch_state_error" translatable="false">Error</string>
-    <string name="sch_state_paused" translatable="false">Paused</string>
-    <string name="sch_state_unknown" translatable="false">Unknown</string>
-    <string name="sdr_delete_title" translatable="false">Delete schedule</string>
-    <string name="sdr_delete_message" translatable="false">Do you really want to delete this schedule?</string>
+    <string name="sch_new">New schedule</string>
+    <string name="sch_edit">Edit schedule</string>
+    <string name="sch_job_name">Scheduled Job Name</string>
+    <string name="sch_file_name">Output file name</string>
+    <string name="sch_run_immediately">Run immediately</string>
+    <string name="sch_start_date">Schedule start date</string>
+    <string name="sch_destination">Output destination path</string>
+    <string name="sch_created">Job scheduled</string>
+    <string name="sch_updated">Job updated</string>
+    <string name="sch_deleted">Schedule deleted</string>
+    <string name="sch_jobs">Schedules</string>
+    <string name="sch_not_found">No job is scheduled.</string>
+    <string name="sch_format_paginated">%1$s(Paginated)</string>
+    <string name="sch_next_run_label">Next run: %1$s (state: %2$s)</string>
+    <string name="sch_state_normal">Normal</string>
+    <string name="sch_state_complete">Complete</string>
+    <string name="sch_state_executing">Executing</string>
+    <string name="sch_state_error">Error</string>
+    <string name="sch_state_paused">Paused</string>
+    <string name="sch_state_unknown">Unknown</string>
+    <string name="sdr_delete_title">Delete schedule</string>
+    <string name="sdr_delete_message">Do you really want to delete this schedule?</string>
     <string name="sch_choose_report" translatable="false">Choose report to schedule…</string>
 
     <!-- Report Viewer Activity -->
@@ -193,7 +192,7 @@
     <string name="rv_out_of_range">The requested page is out of range.</string>
     <string name="rv_dialog_reload">Reload</string>
     <string name="rv_open_link_chooser">Open link in</string>
-    <string name="rv_webview_still_loading" translatable="false">Its taking too much time to load. Please, wait or try again later.</string>
+    <string name="rv_webview_still_loading">Its taking too much time to load. Please, wait or try again later.</string>
 
     <!-- Toasts -->
     <string name="rv_t_external_storage_not_available">The external memory card is not available. Please insert the card and try again.</string>
@@ -221,11 +220,11 @@
     <!-- Saved Files Activity -->
     <string name="sdr_ab_title">Saved Files</string>
     <string name="sdr_ab_list_msg">No saved files</string>
-    <string name="sdr_saving_multiply_msg" translatable="false">%s reports downloading</string>
-    <string name="sdr_starting_downloading_msg" translatable="false">Starting downloading…</string>
-    <string name="sdr_saving_msg" translatable="false">Downloading report</string>
-    <string name="sdr_saving_error_msg" translatable="false">Failed to save report</string>
-    <string name="sdr_loading_msg" translatable="false">Report is still downloading…</string>
+    <string name="sdr_saving_multiply_msg">%1$s reports downloading</string>
+    <string name="sdr_starting_downloading_msg">Starting downloading…</string>
+    <string name="sdr_saving_msg">Downloading report</string>
+    <string name="sdr_saving_error_msg">Failed to save report</string>
+    <string name="sdr_loading_msg">Report is still downloading…</string>
 
     <!-- Context Menu -->
     <string name="action_mode_title">Selected item</string>
@@ -242,38 +241,38 @@
 
     <!-- Delete Report Dialog -->
     <string name="sdr_drd_title">Delete File</string>
-    <string name="sdr_drd_msg">Do you really want to delete \"%s\"?</string>
+    <string name="sdr_drd_msg">Do you really want to delete \"%1$s\"?</string>
 
     <!-- Remove Favorites Dialog -->
     <string name="sdr_dfd_title">Remove from Favorites</string>
-    <string name="sdr_dfd_msg">Do you really want to remove \"%s\"?</string>
-    <string name="sdr_dfd_msg_multi" translatable="false">Do you really want to remove selected items (%s items)?</string>
+    <string name="sdr_dfd_msg">Do you really want to remove \"%1$s\"?</string>
+    <string name="sdr_dfd_msg_multi">Do you really want to remove selected items (%1$s items)?</string>
 
     <!-- Toasts -->
-    <string name="sdr_t_no_app_available">No \"%s\" viewer installed.</string>
+    <string name="sdr_t_no_app_available">No \"%1$s\" viewer installed.</string>
     <string name="sdr_t_report_renaming_error">Cannot rename report.</string>
     <string name="sdr_t_report_deletion_error">Cannot delete report.</string>
 
     <!-- Settings activity -->
     <string name="st_title">Settings</string>
-    <string name="st_category_resource_cache" translatable="false">Resources cache</string>
+    <string name="st_category_resource_cache">Resources cache</string>
     <string name="st_category_connection">Connection</string>
     <string name="st_title_cache_enable">Enable cache</string>
-    <string name="st_title_cache_expiration" translatable="false">Cache expiration period</string>
-    <string name="st_title_clear_cache" translatable="false">Clear cache</string>
+    <string name="st_title_cache_expiration">Cache expiration period</string>
+    <string name="st_title_clear_cache">Clear cache</string>
     <string name="st_title_connect_timeout">Connection timeout</string>
     <string name="st_title_read_timeout">Data read timeout</string>
     <string name="st_send_crashes">Send crash reports</string>
     <string name="st_restart_note">NOTE: Restart the app after changing this setting.</string>
-    <string name="st_summary_cache_enable" translatable="false">Cache resources for the specified amount of time</string>
-    <string name="st_summary_clear_cache" translatable="false">Remove all cached resources</string>
-    <string name="st_screenshot_enable" translatable="false">Screen capturing</string>
-    <string name="st_summary_sec">%s sec</string>
-    <string name="st_summary_h">%s h</string>
+    <string name="st_summary_cache_enable">Cache resources for the specified amount of time</string>
+    <string name="st_summary_clear_cache">Remove all cached resources</string>
+    <string name="st_screenshot_enable">Screen capturing</string>
+    <string name="st_summary_sec">%1$s sec</string>
+    <string name="st_summary_h">%1$s h</string>
     <string name="st_invalid_number_format">Invalid number format</string>
     <string name="st_category_more">More</string>
-    <string name="st_action_clear_cache" translatable="false">Cache cleared</string>
-    <string name="st_action_clear_cache_fail" translatable="false">Can not clear cache</string>
+    <string name="st_action_clear_cache">Cache cleared</string>
+    <string name="st_action_clear_cache_fail">Can not clear cache</string>
 
     <!-- Error messages -->
     <string name="r_error_server_not_supported">Server version is either older than 5.5 (not supported) or URL is incorrect.</string>
@@ -287,41 +286,41 @@
     <string name="error_http_502">Bad Gateway.</string>
     <string name="error_http_503">Service Unavailable.</string>
     <string name="error_http_504">Gateway Timeout.</string>
-    <string name="error_report_cancelled" translatable="false">Report execution cancelled</string>
-    <string name="error_report_failed" translatable="false">Report execution failed</string>
-    <string name="error_export_failed" translatable="false">Report export failed</string>
-    <string name="error_export_cancelled" translatable="false">Report export cancelled</string>
-    <string name="error_schedule_duplicate_file_name" translatable="false">Duplicate Output File name</string>
-    <string name="error_schedule_in_the_past" translatable="false">The start date is in the past. It should be in the future.</string>
-    <string name="error_schedule_special_characters" translatable="false">The base output name contains invalid characters. You might have mistyped it.</string>
-    <string name="error_schedule_folder_not_exist" translatable="false">The job output folder cannot be found. It might have been deleted or moved.</string>
-    <string name="error_schedule_folder_not_writable" translatable="false">You do not have permission to save the job output to the folder. Select another location to save the job.</string>
-    <string name="error_schedule_output_filename_too_long" translatable="false">The job output file name too long. Accepted length: %s</string>
-    <string name="error_schedule_label_too_long" translatable="false">The job label name too long. Accepted length: %s</string>
-    <string name="error_undefined" translatable="false">Undefined error happened</string>
-    <string name="error_saved_values_duplicate" translatable="false">A Saved Options with that name already exists in this folder, under another report.</string>
-    <string name="error_saved_values_label_too_long" translatable="false">A Saved Options label is too long. The maximum length is %s characters.</string>
+    <string name="error_report_cancelled">Report execution cancelled</string>
+    <string name="error_report_failed">Report execution failed</string>
+    <string name="error_export_failed">Report export failed</string>
+    <string name="error_export_cancelled">Report export cancelled</string>
+    <string name="error_schedule_duplicate_file_name">Duplicate Output File name</string>
+    <string name="error_schedule_in_the_past">The start date is in the past. It should be in the future.</string>
+    <string name="error_schedule_special_characters">The base output name contains invalid characters. You might have mistyped it.</string>
+    <string name="error_schedule_folder_not_exist">The job output folder cannot be found. It might have been deleted or moved.</string>
+    <string name="error_schedule_folder_not_writable">You do not have permission to save the job output to the folder. Select another location to save the job.</string>
+    <string name="error_schedule_output_filename_too_long">The job output file name too long. Accepted length: %1$s</string>
+    <string name="error_schedule_label_too_long">The job label name too long. Accepted length: %1$s</string>
+    <string name="error_undefined">Undefined error happened</string>
+    <string name="error_saved_values_duplicate">A Saved Options with that name already exists in this folder, under another report.</string>
+    <string name="error_saved_values_label_too_long">A Saved Options label is too long. The maximum length is %1$s characters.</string>
 
     <!-- Others -->
     <string name="loading_msg">Loading…</string>
-    <string name="search_result_format">Search results for \'%s\'</string>
+    <string name="search_result_format">Search results for \'%1$s\'</string>
     <string name="failed_load_data">Failed to load data!</string>
     <string name="authenticator_label">Jasper accounts</string>
-    <string name="wrong_action" translatable="false">Can not perform this action</string>
+    <string name="wrong_action">Can not perform this action</string>
     <string name="no_network">There was a network error.</string>
     <string name="request_was_cancelled_explicitly">Cancelled</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="voice_command_btn" translatable="false">Voice command</string>
-    <string name="voice_command_title" translatable="false">Say some command</string>
-    <string name="voice_command_undefined" translatable="false">Can not recognize command</string>
-    <string name="voice_command_help" translatable="false">You can use voice commands to interact with resources. Two commands are supported: "run" and "find". For instance, you can say "run" with resource name to start report execution.</string>
-    <string name="voice_command_not_show_again" translatable="false">Don\'t show again</string>
+    <string name="voice_command_btn">Voice command</string>
+    <string name="voice_command_title">Say some command</string>
+    <string name="voice_command_undefined">Can not recognize command</string>
+    <string name="voice_command_help">You can use voice commands to interact with resources. Two commands are supported: "run" and "find". For instance, you can say "run" with resource name to start report execution.</string>
+    <string name="voice_command_not_show_again">Don\'t show again</string>
 
     <!-- Casting -->
-    <string name="cast_logo_presentation_message" translatable="false">Always on and easy to access</string>
-    <string name="cast_ready_message" translatable="false">Ready to cast reports</string>
-    <string name="cast_scroll_message" translatable="false">Report is presenting. Hold arrow buttons to scroll up or down.</string>
+    <string name="cast_logo_presentation_message">Always on and easy to access</string>
+    <string name="cast_ready_message">Ready to cast reports</string>
+    <string name="cast_scroll_message">Report is presenting. Hold arrow buttons to scroll up or down.</string>
     <string name="cast_zoom_message" translatable="false">Click zoom in or zoom out to change report scale.</string>
 
     <!-- Navigation panel -->
@@ -343,8 +342,8 @@
     <string name="hint_organization">Organization</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
-    <string name="success_add_account">Account with name %s was added</string>
-    <string name="failure_add_account">Failed to add account. Reason: %s</string>
+    <string name="success_add_account">Account with name %1$s was added</string>
+    <string name="failure_add_account">Failed to add account. Reason: %1$s</string>
     <string name="account_add">Adding account</string>
 
     <!--Dashboard activity-->
@@ -357,37 +356,37 @@
     <string name="mss_btn_uncheck_all">Uncheck all</string>
 
     <!-- WebView errors -->
-    <string name="error_webview_auth_msg" translatable="false">User authentication failed on server</string>
-    <string name="error_webview_auth_title" translatable="false">Auth Error</string>
-    <string name="error_webview_timeout_msg" translatable="false">The server is taking too much time to communicate. Try again later.</string>
-    <string name="error_webview_timeout_title" translatable="false">Connection Timeout</string>
-    <string name="error_webview_too_many_requests_msg" translatable="false">Too many requests during this load</string>
-    <string name="error_webview_too_many_requests_title" translatable="false">Too Many Requests</string>
-    <string name="error_webview_generic_msg" translatable="false">Generic error</string>
-    <string name="error_webview_generic_title" translatable="false">Unknown Error</string>
-    <string name="error_webview_bad_url_msg" translatable="false">Check entered URL..</string>
-    <string name="error_webview_bad_url_title" translatable="false">Malformed URL</string>
-    <string name="error_webview_connect_msg" translatable="false">Failed to connect to the server</string>
-    <string name="error_webview_connect_title" translatable="false">Connection</string>
-    <string name="error_webview_ssl_handshake_msg" translatable="false">Failed to perform SSL handshake</string>
-    <string name="error_webview_ssl_handshake_title" translatable="false">SSL Handshake Failed</string>
-    <string name="error_webview_host_lookup_msg" translatable="false">Server or proxy hostname lookup failed</string>
-    <string name="error_webview_host_lookup_title" translatable="false">Host Lookup Error</string>
-    <string name="error_webview_proxy_auth_msg" translatable="false">User authentication failed on proxy</string>
-    <string name="error_webview_proxy_auth_title" translatable="false">Proxy Auth Error</string>
-    <string name="error_webview_redirect_loop_msg" translatable="false">Too many redirects</string>
-    <string name="error_webview_redirect_loop_title" translatable="false">Redirect Loop Error</string>
-    <string name="error_webview_unsupported_auth_scheme_msg" translatable="false">Unsupported authentication scheme (not basic or digest)</string>
-    <string name="error_webview_unsupported_auth_scheme_title" translatable="false">Auth Scheme Error</string>
-    <string name="error_webview_unsupported_scheme_msg" translatable="false">Unsupported URI scheme</string>
-    <string name="error_webview_unsupported_scheme_title" translatable="false">URI Scheme Error</string>
-    <string name="error_webview_error_file_msg" translatable="false">Generic file error</string>
-    <string name="error_webview_error_file_title" translatable="false">File</string>
-    <string name="error_webview_file_not_found_msg" translatable="false">File not found</string>
-    <string name="error_webview_file_not_found_title" translatable="false">File</string>
-    <string name="error_webview_io_msg" translatable="false">The server failed to communicate. Try again later.</string>
-    <string name="error_webview_io_title" translatable="false">IO Error</string>
+    <string name="error_webview_auth_msg">User authentication failed on server</string>
+    <string name="error_webview_auth_title">Auth Error</string>
+    <string name="error_webview_timeout_msg">The server is taking too much time to communicate. Try again later.</string>
+    <string name="error_webview_timeout_title">Connection Timeout</string>
+    <string name="error_webview_too_many_requests_msg">Too many requests during this load</string>
+    <string name="error_webview_too_many_requests_title">Too Many Requests</string>
+    <string name="error_webview_generic_msg">Generic error</string>
+    <string name="error_webview_generic_title">Unknown Error</string>
+    <string name="error_webview_bad_url_msg">Check entered URL..</string>
+    <string name="error_webview_bad_url_title">Malformed URL</string>
+    <string name="error_webview_connect_msg">Failed to connect to the server</string>
+    <string name="error_webview_connect_title">Connection</string>
+    <string name="error_webview_ssl_handshake_msg">Failed to perform SSL handshake</string>
+    <string name="error_webview_ssl_handshake_title">SSL Handshake Failed</string>
+    <string name="error_webview_host_lookup_msg">Server or proxy hostname lookup failed</string>
+    <string name="error_webview_host_lookup_title">Host Lookup Error</string>
+    <string name="error_webview_proxy_auth_msg">User authentication failed on proxy</string>
+    <string name="error_webview_proxy_auth_title">Proxy Auth Error</string>
+    <string name="error_webview_redirect_loop_msg">Too many redirects</string>
+    <string name="error_webview_redirect_loop_title">Redirect Loop Error</string>
+    <string name="error_webview_unsupported_auth_scheme_msg">Unsupported authentication scheme (not basic or digest)</string>
+    <string name="error_webview_unsupported_auth_scheme_title">Auth Scheme Error</string>
+    <string name="error_webview_unsupported_scheme_msg">Unsupported URI scheme</string>
+    <string name="error_webview_unsupported_scheme_title">URI Scheme Error</string>
+    <string name="error_webview_error_file_msg">Generic file error</string>
+    <string name="error_webview_error_file_title">File</string>
+    <string name="error_webview_file_not_found_msg">File not found</string>
+    <string name="error_webview_file_not_found_title">File</string>
+    <string name="error_webview_io_msg">The server failed to communicate. Try again later.</string>
+    <string name="error_webview_io_title">IO Error</string>
     <!-- Permissions -->
-    <string name="enable_write_permission" translatable="false">Can not save. Permission denied</string>
+    <string name="enable_write_permission">Can not save. Permission denied</string>
 
 </resources>
