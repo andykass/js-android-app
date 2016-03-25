@@ -22,16 +22,15 @@ public class JasperResourceAdapter extends JasperRecyclerView.Adapter<BaseResour
     private ResourceViewHolderFactory mResourceViewHolderFactory;
     private ResourceBinderFactory mResourceBinderFactory;
 
-    public JasperResourceAdapter(Context context, boolean hideSecondaryAction) {
-        this(context);
-        mHideSecondaryAction = hideSecondaryAction;
-    }
-
     public JasperResourceAdapter(Context context) {
         this.jasperResources = new ArrayList<>();
 
         mResourceViewHolderFactory = new ResourceViewHolderFactory(context);
         mResourceBinderFactory = new ResourceBinderFactory(context);
+    }
+
+    public void setSecondaryActionHidden(boolean hideSecondaryAction) {
+        mHideSecondaryAction = hideSecondaryAction;
     }
 
     @Override
@@ -50,7 +49,6 @@ public class JasperResourceAdapter extends JasperRecyclerView.Adapter<BaseResour
         ResourceBinder resourceBinder = mResourceBinderFactory.create(jasperResource.getResourceType());
         resourceBinder.bindView(baseViewHolder, jasperResource);
         resourceBinder.setActionResource(baseViewHolder, mHideSecondaryAction ? null : jasperResource);
-
     }
 
     @Override

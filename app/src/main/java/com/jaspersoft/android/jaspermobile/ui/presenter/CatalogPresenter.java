@@ -24,66 +24,43 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.CriteriaMapper;
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourceMapper;
-import com.jaspersoft.android.jaspermobile.domain.loaders.ResourceLoader;
-import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
+import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
-import com.jaspersoft.android.jaspermobile.ui.contract.LibraryContract;
+import com.jaspersoft.android.jaspermobile.ui.contract.CatalogContract;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
-import com.jaspersoft.android.sdk.service.data.repository.Resource;
-import com.jaspersoft.android.sdk.service.data.repository.ResourceType;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerFragment
-public class LibraryPresenter extends Presenter<LibraryContract.View> implements LibraryContract.ActionListener, ResourceLoader.LoaderCallback {
-
-    public static final String ROOT_URI = "/";
+@PerActivity
+public class CatalogPresenter extends BasePresenter<CatalogContract.View> implements CatalogContract.EventListener, CatalogFetcher.LoaderCallback {
 
     @Inject
-    CriteriaMapper mCriteriaMapper;
-    @Inject
-    ResourceMapper mResourceMapper;
-    @Inject
-    ResourceLoader mResourceLoader;
+    CatalogFetcher mResourceLoader;
     @Inject
     RequestExceptionHandler mRequestExceptionHandler;
-    @Inject
-    @Named("LIMIT")
-    int mLimit;
 
-    private ResourceLookupSearchCriteria mSearchCriteria;
+    private ItemSelectListener mListener;
 
     @Inject
-    public LibraryPresenter(ResourceLoader resourceLoader) {
-        mResourceLoader = resourceLoader;
+    public CatalogPresenter() {
+    }
+
+    public void setListener(ItemSelectListener listener) {
+        mListener = listener;
     }
 
     @Override
-    public void onReady() {
-        List<String> filters = new ArrayList<>();
-        filters.add(ResourceType.reportUnit.getRawValue());
-
-        mSearchCriteria = new ResourceLookupSearchCriteria();
-        mSearchCriteria.setForceFullPage(true);
-        mSearchCriteria.setLimit(mLimit);
-        mSearchCriteria.setRecursive(true);
-        mSearchCriteria.setTypes(filters);
-        mSearchCriteria.setFolderUri(ROOT_URI);
-
+    protected void onBind() {
         getView().showFirstLoading();
-        mResourceLoader.initSearch(mCriteriaMapper.toRetrofittedCriteria(mSearchCriteria), this);
+        mResourceLoader.initSearch(this);
     }
 
     @Override
@@ -97,15 +74,34 @@ public class LibraryPresenter extends Presenter<LibraryContract.View> implements
     }
 
     @Override
+    public void onItemClick(String itemId) {
+        if (mListener == null) return;
+
+        JasperResource jasperResource = mResourceLoader.fetch(itemId);
+        mListener.onPrimaryAction(jasperResource);
+    }
+
+    @Override
+    public void onActionClick(String itemId) {
+        if (mListener == null) return;
+
+        JasperResource jasperResource = mResourceLoader.fetch(itemId);
+        mListener.onSecondaryAction(jasperResource);
+    }
+
+    @Override
     public void onLoadStarted() {
         getView().showNextLoading();
     }
 
     @Override
-    public void onLoaded(List<Resource> result) {
-        List<JasperResource> jasperResources = mResourceMapper.toJasperResources(result);
-        getView().showResources(jasperResources);
+    public void onLoaded(List<JasperResource> jasperResources) {
         getView().hideLoading();
+        if (jasperResources.isEmpty()) {
+            getView().showEmpty();
+        } else {
+            getView().showResources(jasperResources);
+        }
     }
 
     @Override
@@ -117,6 +113,11 @@ public class LibraryPresenter extends Presenter<LibraryContract.View> implements
     private void reloadResources() {
         getView().clearResources();
         getView().showFirstLoading();
-        mResourceLoader.resetSearch(mCriteriaMapper.toRetrofittedCriteria(mSearchCriteria));
+        mResourceLoader.resetSearch();
+    }
+
+    public interface ItemSelectListener {
+        void onPrimaryAction(JasperResource jasperResource);
+        void onSecondaryAction(JasperResource jasperResource);
     }
 }

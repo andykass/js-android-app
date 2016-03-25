@@ -22,42 +22,34 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.domain.loaders;
+package com.jaspersoft.android.jaspermobile.domain.fetchers;
 
 import android.support.annotation.NonNull;
 
-import com.jaspersoft.android.jaspermobile.domain.SearchResult;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.sdk.client.oxm.report.FolderDataResponse;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
-import com.jaspersoft.android.sdk.service.data.report.ResourceOutput;
-import com.jaspersoft.android.sdk.service.data.repository.Resource;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
-import com.jaspersoft.android.sdk.service.repository.RepositorySearchCriteria;
 
 import java.util.List;
 
-import rx.Observable;
-
 /**
- * @author Tom Koptel
+ * @author Andrew Tivodar
  * @since 2.3
  */
-public interface ResourceLoader {
+public interface CatalogFetcher {
 
-    @NonNull
-    void initSearch(@NonNull RepositorySearchCriteria criteria, LoaderCallback loaderCallback);
+    void initSearch(LoaderCallback loaderCallback);
 
-    @NonNull
-    void resetSearch(@NonNull RepositorySearchCriteria criteria);
+    void resetSearch();
 
-    @NonNull
     void requestNext();
+
+    JasperResource fetch(String id);
 
     interface LoaderCallback {
         void onLoadStarted();
-        void onLoaded(List<Resource> result);
+
+        void onLoaded(List<JasperResource> result);
+
         void onError(ServiceException ex);
     }
 }

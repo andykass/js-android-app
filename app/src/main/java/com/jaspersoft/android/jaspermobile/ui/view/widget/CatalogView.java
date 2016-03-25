@@ -22,31 +22,26 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.ui.view.fragment;
+package com.jaspersoft.android.jaspermobile.ui.view.widget;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
+import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
-import com.jaspersoft.android.jaspermobile.ui.contract.LibraryContract;
-import com.jaspersoft.android.jaspermobile.ui.presenter.LibraryPresenter;
+import com.jaspersoft.android.jaspermobile.ui.contract.CatalogContract;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.jaspermobile.util.resource.viewbinder.JasperResourceAdapter;
 import com.jaspersoft.android.jaspermobile.widget.JasperRecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsMenuItem;
+import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -58,8 +53,10 @@ import javax.inject.Named;
  * @author Andrew Tivodar
  * @since 2.3
  */
-@EFragment(R.layout.fragment_refreshable_resource)
-public class LibraryCatalogFragment extends BaseFragment implements LibraryContract.View, SwipeRefreshLayout.OnRefreshListener, JasperResourceAdapter.OnResourceInteractionListener {
+@EViewGroup
+public abstract class CatalogView extends FrameLayout implements CatalogContract.View, SwipeRefreshLayout.OnRefreshListener, JasperResourceAdapter.OnResourceInteractionListener {
+
+    private final static CatalogContract.EventListener EMPTY = new EmptyEventListener();
 
     @ViewById(android.R.id.list)
     JasperRecyclerView resourcesList;
@@ -67,25 +64,28 @@ public class LibraryCatalogFragment extends BaseFragment implements LibraryContr
     SwipeRefreshLayout swipeRefreshLayout;
     @ViewById(android.R.id.empty)
     TextView message;
-    @OptionsMenuItem(R.id.switchLayout)
-    MenuItem switchAction;
 
-    @Inject
-    LibraryPresenter libraryPresenter;
     @Inject
     @Named("THRESHOLD")
     protected int mTreshold;
 
-    private JasperResourceAdapter mAdapter;
+    protected JasperResourceAdapter mAdapter;
+    private CatalogContract.EventListener mEventListener = EMPTY;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getProfileComponent()
-                .plus(new FragmentModule(this))
-                .inject(this);
+    public CatalogView(Context context) {
+        super(context);
+    }
 
-        libraryPresenter.injectView(this);
+    public CatalogView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CatalogView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public void setEventListener(CatalogContract.EventListener eventListener) {
+        mEventListener = eventListener;
     }
 
     @AfterViews
@@ -98,12 +98,6 @@ public class LibraryCatalogFragment extends BaseFragment implements LibraryContr
                 R.color.js_dark_blue);
 
         createDataAdapter();
-        libraryPresenter.onReady();
-    }
-
-    @Override
-    public void onRefresh() {
-        libraryPresenter.onRefresh();
     }
 
     @Override
@@ -136,29 +130,48 @@ public class LibraryCatalogFragment extends BaseFragment implements LibraryContr
     }
 
     @Override
-    public void showError() {
-        message.setVisibility(View.VISIBLE);
-        message.setText(getString(R.string.failed_load_data));
+    public void onRefresh() {
+        mEventListener.onRefresh();
+    }
+
+    @Override
+    public void onResourceItemClicked(JasperResource jasperResource) {
+        mEventListener.onItemClick(jasperResource.getId());
+    }
+
+    @Override
+    public void onSecondaryActionClicked(JasperResource jasperResource) {
+        mEventListener.onItemClick(jasperResource.getId());
     }
 
     private void createDataAdapter() {
-        mAdapter = new JasperResourceAdapter(getActivity(), true);
+        mAdapter = new JasperResourceAdapter(getContext());
         mAdapter.setOnItemInteractionListener(this);
         resourcesList.setAdapter(mAdapter);
         resourcesList.addOnScrollListener(new ScrollListener());
     }
 
-    @Override
-    public void onResourceItemClicked(JasperResource jasperResource) {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(ChooseReportActivity.RESULT_JASPER_RESOURCE, jasperResource);
-        getActivity().setResult(Activity.RESULT_OK, resultIntent);
-        getActivity().finish();
-    }
+    private static final class EmptyEventListener implements CatalogContract.EventListener {
 
-    @Override
-    public void onSecondaryActionClicked(JasperResource jasperResource) {
+        @Override
+        public void onRefresh() {
 
+        }
+
+        @Override
+        public void onScrollToEnd() {
+
+        }
+
+        @Override
+        public void onItemClick(String itemId) {
+
+        }
+
+        @Override
+        public void onActionClick(String itemId) {
+
+        }
     }
 
     //---------------------------------------------------------------------
@@ -182,7 +195,7 @@ public class LibraryCatalogFragment extends BaseFragment implements LibraryContr
             }
 
             if (totalItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount - mTreshold) {
-                libraryPresenter.onScrollToEnd();
+                mEventListener.onScrollToEnd();
             }
         }
     }

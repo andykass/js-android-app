@@ -21,40 +21,39 @@
  * along with TIBCO Jaspersoft Mobile for Android. If not, see
  * <http://www.gnu.org/licenses/lgpl>.
  */
-package com.jaspersoft.android.jaspermobile.internal.di.modules.activity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.v4.app.Fragment;
+package com.jaspersoft.android.jaspermobile.internal.di.modules;
+
 import android.support.v4.app.LoaderManager;
 
-import com.jaspersoft.android.jaspermobile.internal.di.ActivityContext;
+import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
+import com.jaspersoft.android.jaspermobile.data.loaders.JobsCatalogLoaderFactory;
+import com.jaspersoft.android.jaspermobile.data.repository.job.InMemoryJobSortRepository;
+import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
 
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * A module to wrap the Activity state and expose it to the graph.
+ * @author Andrew Tivodar
+ * @since 2.3
  */
 @Module
-public class FragmentModule {
-    private final Fragment fragment;
+public class JobsModule {
 
-    public FragmentModule(Fragment fragment) {
-        this.fragment = fragment;
+    private static final int JOB_LOADER_ID = 1;
+
+    @Provides
+    @PerActivity
+    CatalogFetcher providesCatalogLoader(LoaderManager loaderManager, JobsCatalogLoaderFactory loaderFactory) {
+        return new CatalogFetcherImpl(loaderFactory, loaderManager, JOB_LOADER_ID);
     }
 
     @Provides
-    @PerFragment
-    Context providesContext() {
-        return fragment.getActivity();
-    }
-
-    @Provides
-    @PerFragment
-    LoaderManager providesFragmentLoaderManager() {
-        return fragment.getLoaderManager();
+    @PerActivity
+    JobSortRepository provideJobSortRepository(InMemoryJobSortRepository repository) {
+        return repository;
     }
 }

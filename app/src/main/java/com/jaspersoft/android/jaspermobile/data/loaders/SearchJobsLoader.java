@@ -1,5 +1,5 @@
 /*
- * Copyright � 2015 TIBCO Software, Inc. All rights reserved.
+ * Copyright © 2015 TIBCO Software, Inc. All rights reserved.
  * http://community.jaspersoft.com/project/jaspermobile-android
  *
  * Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
@@ -25,23 +25,17 @@
 package com.jaspersoft.android.jaspermobile.data.loaders;
 
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
-import com.jaspersoft.android.jaspermobile.data.entity.LoaderResult;
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourceMapper;
+import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
 import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.library.LibrarySortRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
-import com.jaspersoft.android.sdk.service.data.repository.Resource;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
-import com.jaspersoft.android.sdk.service.repository.RepositorySearchCriteria;
-import com.jaspersoft.android.sdk.service.repository.RepositorySearchTask;
+import com.jaspersoft.android.sdk.service.report.schedule.JobSearchCriteria;
+import com.jaspersoft.android.sdk.service.report.schedule.JobSearchTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,34 +44,30 @@ import javax.inject.Inject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class SearchResourcesLoader extends CatalogLoader {
+public class SearchJobsLoader extends CatalogLoader {
 
-    private final RepositorySearchTask mRepositorySearchTask;
-    private final ResourceMapper mResourceMapper;
+    private final JobSearchTask mJobSearchTask;
+    private final JobsMapper mJobsMapper;
 
-    public SearchResourcesLoader(@ApplicationContext Context context, JasperRestClient client, LibrarySortRepository librarySortRepository, ResourceMapper resourceMapper) {
+    public SearchJobsLoader(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository, JobsMapper jobsMapper) {
         super(context);
-        mResourceMapper = resourceMapper;
+        mJobsMapper = jobsMapper;
 
-        RepositorySearchCriteria repositorySearchCriteria = RepositorySearchCriteria.builder()
-                .withFolderUri("/")
-                .withLimit(40)
-                .withRecursive(true)
-                .withResourceMask(RepositorySearchCriteria.REPORT)
-                .withSortType(librarySortRepository.getSortType())
+        JobSearchCriteria jobSearchCriteria = JobSearchCriteria.builder()
+                .withSortType(jobFilterRepository.getSortType())
                 .build();
 
-        mRepositorySearchTask = client.syncRepositoryService().search(repositorySearchCriteria);
+        mJobSearchTask = client.syncScheduleService().search(jobSearchCriteria);
     }
 
     @Override
     protected List<JasperResource> loadData() throws ServiceException {
-        List<Resource> resources = mRepositorySearchTask.nextLookup();
-        return mResourceMapper.toJasperResources(resources);
+        List<JobUnit> jobs = mJobSearchTask.nextLookup();
+        return mJobsMapper.toJasperResources(jobs);
     }
 
     @Override
     public boolean loadAvailable() {
-        return mRepositorySearchTask.hasNext() && !isLoading();
+        return mJobSearchTask.hasNext() && !isLoading();
     }
 }

@@ -61,6 +61,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.Navigati
 import com.jaspersoft.android.jaspermobile.ui.contract.NavigationContract;
 import com.jaspersoft.android.jaspermobile.ui.model.ProfileViewModel;
 import com.jaspersoft.android.jaspermobile.ui.presenter.NavigationPresenter;
+import com.jaspersoft.android.jaspermobile.ui.presenter.fragment.JobFragmentPresenter_;
 import com.jaspersoft.android.jaspermobile.util.feedback.FeedbackSender;
 import com.jaspersoft.android.jaspermobile.widget.NavigationPanelLayout;
 
@@ -320,7 +321,7 @@ public class NavigationActivity extends CastActivity implements HasComponent<Nav
                 break;
             case R.id.vg_jobs:
                 currentSelection = R.id.vg_jobs;
-                commitContent(JobsFragment_.builder().build());
+                commitContent(JobFragmentPresenter_.builder().build());
                 break;
             case R.id.vg_add_account:
                 startActivityForResult(new Intent(this, AuthenticatorActivity.class), NEW_ACCOUNT);

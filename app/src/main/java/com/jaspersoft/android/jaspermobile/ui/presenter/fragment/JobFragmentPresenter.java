@@ -22,22 +22,29 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.activities.schedule;
+package com.jaspersoft.android.jaspermobile.ui.presenter.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
+import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
-import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView_;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
@@ -45,46 +52,41 @@ import javax.inject.Inject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class ChooseReportActivity extends ToolbarActivity implements CatalogPresenter.ItemSelectListener {
+@EFragment(R.layout.fragment_jobs)
+public class JobFragmentPresenter extends BaseFragment implements CatalogPresenter.ItemSelectListener {
 
-    public static final int CHOOSE_REPORT_REQUEST_CODE = 5512;
-    public static final String RESULT_JASPER_RESOURCE = "ChooseReportActivity.JasperResource";
+    @ViewById(R.id.catalogView)
+    CatalogView mCatalogView;
 
     @Inject
     CatalogPresenter mCatalogPresenter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    @AfterViews
+    void init() {
         getProfileComponent()
-                .plus(new LoadersModule(this), new LibraryModule(), new ActivityModule(this))
+                .plus(new LoadersModule(this), new JobsModule(), new ActivityModule(getActivity()))
                 .inject(this);
 
-        CatalogView catalogView = LibraryCatalogView_.build(this);
-        setContentView(catalogView);
-
-        catalogView.setEventListener(mCatalogPresenter);
-        mCatalogPresenter.bindView(catalogView);
+        mCatalogView.setEventListener(mCatalogPresenter);
+        mCatalogPresenter.bindView(mCatalogView);
         mCatalogPresenter.setListener(this);
 
-        ActionBar actionBar = getSupportActionBar();
+        ((ToolbarActivity) getActivity()).setCustomToolbarView(null);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(getString(R.string.sch_choose_report));
+            actionBar.setTitle(getString(R.string.sch_jobs));
         }
     }
 
-    @Override
-    protected String getScreenName() {
-        return getString(R.string.ja_choose_sch);
+    @Click(R.id.newJob)
+    protected void newJobAction() {
+        startActivityForResult(new Intent(getActivity(), ChooseReportActivity.class), ChooseReportActivity.CHOOSE_REPORT_REQUEST_CODE);
     }
 
     @Override
     public void onPrimaryAction(JasperResource jasperResource) {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(ChooseReportActivity.RESULT_JASPER_RESOURCE, jasperResource);
-        setResult(Activity.RESULT_OK, resultIntent);
-        finish();
+
     }
 
     @Override

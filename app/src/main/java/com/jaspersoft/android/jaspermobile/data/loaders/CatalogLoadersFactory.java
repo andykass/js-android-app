@@ -21,19 +21,14 @@
  * along with TIBCO Jaspersoft Mobile for Android. If not, see
  * <http://www.gnu.org/licenses/lgpl>.
  */
-package com.jaspersoft.android.jaspermobile.internal.di;
 
-import java.lang.annotation.Retention;
-
-import javax.inject.Scope;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+package com.jaspersoft.android.jaspermobile.data.loaders;
 
 /**
- * A scoping annotation to permit objects whose lifetime should
- * conform to the life of the activity to be memorized in the
- * correct component.
+ * @author Andrew Tivodar
+ * @since 2.3
  */
-@Scope
-@Retention(RUNTIME)
-public @interface PerFragment {}
+public abstract class CatalogLoadersFactory {
+
+    public abstract CatalogLoader createLoader();
+}

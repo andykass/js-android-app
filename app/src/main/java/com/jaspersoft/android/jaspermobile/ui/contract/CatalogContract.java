@@ -22,26 +22,40 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.internal.di.components;
+package com.jaspersoft.android.jaspermobile.ui.contract;
 
-import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LoaderModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
-import com.jaspersoft.android.jaspermobile.ui.view.fragment.LibraryCatalogFragment;
+import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
-import dagger.Subcomponent;
+import java.util.List;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerFragment
-@Subcomponent(
-        modules = {
-                FragmentModule.class,
-                LoaderModule.class
-        }
-)
-public interface CatalogComponent {
-    void inject(LibraryCatalogFragment libraryCatalogFragment);
+public interface CatalogContract {
+    interface View {
+        void showResources(List<JasperResource> jasperResourceList);
+
+        void clearResources();
+
+        void showFirstLoading();
+
+        void showNextLoading();
+
+        void hideLoading();
+
+        void showError();
+
+        void showEmpty();
+    }
+
+    interface EventListener {
+        void onRefresh();
+
+        void onScrollToEnd();
+
+        void onItemClick(String itemId);
+
+        void onActionClick(String itemId);
+    }
 }

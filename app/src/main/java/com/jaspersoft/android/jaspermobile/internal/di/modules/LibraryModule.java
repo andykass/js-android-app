@@ -24,9 +24,14 @@
 
 package com.jaspersoft.android.jaspermobile.internal.di.modules;
 
-import com.jaspersoft.android.jaspermobile.data.repository.resource.ResourceLoaderImpl;
-import com.jaspersoft.android.jaspermobile.domain.loaders.ResourceLoader;
-import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
+import android.support.v4.app.LoaderManager;
+
+import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
+import com.jaspersoft.android.jaspermobile.data.loaders.LibraryCatalogLoaderFactory;
+import com.jaspersoft.android.jaspermobile.data.repository.library.InMemoryLibrarySortRepository;
+import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.domain.repository.library.LibrarySortRepository;
+import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 
 import dagger.Module;
 import dagger.Provides;
@@ -36,11 +41,20 @@ import dagger.Provides;
  * @since 2.3
  */
 @Module
-public class LoaderModule {
+public class LibraryModule {
+
+    private static final int LIBRARY_LOADER_ID = 2;
 
     @Provides
-    @PerFragment
-    ResourceLoader providesResourceLoader(ResourceLoaderImpl resourceLoader) {
-        return resourceLoader;
+    @PerActivity
+    CatalogFetcher providesCatalogLoader(LoaderManager loaderManager, LibraryCatalogLoaderFactory factory) {
+        return new CatalogFetcherImpl(factory, loaderManager, LIBRARY_LOADER_ID);
     }
+
+    @Provides
+    @PerActivity
+    LibrarySortRepository provideLibrarySortRepository(InMemoryLibrarySortRepository repository) {
+        return repository;
+    }
+
 }

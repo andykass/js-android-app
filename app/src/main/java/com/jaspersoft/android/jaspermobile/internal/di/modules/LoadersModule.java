@@ -22,37 +22,42 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.loaders;
+package com.jaspersoft.android.jaspermobile.internal.di.modules;
 
-import android.content.Context;
-import android.support.v4.content.Loader;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
 
-import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
-import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
-import com.jaspersoft.android.jaspermobile.internal.di.PerFragment;
-import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
-import com.jaspersoft.android.sdk.service.repository.RepositorySearchCriteria;
+import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 
-import javax.inject.Inject;
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerProfile
-public class LoaderFactory {
+@Module
+public class LoadersModule {
 
-    private Context mContext;
-    private JasperRestClient mClient;
+    private Fragment mFragment;
+    private FragmentActivity mActivity;
 
-    @Inject
-    public LoaderFactory(@ApplicationContext Context context, JasperRestClient client) {
-        mContext = context;
-        mClient = client;
+    public LoadersModule(Fragment fragment) {
+        mFragment = fragment;
     }
 
-    public SearchResourcesLoader createSearchResourceLoader(RepositorySearchCriteria criteria) {
-        return new SearchResourcesLoader(mContext, mClient, criteria);
+    public LoadersModule(FragmentActivity activity) {
+        mActivity = activity;
     }
+
+    @Provides
+    @PerActivity
+    LoaderManager providesLoaderManager() {
+        if (mFragment == null) {
+            return mActivity.getSupportLoaderManager();
+        }
+        return mFragment.getLoaderManager();
+    }
+
 }
