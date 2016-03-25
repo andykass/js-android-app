@@ -81,9 +81,10 @@ public class ChooseReportActivity extends ToolbarActivity implements CatalogPres
 
     @Override
     public void onPrimaryAction(JasperResource jasperResource) {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(ChooseReportActivity.RESULT_JASPER_RESOURCE, jasperResource);
-        setResult(Activity.RESULT_OK, resultIntent);
+        NewScheduleActivity_
+                .intent(this)
+                .jasperResource(jasperResource)
+                .start();
         finish();
     }
 

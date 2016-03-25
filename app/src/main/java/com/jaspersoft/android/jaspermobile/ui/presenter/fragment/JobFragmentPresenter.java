@@ -35,8 +35,11 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
+import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogSearchPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment_;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
@@ -55,11 +58,16 @@ import javax.inject.Inject;
 @EFragment(R.layout.fragment_jobs)
 public class JobFragmentPresenter extends BaseFragment implements CatalogPresenter.ItemSelectListener {
 
+    private static final String SEARCH_VIEW_TAG = "job_search_view";
+
     @ViewById(R.id.catalogView)
     CatalogView mCatalogView;
 
     @Inject
     CatalogPresenter mCatalogPresenter;
+
+    @Inject
+    CatalogSearchPresenter mCatalogSearchPresenter;
 
     @AfterViews
     void init() {
@@ -67,9 +75,8 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
                 .plus(new LoadersModule(this), new JobsModule(), new ActivityModule(getActivity()))
                 .inject(this);
 
-        mCatalogView.setEventListener(mCatalogPresenter);
-        mCatalogPresenter.bindView(mCatalogView);
-        mCatalogPresenter.setListener(this);
+        initCatalog();
+        initSearch();
 
         ((ToolbarActivity) getActivity()).setCustomToolbarView(null);
 
@@ -92,5 +99,18 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
     @Override
     public void onSecondaryAction(JasperResource jasperResource) {
 
+    }
+
+    private void initCatalog() {
+        mCatalogView.setEventListener(mCatalogPresenter);
+        mCatalogPresenter.bindView(mCatalogView);
+        mCatalogPresenter.setListener(this);
+    }
+
+    private void initSearch() {
+        CatalogSearchFragment catalogSearchFragment = CatalogSearchFragment_.builder().build();
+        getFragmentManager().beginTransaction().add(catalogSearchFragment, SEARCH_VIEW_TAG).commit();
+        catalogSearchFragment.setEventListener(mCatalogSearchPresenter);
+        mCatalogSearchPresenter.bindView(catalogSearchFragment);
     }
 }

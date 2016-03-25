@@ -22,17 +22,11 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.loaders;
+package com.jaspersoft.android.jaspermobile.ui.presenter;
 
-import android.content.Context;
-
-import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
-import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
-import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.ui.contract.CatalogSearchContract;
 
 import javax.inject.Inject;
 
@@ -41,26 +35,17 @@ import javax.inject.Inject;
  * @since 2.3
  */
 @PerActivity
-public class JobsCatalogLoaderFactory extends CatalogLoadersFactory {
+public class CatalogSearchPresenter extends BasePresenter<CatalogSearchContract.View> implements CatalogSearchContract.EventListener{
 
-    private final Context mContext;
-    private final JasperRestClient mClient;
-    private final JobSortRepository mJobFilterRepository;
     private final SearchQueryRepository mSearchQueryRepository;
-    private final JobsMapper mJobsMapper;
 
     @Inject
-    public JobsCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository,
-                                    SearchQueryRepository searchQueryRepository, JobsMapper jobsMapper) {
-        mContext = context;
-        mClient = client;
-        mJobFilterRepository = jobFilterRepository;
+    public CatalogSearchPresenter(SearchQueryRepository searchQueryRepository) {
         mSearchQueryRepository = searchQueryRepository;
-        mJobsMapper = jobsMapper;
     }
 
     @Override
-    public CatalogLoader createLoader() {
-        return new SearchJobsLoader(mContext, mClient, mJobFilterRepository, mSearchQueryRepository, mJobsMapper);
+    public void onQueryEntered(String query) {
+        mSearchQueryRepository.saveQuery(query);
     }
 }

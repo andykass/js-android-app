@@ -22,46 +22,44 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.internal.di.modules;
+package com.jaspersoft.android.jaspermobile.data.repository.resources;
 
-import android.support.v4.app.LoaderManager;
 
-import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
-import com.jaspersoft.android.jaspermobile.data.loaders.JobsCatalogLoaderFactory;
-import com.jaspersoft.android.jaspermobile.data.repository.job.InMemoryJobSortRepository;
-import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryRepository;
-import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Inject;
+
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@Module
-public class JobsModule {
+@PerActivity
+public class JobSearchQueryRepository implements SearchQueryRepository {
+    private final PublishSubject<String> mPublisher = PublishSubject.create();
+    private String mSearchQuery;
 
-    private static final int JOB_LOADER_ID = 1;
-
-    @Provides
-    @PerActivity
-    CatalogFetcher providesCatalogLoader(LoaderManager loaderManager, JobsCatalogLoaderFactory loaderFactory) {
-        return new CatalogFetcherImpl(loaderFactory, loaderManager, JOB_LOADER_ID);
+    @Inject
+    public JobSearchQueryRepository() {
     }
 
-    @Provides
-    @PerActivity
-    JobSortRepository provideJobSortRepository(InMemoryJobSortRepository repository) {
-        return repository;
+    @Override
+    public String getQuery() {
+        return mSearchQuery;
     }
 
-    @Provides
-    @PerActivity
-    SearchQueryRepository provideSearchQueryRepository(JobSearchQueryRepository repository) {
-        return repository;
+    @Override
+    public Observable<String> observe() {
+        return mPublisher;
+    }
+
+    @Override
+    public void saveQuery(String query) {
+        mSearchQuery = query;
+        mPublisher.onNext(query);
     }
 }

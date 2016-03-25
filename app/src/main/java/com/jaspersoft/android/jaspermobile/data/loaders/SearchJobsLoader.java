@@ -28,7 +28,10 @@ import android.content.Context;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
+import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryRepository;
+import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
+import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;
@@ -38,26 +41,34 @@ import com.jaspersoft.android.sdk.service.report.schedule.JobSearchTask;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
 public class SearchJobsLoader extends CatalogLoader {
 
-    private final JobSearchTask mJobSearchTask;
+    private JobSearchTask mJobSearchTask;
+    private final JasperRestClient mClient;
+    private final JobSortRepository mJobFilterRepository;
+    private final SearchQueryRepository mSearchQueryRepository;
     private final JobsMapper mJobsMapper;
 
-    public SearchJobsLoader(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository, JobsMapper jobsMapper) {
+    public SearchJobsLoader(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository, SearchQueryRepository searchQueryRepository, JobsMapper jobsMapper) {
         super(context);
+        mClient = client;
+        mJobFilterRepository = jobFilterRepository;
+        mSearchQueryRepository = searchQueryRepository;
         mJobsMapper = jobsMapper;
 
-        JobSearchCriteria jobSearchCriteria = JobSearchCriteria.builder()
-                .withSortType(jobFilterRepository.getSortType())
-                .build();
+        createSearchTask();
 
-        mJobSearchTask = client.syncScheduleService().search(jobSearchCriteria);
+        searchQueryRepository.observe().subscribe(new SimpleSubscriber<String>() {
+            @Override
+            public void onNext(String item) {
+                createSearchTask();
+                SearchJobsLoader.this.onContentChanged();
+            }
+        });
     }
 
     @Override
@@ -69,5 +80,14 @@ public class SearchJobsLoader extends CatalogLoader {
     @Override
     public boolean loadAvailable() {
         return mJobSearchTask.hasNext() && !isLoading();
+    }
+
+    private void createSearchTask() {
+        JobSearchCriteria jobSearchCriteria = JobSearchCriteria.builder()
+                .withLabel(mSearchQueryRepository.getQuery())
+                .withSortType(mJobFilterRepository.getSortType())
+                .build();
+
+        mJobSearchTask = mClient.syncScheduleService().search(jobSearchCriteria);
     }
 }
