@@ -3,23 +3,16 @@ package com.jaspersoft.android.jaspermobile.data.repository.report;
 import android.support.annotation.NonNull;
 
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportPageCache;
+import com.jaspersoft.android.jaspermobile.data.repository.report.page.PageCreator;
+import com.jaspersoft.android.jaspermobile.data.repository.report.page.PageCreatorFactory;
 import com.jaspersoft.android.jaspermobile.domain.PageRequest;
 import com.jaspersoft.android.jaspermobile.domain.ReportPage;
 import com.jaspersoft.android.jaspermobile.domain.repository.report.ReportPageRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
-import com.jaspersoft.android.sdk.service.data.report.PageRange;
-import com.jaspersoft.android.sdk.service.data.report.ReportExportOutput;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.exception.StatusCodes;
-import com.jaspersoft.android.sdk.service.report.ReportExportOptions;
-import com.jaspersoft.android.sdk.service.report.ReportFormat;
+import com.jaspersoft.android.sdk.service.report.ReportExecution;
 import com.jaspersoft.android.sdk.service.rx.report.RxReportExecution;
-import com.jaspersoft.android.sdk.service.rx.report.RxReportExport;
-
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.inject.Inject;
 
@@ -35,10 +28,14 @@ import rx.functions.Func1;
 @PerProfile
 public final class InMemoryReportPageRepository implements ReportPageRepository {
     private final ReportPageCache mReportPageCache;
-
+    private final PageCreatorFactory mPageCreatorFactory;
 
     @Inject
-    public InMemoryReportPageRepository(ReportPageCache reportPageCache) {
+    public InMemoryReportPageRepository(
+            PageCreatorFactory pageCreatorFactory,
+            ReportPageCache reportPageCache
+    ) {
+        mPageCreatorFactory = pageCreatorFactory;
         mReportPageCache = reportPageCache;
     }
 
@@ -56,34 +53,16 @@ public final class InMemoryReportPageRepository implements ReportPageRepository 
             }
         });
 
-        Observable<ReportPage> networkSource = Observable.defer(new Func0<Observable<RxReportExport>>() {
+        Observable<ReportPage> networkSource = Observable.defer(new Func0<Observable<ReportPage>>() {
             @Override
-            public Observable<RxReportExport> call() {
-                ReportExportOptions options = ReportExportOptions.builder()
-                        .withFormat(ReportFormat.valueOf(pageRequest.getFormat()))
-                        .withPageRange(PageRange.parse(pageRequest.getRange()))
-                        .build();
-                return execution.export(options);
-            }
-        }).flatMap(new Func1<RxReportExport, Observable<ReportExportOutput>>() {
-            @Override
-            public Observable<ReportExportOutput> call(RxReportExport export) {
-                return export.download();
-            }
-        }).flatMap(new Func1<ReportExportOutput, Observable<ReportPage>>() {
-            @Override
-            public Observable<ReportPage> call(ReportExportOutput output) {
-                InputStream stream = null;
+            public Observable<ReportPage> call() {
+                ReportExecution reportExecution = execution.toBlocking();
+                PageCreator pageCreator = mPageCreatorFactory.create(pageRequest, reportExecution);
+
                 try {
-                    stream = output.getStream();
-                    byte[] content = IOUtils.toByteArray(stream);
-                    return Observable.just(new ReportPage(content, output.isFinal()));
-                } catch (IOException e) {
-                    return Observable.error(e);
-                } finally {
-                    if (stream != null) {
-                        IOUtils.closeQuietly(stream);
-                    }
+                    return Observable.just(pageCreator.create());
+                } catch (Exception ex) {
+                    return Observable.error(ex);
                 }
             }
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends ReportPage>>() {

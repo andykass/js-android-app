@@ -2,32 +2,25 @@ package com.jaspersoft.android.jaspermobile.data.repository;
 
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportPageCache;
 import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryReportPageRepository;
+import com.jaspersoft.android.jaspermobile.data.repository.report.page.PageCreator;
+import com.jaspersoft.android.jaspermobile.data.repository.report.page.PageCreatorFactory;
 import com.jaspersoft.android.jaspermobile.domain.PageRequest;
 import com.jaspersoft.android.jaspermobile.domain.ReportPage;
-import com.jaspersoft.android.sdk.service.data.report.PageRange;
-import com.jaspersoft.android.sdk.service.data.report.ReportExportOutput;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.exception.StatusCodes;
-import com.jaspersoft.android.sdk.service.report.ReportExportOptions;
-import com.jaspersoft.android.sdk.service.report.ReportFormat;
+import com.jaspersoft.android.sdk.service.report.ReportExecution;
 import com.jaspersoft.android.sdk.service.rx.report.RxReportExecution;
-import com.jaspersoft.android.sdk.service.rx.report.RxReportExport;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import rx.Observable;
 import rx.observers.TestSubscriber;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -46,16 +39,18 @@ public class InMemoryReportPageRepositoryTest {
             .build();
 
     private static final byte[] CONTENT = "page".getBytes();
-    private static final ReportPage ANY_PAGE = new ReportPage(CONTENT, true);;
+    private static final ReportPage ANY_PAGE = new ReportPage(CONTENT, true);
 
     @Mock
     ReportPageCache mReportPageCache;
     @Mock
-    RxReportExecution mReportExecution;
+    RxReportExecution mRxReportExecution;
     @Mock
-    RxReportExport mReportExport;
+    ReportExecution mReportExecution;
     @Mock
-    ReportExportOutput mReportExportOutput;
+    PageCreatorFactory mPageCreatorFactory;
+    @Mock
+    PageCreator mPageCreator;
 
     private InMemoryReportPageRepository mInMemoryReportPageRepository;
 
@@ -63,60 +58,76 @@ public class InMemoryReportPageRepositoryTest {
     public void setUp() throws Exception {
         initMocks(this);
         setupMocks();
-        mInMemoryReportPageRepository = new InMemoryReportPageRepository(mReportPageCache);
+        mInMemoryReportPageRepository = new InMemoryReportPageRepository(
+                mPageCreatorFactory,
+                mReportPageCache
+        );
     }
 
     @Test
     public void should_get_page_from_network_if_cache_empty() throws Exception {
-        when(mReportPageCache.get(any(PageRequest.class))).thenReturn(null);
+        givenEmptyReportPageCache();
 
-        getReport();
+        whenReportPageRequest();
 
-        ReportExportOptions options = ReportExportOptions.builder()
-                .withFormat(ReportFormat.HTML)
-                .withPageRange(PageRange.parse("100"))
-                .build();
-
-        verify(mReportPageCache).get(PAGE_REQUEST);
-        verify(mReportExecution).export(options);
-        verify(mReportExport).download();
-        verify(mReportExportOutput).getStream();
-        verify(mReportExportOutput).isFinal();
-        verify(mReportPageCache).put(eq(PAGE_REQUEST), any(ReportPage.class));
+        thenShouldProvidePageCreator();
+        thenShouldCreatePage();
     }
 
     @Test
     public void should_get_page_from_cache_if_one_not_empty() throws Exception {
-        when(mReportPageCache.get(any(PageRequest.class))).thenReturn(ANY_PAGE);
+        givenNotEmptyReportPageCache();
 
-        getReport();
+        whenReportPageRequest();
 
-        verify(mReportPageCache).get(PAGE_REQUEST);
-        verifyNoMoreInteractions(mReportPageCache);
-        verifyZeroInteractions(mReportExecution);
+        thenShouldReturnPageFromCache();
     }
 
     @Test
     public void should_return_empty_page_if_encountered_error() throws Exception {
-        when(mReportExport.download()).thenReturn(
-                Observable.<ReportExportOutput>error(new ServiceException(null, null, StatusCodes.EXPORT_EXECUTION_FAILED)));
+        givenReportPageCreatorThrowsExportFailedError();
 
-        TestSubscriber<ReportPage> test = getReport();
-        test.assertNoErrors();
+        whenReportPageRequest();
 
+        thenShouldSaveEmptyPageToCache();
+    }
+
+    private void thenShouldProvidePageCreator() {
+        verify(mPageCreatorFactory).create(PAGE_REQUEST, mReportExecution);
+    }
+
+    private void thenShouldCreatePage() throws Exception {
+        verify(mPageCreator).create();
+    }
+
+    private void givenEmptyReportPageCache() {
+        when(mReportPageCache.get(any(PageRequest.class))).thenReturn(null);
+    }
+
+    private void givenReportPageCreatorThrowsExportFailedError() throws Exception {
+        when(mPageCreator.create()).thenThrow(new ServiceException(null, null, StatusCodes.EXPORT_EXECUTION_FAILED));
+    }
+
+    private void thenShouldSaveEmptyPageToCache() {
         verify(mReportPageCache).put(PAGE_REQUEST, ReportPage.EMPTY);
     }
 
-    private TestSubscriber<ReportPage> getReport() {
+    private void givenNotEmptyReportPageCache() {
+        when(mReportPageCache.get(any(PageRequest.class))).thenReturn(ANY_PAGE);
+    }
+
+    private void thenShouldReturnPageFromCache() {
+        verify(mReportPageCache).get(PAGE_REQUEST);
+    }
+
+    private void whenReportPageRequest() {
         TestSubscriber<ReportPage> test = new TestSubscriber<>();
-        mInMemoryReportPageRepository.get(mReportExecution, PAGE_REQUEST).subscribe(test);
-        return test;
+        mInMemoryReportPageRepository.get(mRxReportExecution, PAGE_REQUEST).subscribe(test);
+        test.assertNoErrors();
     }
 
     private void setupMocks() throws IOException {
-        when(mReportExportOutput.isFinal()).thenReturn(true);
-        when(mReportExportOutput.getStream()).thenReturn(new ByteArrayInputStream(CONTENT));
-        when(mReportExport.download()).thenReturn(Observable.just(mReportExportOutput));
-        when(mReportExecution.export(any(ReportExportOptions.class))).thenReturn(Observable.just(mReportExport));
+        when(mPageCreatorFactory.create(any(PageRequest.class), any(ReportExecution.class))).thenReturn(mPageCreator);
+        when(mRxReportExecution.toBlocking()).thenReturn(mReportExecution);
     }
 }
