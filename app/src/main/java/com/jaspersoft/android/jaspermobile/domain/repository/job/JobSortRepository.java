@@ -37,7 +37,7 @@ import rx.Observable;
 public interface JobSortRepository {
     JobSortType getSortType();
 
-    Observable<JobSortType> observe();
+    Observable<Void> observe();
 
     Collection<JobSortType> getAvailableSortType();
 

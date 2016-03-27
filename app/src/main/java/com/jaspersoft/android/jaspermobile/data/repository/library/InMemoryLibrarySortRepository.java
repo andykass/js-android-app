@@ -45,7 +45,7 @@ public class InMemoryLibrarySortRepository implements LibrarySortRepository {
     private SortType mSortType;
     private Collection<SortType> mAvailableSortTypes;
 
-    private final PublishSubject<SortType> mPublisher = PublishSubject.create();
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
 
     @Inject
     public InMemoryLibrarySortRepository() {
@@ -60,7 +60,7 @@ public class InMemoryLibrarySortRepository implements LibrarySortRepository {
     }
 
     @Override
-    public Observable<SortType> observe() {
+    public Observable<Void> observe() {
         return mPublisher;
     }
 
@@ -72,6 +72,6 @@ public class InMemoryLibrarySortRepository implements LibrarySortRepository {
     @Override
     public void saveSortType(SortType sortType) {
         mSortType = sortType;
-        mPublisher.onNext(sortType);
+        mPublisher.onNext(null);
     }
 }

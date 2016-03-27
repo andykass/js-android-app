@@ -57,6 +57,10 @@ public class CatalogPresenter extends BasePresenter<CatalogContract.View> implem
         mListener = listener;
     }
 
+    public void refresh() {
+        onRefresh();
+    }
+
     @Override
     protected void onBind() {
         getView().showFirstLoading();

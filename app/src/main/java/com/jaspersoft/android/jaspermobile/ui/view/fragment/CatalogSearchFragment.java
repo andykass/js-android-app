@@ -31,6 +31,7 @@ import android.support.v7.widget.SearchView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ import org.androidannotations.annotations.OptionsMenuItem;
 @EFragment
 public class CatalogSearchFragment extends BaseFragment implements CatalogSearchContract.View, SearchView.OnQueryTextListener {
 
+    private final static String SEARCH_QUERY_ARG = "search_query_arg";
+
     @OptionsMenuItem(R.id.search)
     public MenuItem searchMenuItem;
 
@@ -60,6 +63,9 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mQuery = savedInstanceState.getString(SEARCH_QUERY_ARG);
+        }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -70,10 +76,19 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
         if (isAdded()) {
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
             disableSearchViewActionMode(searchView);
-            searchView.setQuery(mQuery, false);
             searchView.setQueryHint(getString(R.string.s_hint));
             searchView.setOnQueryTextListener(this);
+            if (mQuery != null) {
+                searchMenuItem.expandActionView();
+                searchView.setQuery(mQuery, false);
+            }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(SEARCH_QUERY_ARG, mQuery);
+        super.onSaveInstanceState(outState);
     }
 
     public void setEventListener(CatalogSearchContract.EventListener eventListener) {
@@ -87,6 +102,8 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        mQuery = newText;
+
         if (mEventListener == null) return false;
 
         mEventListener.onQueryEntered(newText);
@@ -118,10 +135,5 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
                 }
             });
         }
-    }
-
-    @Override
-    public void setQuery(String query) {
-        mQuery = query;
     }
 }

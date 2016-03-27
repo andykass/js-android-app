@@ -40,7 +40,7 @@ import rx.subjects.PublishSubject;
  */
 @PerActivity
 public class JobSearchQueryRepository implements SearchQueryRepository {
-    private final PublishSubject<String> mPublisher = PublishSubject.create();
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
     private String mSearchQuery;
 
     @Inject
@@ -53,13 +53,13 @@ public class JobSearchQueryRepository implements SearchQueryRepository {
     }
 
     @Override
-    public Observable<String> observe() {
+    public Observable<Void> observe() {
         return mPublisher;
     }
 
     @Override
     public void saveQuery(String query) {
         mSearchQuery = query;
-        mPublisher.onNext(query);
+        mPublisher.onNext(null);
     }
 }

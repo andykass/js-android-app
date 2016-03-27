@@ -38,7 +38,7 @@ import rx.Observable;
 public interface LibrarySortRepository {
     SortType getSortType();
 
-    Observable<SortType> observe();
+    Observable<Void> observe();
 
     Collection<SortType> getAvailableSortType();
 

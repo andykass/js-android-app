@@ -42,7 +42,7 @@ import rx.subjects.PublishSubject;
  */
 @PerActivity
 public class InMemoryJobSortRepository implements JobSortRepository {
-    private final PublishSubject<JobSortType> mPublisher = PublishSubject.create();
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
 
     @Inject
     public InMemoryJobSortRepository() {
@@ -54,7 +54,7 @@ public class InMemoryJobSortRepository implements JobSortRepository {
     }
 
     @Override
-    public Observable<JobSortType> observe() {
+    public Observable<Void> observe() {
         return mPublisher;
     }
 

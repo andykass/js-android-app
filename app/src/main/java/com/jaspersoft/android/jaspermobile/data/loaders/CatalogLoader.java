@@ -56,7 +56,7 @@ public abstract class CatalogLoader extends AsyncTaskLoader<LoaderResult<List<Ja
 
     @Override
     protected final void onStartLoading() {
-        if (mResultList.isEmpty() || takeContentChanged()) {
+        if (mResultList.isEmpty()) {
             forceLoad();
         } else {
             deliverResult(new LoaderResult<>(mResultList));
@@ -69,7 +69,6 @@ public abstract class CatalogLoader extends AsyncTaskLoader<LoaderResult<List<Ja
         try {
             List<JasperResource> searchResult = loadData();
             mResultList.addAll(searchResult);
-            commitContentChanged();
             return new LoaderResult<>(searchResult);
         } catch (ServiceException e) {
             return new LoaderResult<>(e);

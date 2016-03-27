@@ -33,6 +33,7 @@ import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortReposito
 import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 
 import javax.inject.Inject;
 
@@ -45,7 +46,7 @@ public class JobsCatalogLoaderFactory extends CatalogLoadersFactory {
 
     private final Context mContext;
     private final JasperRestClient mClient;
-    private final JobSortRepository mJobFilterRepository;
+    private final JobSortRepository mJobSortRepository;
     private final SearchQueryRepository mSearchQueryRepository;
     private final JobsMapper mJobsMapper;
 
@@ -54,13 +55,15 @@ public class JobsCatalogLoaderFactory extends CatalogLoadersFactory {
                                     SearchQueryRepository searchQueryRepository, JobsMapper jobsMapper) {
         mContext = context;
         mClient = client;
-        mJobFilterRepository = jobFilterRepository;
+        mJobSortRepository = jobFilterRepository;
         mSearchQueryRepository = searchQueryRepository;
         mJobsMapper = jobsMapper;
     }
 
     @Override
     public CatalogLoader createLoader() {
-        return new SearchJobsLoader(mContext, mClient, mJobFilterRepository, mSearchQueryRepository, mJobsMapper);
+        JobSortType jobSortType = mJobSortRepository.getSortType();
+        String searchQuery = mSearchQueryRepository.getQuery();
+        return new SearchJobsLoader(mContext, mClient, jobSortType, searchQuery, mJobsMapper);
     }
 }

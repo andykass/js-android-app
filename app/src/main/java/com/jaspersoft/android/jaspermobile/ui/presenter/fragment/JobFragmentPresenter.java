@@ -31,6 +31,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
+import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
+import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
@@ -65,9 +67,11 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
 
     @Inject
     CatalogPresenter mCatalogPresenter;
-
     @Inject
     CatalogSearchPresenter mCatalogSearchPresenter;
+
+    @Inject
+    SearchQueryRepository mRepository;
 
     @AfterViews
     void init() {
@@ -84,6 +88,8 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.sch_jobs));
         }
+
+        mRepository.observe().subscribe(new ResourcesObserver());
     }
 
     @Click(R.id.newJob)
@@ -108,9 +114,19 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
     }
 
     private void initSearch() {
-        CatalogSearchFragment catalogSearchFragment = CatalogSearchFragment_.builder().build();
-        getFragmentManager().beginTransaction().add(catalogSearchFragment, SEARCH_VIEW_TAG).commit();
+        CatalogSearchFragment catalogSearchFragment = (CatalogSearchFragment) getChildFragmentManager().findFragmentByTag(SEARCH_VIEW_TAG);
+        if (catalogSearchFragment == null) {
+            catalogSearchFragment = CatalogSearchFragment_.builder().build();
+            getChildFragmentManager().beginTransaction().add(catalogSearchFragment, SEARCH_VIEW_TAG).commit();
+        }
         catalogSearchFragment.setEventListener(mCatalogSearchPresenter);
         mCatalogSearchPresenter.bindView(catalogSearchFragment);
+    }
+
+    private class ResourcesObserver extends SimpleSubscriber<Void> {
+        @Override
+        public void onNext(Void item) {
+            mCatalogPresenter.refresh();
+        }
     }
 }

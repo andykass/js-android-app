@@ -34,7 +34,6 @@ import java.util.List;
  */
 public interface CatalogSearchContract {
     interface View {
-        void setQuery(String query);
     }
 
     interface EventListener {

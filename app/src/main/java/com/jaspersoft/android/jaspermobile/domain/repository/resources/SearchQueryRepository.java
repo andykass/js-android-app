@@ -34,7 +34,7 @@ import rx.Observable;
 public interface SearchQueryRepository {
     String getQuery();
 
-    Observable<String> observe();
+    Observable<Void> observe();
 
     void saveQuery(String query);
 }
