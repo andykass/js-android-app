@@ -24,7 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
+import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.ui.contract.CatalogSearchContract;
 
@@ -37,15 +37,15 @@ import javax.inject.Inject;
 @PerActivity
 public class CatalogSearchPresenter extends BasePresenter<CatalogSearchContract.View> implements CatalogSearchContract.EventListener{
 
-    private final SearchQueryRepository mSearchQueryRepository;
+    private final SearchQueryStore mSearchQueryStore;
 
     @Inject
-    public CatalogSearchPresenter(SearchQueryRepository searchQueryRepository) {
-        mSearchQueryRepository = searchQueryRepository;
+    public CatalogSearchPresenter(SearchQueryStore searchQueryStore) {
+        mSearchQueryStore = searchQueryStore;
     }
 
     @Override
     public void onQueryEntered(String query) {
-        mSearchQueryRepository.saveQuery(query);
+        mSearchQueryStore.saveQuery(query);
     }
 }

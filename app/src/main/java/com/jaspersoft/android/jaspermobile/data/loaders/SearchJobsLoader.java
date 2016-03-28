@@ -28,10 +28,6 @@ import android.content.Context;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
-import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryRepository;
-import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;

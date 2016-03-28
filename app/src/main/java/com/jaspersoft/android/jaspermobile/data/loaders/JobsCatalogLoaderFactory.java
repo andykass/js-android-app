@@ -28,9 +28,8 @@ import android.content.Context;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
-import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryRepository;
+import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
@@ -47,23 +46,23 @@ public class JobsCatalogLoaderFactory extends CatalogLoadersFactory {
     private final Context mContext;
     private final JasperRestClient mClient;
     private final JobSortRepository mJobSortRepository;
-    private final SearchQueryRepository mSearchQueryRepository;
+    private final SearchQueryStore mSearchQueryStore;
     private final JobsMapper mJobsMapper;
 
     @Inject
     public JobsCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository,
-                                    SearchQueryRepository searchQueryRepository, JobsMapper jobsMapper) {
+                                    SearchQueryStore searchQueryStore, JobsMapper jobsMapper) {
         mContext = context;
         mClient = client;
         mJobSortRepository = jobFilterRepository;
-        mSearchQueryRepository = searchQueryRepository;
+        mSearchQueryStore = searchQueryStore;
         mJobsMapper = jobsMapper;
     }
 
     @Override
     public CatalogLoader createLoader() {
         JobSortType jobSortType = mJobSortRepository.getSortType();
-        String searchQuery = mSearchQueryRepository.getQuery();
+        String searchQuery = mSearchQueryStore.getQuery();
         return new SearchJobsLoader(mContext, mClient, jobSortType, searchQuery, mJobsMapper);
     }
 }

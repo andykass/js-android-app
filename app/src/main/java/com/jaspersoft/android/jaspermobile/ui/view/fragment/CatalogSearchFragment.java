@@ -63,26 +63,24 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mQuery = savedInstanceState.getString(SEARCH_QUERY_ARG);
-        }
+        mQuery = savedInstanceState == null ? "" : savedInstanceState.getString(SEARCH_QUERY_ARG, "");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
-        if (isAdded()) {
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
-            disableSearchViewActionMode(searchView);
-            searchView.setQueryHint(getString(R.string.s_hint));
-            searchView.setOnQueryTextListener(this);
-            if (mQuery != null) {
-                searchMenuItem.expandActionView();
-                searchView.setQuery(mQuery, false);
-            }
+        if (!isAdded()) return;
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        if (!mQuery.isEmpty()) {
+            searchMenuItem.expandActionView();
         }
+        disableSearchViewActionMode(searchView);
+        searchView.setQuery(mQuery, false);
+        searchView.setQueryHint(getString(R.string.s_hint));
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -102,6 +100,8 @@ public class CatalogSearchFragment extends BaseFragment implements CatalogSearch
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        if (newText.equals(mQuery)) return false;
+
         mQuery = newText;
 
         if (mEventListener == null) return false;
