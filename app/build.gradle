@@ -189,6 +189,7 @@ android {
 
         // Template rendering
         compile "com.samskivert:jmustache:1.10"
+        compile "org.jsoup:jsoup:1.8.3"
 
         compile("com.jaspersoft.android.sdk:js-android-sdk-rx:${jasperSdkVersion}")
         compile "commons-io:commons-io:2.4"
