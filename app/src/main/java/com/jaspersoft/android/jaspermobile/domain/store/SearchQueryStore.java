@@ -22,43 +22,19 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.repository.resources;
+package com.jaspersoft.android.jaspermobile.domain.store;
 
-
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-
-import javax.inject.Inject;
 
 import rx.Observable;
-import rx.subjects.PublishSubject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
-public class JobSearchQueryStore implements SearchQueryStore {
-    private final PublishSubject<Void> mPublisher = PublishSubject.create();
-    private String mSearchQuery;
+public interface SearchQueryStore {
+    String getQuery();
 
-    @Inject
-    public JobSearchQueryStore() {
-    }
+    Observable<Void> observe();
 
-    @Override
-    public String getQuery() {
-        return mSearchQuery;
-    }
-
-    @Override
-    public Observable<Void> observe() {
-        return mPublisher;
-    }
-
-    @Override
-    public void saveQuery(String query) {
-        mSearchQuery = query;
-        mPublisher.onNext(null);
-    }
+    void saveQuery(String query);
 }

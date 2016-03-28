@@ -27,9 +27,10 @@ package com.jaspersoft.android.jaspermobile.data.loaders;
 import android.content.Context;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
+import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsSortMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsMapper;
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
+import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
@@ -45,23 +46,25 @@ public class JobsCatalogLoaderFactory extends CatalogLoadersFactory {
 
     private final Context mContext;
     private final JasperRestClient mClient;
-    private final JobSortRepository mJobSortRepository;
+    private final SortStore mSortStore;
     private final SearchQueryStore mSearchQueryStore;
     private final JobsMapper mJobsMapper;
+    private final JobsSortMapper mJobsSortMapper;
 
     @Inject
-    public JobsCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, JobSortRepository jobFilterRepository,
-                                    SearchQueryStore searchQueryStore, JobsMapper jobsMapper) {
+    public JobsCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, SortStore sortStore,
+                                    SearchQueryStore searchQueryStore, JobsMapper jobsMapper, JobsSortMapper jobsSortMapper) {
         mContext = context;
         mClient = client;
-        mJobSortRepository = jobFilterRepository;
+        mSortStore = sortStore;
         mSearchQueryStore = searchQueryStore;
         mJobsMapper = jobsMapper;
+        mJobsSortMapper = jobsSortMapper;
     }
 
     @Override
     public CatalogLoader createLoader() {
-        JobSortType jobSortType = mJobSortRepository.getSortType();
+        JobSortType jobSortType = mJobsSortMapper.to(mSortStore.getSortType());
         String searchQuery = mSearchQueryStore.getQuery();
         return new SearchJobsLoader(mContext, mClient, jobSortType, searchQuery, mJobsMapper);
     }

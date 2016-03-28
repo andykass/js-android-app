@@ -28,11 +28,11 @@ import android.support.v4.app.LoaderManager;
 
 import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
 import com.jaspersoft.android.jaspermobile.data.loaders.JobsCatalogLoaderFactory;
-import com.jaspersoft.android.jaspermobile.data.repository.job.InMemoryJobSortRepository;
-import com.jaspersoft.android.jaspermobile.data.repository.resources.JobSearchQueryStore;
+import com.jaspersoft.android.jaspermobile.data.store.InMemoryJobsSortStore;
+import com.jaspersoft.android.jaspermobile.data.store.JobSearchQueryStore;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
+import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 
 import dagger.Module;
@@ -55,7 +55,7 @@ public class JobsModule {
 
     @Provides
     @PerActivity
-    JobSortRepository provideJobSortRepository(InMemoryJobSortRepository repository) {
+    SortStore provideJobSortRepository(InMemoryJobsSortStore repository) {
         return repository;
     }
 

@@ -22,9 +22,11 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.domain.repository.job;
+package com.jaspersoft.android.jaspermobile.domain.store;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
+import com.jaspersoft.android.sdk.service.repository.SortType;
 
 import java.util.Collection;
 
@@ -34,12 +36,12 @@ import rx.Observable;
  * @author Andrew Tivodar
  * @since 2.3
  */
-public interface JobSortRepository {
-    JobSortType getSortType();
+public interface SortStore {
+    Sort getSortType();
 
     Observable<Void> observe();
 
-    Collection<JobSortType> getAvailableSortType();
+    Collection<Sort> getAvailableSortTypes();
 
-    void saveSortType(JobSortType sortType);
+    void saveSortType(Sort sortType);
 }

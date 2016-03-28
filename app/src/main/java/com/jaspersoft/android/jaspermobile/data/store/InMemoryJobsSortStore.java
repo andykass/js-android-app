@@ -22,39 +22,54 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.internal.di.modules;
+package com.jaspersoft.android.jaspermobile.data.store;
 
-import android.support.v4.app.LoaderManager;
-
-import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
-import com.jaspersoft.android.jaspermobile.data.loaders.LibraryCatalogLoaderFactory;
-import com.jaspersoft.android.jaspermobile.data.store.InMemoryLibrarySortStore;
-import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsSortMapper;
+import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 
-import dagger.Module;
-import dagger.Provides;
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.inject.Inject;
+
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@Module
-public class LibraryModule {
+@PerActivity
+public class InMemoryJobsSortStore implements SortStore {
+    private final static JobSortType DEFAULT_SORT_TYPE = JobSortType.SORTBY_JOBNAME;
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
+    private final JobsSortMapper mJobsSortMapper;
 
-    private static final int LIBRARY_LOADER_ID = 2;
-
-    @Provides
-    @PerActivity
-    CatalogFetcher providesCatalogLoader(LoaderManager loaderManager, LibraryCatalogLoaderFactory factory) {
-        return new CatalogFetcherImpl(factory, loaderManager, LIBRARY_LOADER_ID);
+    @Inject
+    public InMemoryJobsSortStore(JobsSortMapper jobsSortMapper) {
+        mJobsSortMapper = jobsSortMapper;
     }
 
-    @Provides
-    @PerActivity
-    SortStore provideLibrarySortRepository(InMemoryLibrarySortStore repository) {
-        return repository;
+    @Override
+    public Sort getSortType() {
+        return mJobsSortMapper.from(DEFAULT_SORT_TYPE);
     }
 
+    @Override
+    public Observable<Void> observe() {
+        return mPublisher;
+    }
+
+    @Override
+    public Collection<Sort> getAvailableSortTypes() {
+        return Collections.singleton(mJobsSortMapper.from(DEFAULT_SORT_TYPE));
+    }
+
+    @Override
+    public void saveSortType(Sort sortType) {
+
+    }
 }

@@ -22,25 +22,19 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.domain.repository.library;
-
-import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
-import com.jaspersoft.android.sdk.service.repository.SortType;
-
-import java.util.Collection;
-
-import rx.Observable;
+package com.jaspersoft.android.jaspermobile.domain.entity;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-public interface LibrarySortRepository {
-    SortType getSortType();
+public class LibrarySort extends Sort {
+    public final static String SORT_BY_LABEL = "sort_by_label";
+    public final static String SORT_BY_DESCRIPTION = "sort_by_description";
+    public final static String SORT_BY_ACCESS_TIME = "sort_by_access_time";
+    public final static String SORT_BY_CREATION_DATE = "sort_by_creation_date";
 
-    Observable<Void> observe();
-
-    Collection<SortType> getAvailableSortType();
-
-    void saveSortType(SortType sortType);
+    public LibrarySort(String sortType) {
+        super(sortType);
+    }
 }

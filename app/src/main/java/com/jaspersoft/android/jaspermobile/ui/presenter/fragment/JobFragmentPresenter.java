@@ -25,7 +25,6 @@
 package com.jaspersoft.android.jaspermobile.ui.presenter.fragment;
 
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -35,7 +34,7 @@ import android.view.MenuItem;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.repository.resources.SearchQueryStore;
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
@@ -51,7 +50,6 @@ import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 

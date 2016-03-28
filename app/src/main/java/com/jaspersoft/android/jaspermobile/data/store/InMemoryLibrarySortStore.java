@@ -22,45 +22,65 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.loaders;
+package com.jaspersoft.android.jaspermobile.data.store;
 
-import android.content.Context;
-
-import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourceMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourcesSortMapper;
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
-import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.sdk.service.repository.SortType;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.inject.Inject;
+
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
 @PerActivity
-public class LibraryCatalogLoaderFactory extends CatalogLoadersFactory {
+public class InMemoryLibrarySortStore implements SortStore {
+    private final static SortType DEFAULT_SORT_TYPE = SortType.LABEL;
 
-    private final Context mContext;
-    private final JasperRestClient mClient;
-    private final SortStore mSortStore;
-    private final ResourceMapper mResourceMapper;
     private final ResourcesSortMapper mResourcesSortMapper;
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
+
+    private SortType mSortType;
+    private Collection<SortType> mAvailableSortTypes;
 
     @Inject
-    public LibraryCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, SortStore sortStore, ResourceMapper resourceMapper, ResourcesSortMapper resourcesSortMapper) {
-        mContext = context;
-        mClient = client;
-        mSortStore = sortStore;
-        mResourceMapper = resourceMapper;
+    public InMemoryLibrarySortStore(ResourcesSortMapper resourcesSortMapper) {
         mResourcesSortMapper = resourcesSortMapper;
+
+        mAvailableSortTypes = new ArrayList<>();
+        mAvailableSortTypes.add(SortType.LABEL);
+        mAvailableSortTypes.add(SortType.CREATION_DATE);
+
+        mSortType = DEFAULT_SORT_TYPE;
     }
 
     @Override
-    public CatalogLoader createLoader() {
-        Sort sort = mSortStore.getSortType();
-        return new SearchResourcesLoader(mContext, mClient, mResourcesSortMapper.to(sort), mResourceMapper);
+    public Sort getSortType() {
+        return mResourcesSortMapper.from(mSortType);
+    }
+
+    @Override
+    public Observable<Void> observe() {
+        return mPublisher;
+    }
+
+    @Override
+    public Collection<Sort> getAvailableSortTypes() {
+        return mResourcesSortMapper.from(mAvailableSortTypes);
+    }
+
+    @Override
+    public void saveSortType(Sort sortType) {
+        mSortType = mResourcesSortMapper.to(sortType);
+        mPublisher.onNext(null);
     }
 }

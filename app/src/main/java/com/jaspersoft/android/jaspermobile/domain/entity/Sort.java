@@ -22,19 +22,20 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.domain.repository.resources;
-
-
-import rx.Observable;
+package com.jaspersoft.android.jaspermobile.domain.entity;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-public interface SearchQueryStore {
-    String getQuery();
+public class Sort {
+    private String mSortType;
 
-    Observable<Void> observe();
+    public Sort(String sortType) {
+        mSortType = sortType;
+    }
 
-    void saveQuery(String query);
+    public String getSortType() {
+        return mSortType;
+    }
 }

@@ -22,14 +22,11 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.repository.library;
+package com.jaspersoft.android.jaspermobile.data.store;
 
-import com.jaspersoft.android.jaspermobile.domain.repository.library.LibrarySortRepository;
+
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.sdk.service.repository.SortType;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -41,22 +38,17 @@ import rx.subjects.PublishSubject;
  * @since 2.3
  */
 @PerActivity
-public class InMemoryLibrarySortRepository implements LibrarySortRepository {
-    private SortType mSortType;
-    private Collection<SortType> mAvailableSortTypes;
-
+public class JobSearchQueryStore implements SearchQueryStore {
     private final PublishSubject<Void> mPublisher = PublishSubject.create();
+    private String mSearchQuery;
 
     @Inject
-    public InMemoryLibrarySortRepository() {
-        mAvailableSortTypes = new ArrayList<>();
-        mAvailableSortTypes.add(SortType.LABEL);
-        mAvailableSortTypes.add(SortType.CREATION_DATE);
+    public JobSearchQueryStore() {
     }
 
     @Override
-    public SortType getSortType() {
-        return mSortType;
+    public String getQuery() {
+        return mSearchQuery;
     }
 
     @Override
@@ -65,13 +57,8 @@ public class InMemoryLibrarySortRepository implements LibrarySortRepository {
     }
 
     @Override
-    public Collection<SortType> getAvailableSortType() {
-        return mAvailableSortTypes;
-    }
-
-    @Override
-    public void saveSortType(SortType sortType) {
-        mSortType = sortType;
+    public void saveQuery(String query) {
+        mSearchQuery = query;
         mPublisher.onNext(null);
     }
 }

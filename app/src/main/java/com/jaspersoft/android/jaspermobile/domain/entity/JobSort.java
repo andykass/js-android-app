@@ -22,49 +22,24 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.data.repository.job;
-
-import com.jaspersoft.android.jaspermobile.domain.repository.job.JobSortRepository;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
-
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.inject.Inject;
-
-import rx.Observable;
-import rx.subjects.PublishSubject;
+package com.jaspersoft.android.jaspermobile.domain.entity;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
-public class InMemoryJobSortRepository implements JobSortRepository {
-    private final PublishSubject<Void> mPublisher = PublishSubject.create();
+public class JobSort extends Sort {
+    public final static String SORT_BY_ID = "sort_by_id";
+    public final static String SORT_BY_NAME = "sort_by_name";
+    public final static String SORT_BY_REPORT_URI = "sort_by_report_uri";
+    public final static String SORT_BY_REPORT_NAME = "sort_by_report_name";
+    public final static String SORT_BY_REPORT_FOLDER = "sort_by_report_folder";
+    public final static String SORT_BY_OWNER = "sort_by_owner";
+    public final static String SORT_BY_STATUS = "sort_by_status";
+    public final static String SORT_BY_LAST_RUN = "sort_by_last_run";
+    public final static String SORT_BY_NEXT_RUN = "sort_by_next_run";
 
-    @Inject
-    public InMemoryJobSortRepository() {
-    }
-
-    @Override
-    public JobSortType getSortType() {
-        return JobSortType.SORTBY_JOBNAME;
-    }
-
-    @Override
-    public Observable<Void> observe() {
-        return mPublisher;
-    }
-
-    @Override
-    public Collection<JobSortType> getAvailableSortType() {
-        return Collections.singleton(JobSortType.SORTBY_JOBNAME);
-    }
-
-    @Override
-    public void saveSortType(JobSortType sortType) {
-
+    public JobSort(String sortType) {
+        super(sortType);
     }
 }
