@@ -37,8 +37,8 @@ import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItem
 import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItemsSearchFragment;
 import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItemsSearchFragment_;
 import com.jaspersoft.android.jaspermobile.dialog.SortDialogFragment;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.BaseFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.util.filtering.Filter;
 import com.jaspersoft.android.jaspermobile.util.filtering.StorageResourceFilter;
 import com.jaspersoft.android.jaspermobile.util.sorting.SortOptions;
@@ -49,7 +49,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import javax.inject.Inject;
 

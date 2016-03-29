@@ -11,7 +11,7 @@ import com.jaspersoft.android.jaspermobile.activities.info.fragments.ReportInfoF
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.ResourceInfoFragment;
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.ResourceInfoFragment_;
 import com.jaspersoft.android.jaspermobile.activities.info.fragments.SavedItemInfoFragment_;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
 import org.androidannotations.annotations.EActivity;

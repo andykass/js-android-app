@@ -12,8 +12,8 @@ import com.jaspersoft.android.jaspermobile.domain.validator.exception.DuplicateP
 import com.jaspersoft.android.jaspermobile.domain.validator.exception.ProfileReservedException;
 import com.jaspersoft.android.jaspermobile.domain.validator.exception.ServerVersionNotSupportedException;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.presentation.contract.AuthenticationContract;
-import com.jaspersoft.android.jaspermobile.presentation.presenter.AuthenticationPresenter;
+import com.jaspersoft.android.jaspermobile.ui.contract.AuthenticationContract;
+import com.jaspersoft.android.jaspermobile.ui.presenter.AuthenticationPresenter;
 
 import dagger.Module;
 import dagger.Provides;

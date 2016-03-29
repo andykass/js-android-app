@@ -28,32 +28,43 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.LibraryCatalogFragment;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.LibraryCatalogFragment_;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
+import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
+import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView_;
+import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
+
+import javax.inject.Inject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class ChooseReportActivity extends ToolbarActivity {
+public class ChooseReportActivity extends ToolbarActivity implements CatalogPresenter.ItemSelectListener {
 
     public static final int CHOOSE_REPORT_REQUEST_CODE = 5512;
     public static final String RESULT_JASPER_RESOURCE = "ChooseReportActivity.JasperResource";
+
+    @Inject
+    CatalogPresenter mCatalogPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null) {
+        getProfileComponent()
+                .plus(new LoadersModule(this), new ChooseReportModule(), new ActivityModule(this))
+                .inject(this);
 
-            LibraryCatalogFragment libraryCatalogFragment = LibraryCatalogFragment_
-                    .builder()
-                    .build();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content, libraryCatalogFragment)
-                    .commit();
-        }
+        CatalogView catalogView = LibraryCatalogView_.build(this);
+        setContentView(catalogView);
+
+        catalogView.setEventListener(mCatalogPresenter);
+        mCatalogPresenter.bindView(catalogView);
+        mCatalogPresenter.setListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -66,4 +77,17 @@ public class ChooseReportActivity extends ToolbarActivity {
         return getString(R.string.ja_choose_sch);
     }
 
+    @Override
+    public void onPrimaryAction(JasperResource jasperResource) {
+        NewScheduleActivity_
+                .intent(this)
+                .jasperResource(jasperResource)
+                .start();
+        finish();
+    }
+
+    @Override
+    public void onSecondaryAction(JasperResource jasperResource) {
+
+    }
 }

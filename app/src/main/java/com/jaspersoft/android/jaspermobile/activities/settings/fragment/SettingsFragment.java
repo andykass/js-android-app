@@ -30,7 +30,7 @@ import android.preference.Preference;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.BasePreferenceFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BasePreferenceFragment;
 import com.jaspersoft.android.jaspermobile.util.DefaultPrefHelper;
 import com.jaspersoft.android.jaspermobile.widget.AppCompatEditTextPreference;
 import com.jaspersoft.android.sdk.network.Server;

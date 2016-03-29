@@ -42,7 +42,7 @@ import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.model.ProfileViewModel;
+import com.jaspersoft.android.jaspermobile.ui.model.ProfileViewModel;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

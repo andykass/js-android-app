@@ -25,79 +25,52 @@
 package com.jaspersoft.android.jaspermobile.data.loaders;
 
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
 
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
-import com.jaspersoft.android.jaspermobile.data.entity.LoaderResult;
-import com.jaspersoft.android.jaspermobile.data.entity.mapper.CriteriaMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourceMapper;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.ComponentProviderDelegate;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
-import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookupSearchCriteria;
+import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.sdk.service.data.repository.Resource;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.repository.RepositorySearchCriteria;
 import com.jaspersoft.android.sdk.service.repository.RepositorySearchTask;
+import com.jaspersoft.android.sdk.service.repository.SortType;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-public class SearchResourcesLoader extends AsyncTaskLoader<LoaderResult<List<Resource>>> {
+public class SearchResourcesLoader extends CatalogLoader {
 
     private final RepositorySearchTask mRepositorySearchTask;
-    private List<Resource> mResources;
-    boolean mIsLoading;
+    private final ResourceMapper mResourceMapper;
 
-    @Inject
-    public SearchResourcesLoader(@ApplicationContext Context context, JasperRestClient client, RepositorySearchCriteria resourceSearchCriteria) {
+    public SearchResourcesLoader(@ApplicationContext Context context, JasperRestClient client, SortType sortType, String searchQuery, ResourceMapper resourceMapper) {
         super(context);
+        mResourceMapper = resourceMapper;
 
-        mRepositorySearchTask = client.syncRepositoryService().search(resourceSearchCriteria);
-        mResources = new ArrayList<>();
+        RepositorySearchCriteria repositorySearchCriteria = RepositorySearchCriteria.builder()
+                .withFolderUri("/")
+                .withLimit(40)
+                .withQuery(searchQuery)
+                .withRecursive(true)
+                .withResourceMask(RepositorySearchCriteria.REPORT)
+                .withSortType(sortType)
+                .build();
+
+        mRepositorySearchTask = client.syncRepositoryService().search(repositorySearchCriteria);
     }
 
     @Override
-    protected void onStartLoading() {
-        if (mResources.isEmpty()) {
-            forceLoad();
-        } else {
-            deliverResult(new LoaderResult<>(mResources));
-        }
+    protected List<JasperResource> loadData() throws ServiceException {
+        List<Resource> resources = mRepositorySearchTask.nextLookup();
+        return mResourceMapper.toJasperResources(resources);
     }
 
     @Override
-    public LoaderResult<List<Resource>> loadInBackground() {
-        mIsLoading = true;
-        try {
-            List<Resource> searchResult = mRepositorySearchTask.nextLookup();
-            mResources.addAll(searchResult);
-            return new LoaderResult<>(searchResult);
-        } catch (ServiceException e) {
-            return new LoaderResult<>(e);
-        }
-    }
-
-    @Override
-    public void deliverResult(LoaderResult<List<Resource>> loaderResult) {
-        mIsLoading = false;
-
-        if (isStarted()) {
-            super.deliverResult(loaderResult.hasResult() ? new LoaderResult<>(mResources) : loaderResult);
-        }
-    }
-
     public boolean loadAvailable() {
         return mRepositorySearchTask.hasNext() && !isLoading();
-    }
-
-    public boolean isLoading() {
-        return mIsLoading;
     }
 }

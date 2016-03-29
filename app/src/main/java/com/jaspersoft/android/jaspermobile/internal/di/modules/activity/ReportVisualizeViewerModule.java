@@ -6,11 +6,11 @@ import android.webkit.WebView;
 
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.presentation.contract.VisualizeReportContract;
-import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeComponent;
-import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeViewModel;
-import com.jaspersoft.android.jaspermobile.presentation.model.visualize.WebViewConfiguration;
-import com.jaspersoft.android.jaspermobile.presentation.presenter.ReportVisualizePresenter;
+import com.jaspersoft.android.jaspermobile.ui.contract.VisualizeReportContract;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.VisualizeComponent;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.VisualizeViewModel;
+import com.jaspersoft.android.jaspermobile.ui.model.visualize.WebViewConfiguration;
+import com.jaspersoft.android.jaspermobile.ui.presenter.ReportVisualizePresenter;
 import com.jaspersoft.android.jaspermobile.webview.SystemChromeClient;
 import com.jaspersoft.android.jaspermobile.webview.SystemWebViewClient;
 import com.jaspersoft.android.jaspermobile.webview.WebViewEnvironment;

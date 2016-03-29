@@ -57,7 +57,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".presentation.view.activity.NavigationActivity_">
+            android:name=".ui.view.activity.NavigationActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,21 +82,21 @@
 
         <!-- Activity that performs report viewing in HTML format through visualize -->
         <activity
-            android:name=".presentation.view.activity.ReportVisualizeActivity_"
+            android:name=".ui.view.activity.ReportVisualizeActivity_"
             android:configChanges="keyboard|keyboardHidden|screenSize|orientation|locale"
-            android:parentActivityName=".presentation.view.activity.NavigationActivity_" >
+            android:parentActivityName=".ui.view.activity.NavigationActivity_" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.view.activity.NavigationActivity_" />
+                android:value=".ui.view.activity.NavigationActivity_" />
         </activity>
 
         <!-- Activity that performs report viewing in HTML format. SDK 2.0 -->
         <activity
-            android:name=".presentation.view.activity.ReportViewActivity_"
-            android:parentActivityName=".presentation.view.activity.NavigationActivity_" >
+            android:name=".ui.view.activity.ReportViewActivity_"
+            android:parentActivityName=".ui.view.activity.NavigationActivity_" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.view.activity.NavigationActivity_" />
+                android:value=".ui.view.activity.NavigationActivity_" />
         </activity>
 
         <activity android:name=".activities.viewer.html.report.ReportCastActivity_"/>
@@ -151,7 +151,7 @@
             android:label="@string/st_title" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.view.activity.NavigationActivity_" />
+                android:value=".ui.view.activity.NavigationActivity_" />
         </activity>
 
         <activity
@@ -179,7 +179,7 @@
             android:launchMode="singleTop" />
 
         <activity
-            android:name=".presentation.view.activity.AuthenticatorActivity" >
+            android:name=".ui.view.activity.AuthenticatorActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 

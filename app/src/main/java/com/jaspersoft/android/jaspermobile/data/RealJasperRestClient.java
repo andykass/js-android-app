@@ -13,6 +13,7 @@ import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.exception.StatusCodes;
 import com.jaspersoft.android.sdk.service.filter.FiltersService;
 import com.jaspersoft.android.sdk.service.report.ReportService;
+import com.jaspersoft.android.sdk.service.report.schedule.ReportScheduleService;
 import com.jaspersoft.android.sdk.service.repository.RepositoryService;
 import com.jaspersoft.android.sdk.service.rx.filter.RxFiltersService;
 import com.jaspersoft.android.sdk.service.rx.report.RxReportService;
@@ -66,6 +67,12 @@ public class RealJasperRestClient implements JasperRestClient {
     public RepositoryService syncRepositoryService() {
         AuthorizedClient client = createAuthorizedClient().toBlocking().first();
         return RepositoryService.newService(client);
+    }
+
+    @Override
+    public ReportScheduleService syncScheduleService() {
+        AuthorizedClient client = createAuthorizedClient().toBlocking().first();
+        return ReportScheduleService.newService(client);
     }
 
     @Override

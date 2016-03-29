@@ -3,8 +3,8 @@ package com.jaspersoft.android.jaspermobile.internal.di.modules.activity;
 import android.app.Activity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.presentation.contract.NavigationContract;
-import com.jaspersoft.android.jaspermobile.presentation.presenter.NavigationPresenter;
+import com.jaspersoft.android.jaspermobile.ui.contract.NavigationContract;
+import com.jaspersoft.android.jaspermobile.ui.presenter.NavigationPresenter;
 
 import dagger.Module;
 import dagger.Provides;

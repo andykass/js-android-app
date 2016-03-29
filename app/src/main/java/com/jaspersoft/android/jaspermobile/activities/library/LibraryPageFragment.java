@@ -42,8 +42,8 @@ import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibrarySe
 import com.jaspersoft.android.jaspermobile.activities.library.fragment.LibrarySearchFragment_;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SortDialogFragment;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.BaseFragment;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.util.DefaultPrefHelper;
 import com.jaspersoft.android.jaspermobile.util.VoiceRecognitionHelper;
 import com.jaspersoft.android.jaspermobile.util.filtering.Filter;

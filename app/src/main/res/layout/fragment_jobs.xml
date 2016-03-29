@@ -28,9 +28,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/resourceContainer"
-        layout="@layout/fragment_refreshable_resource"
+    <com.jaspersoft.android.jaspermobile.ui.view.widget.JobCatalogView_
+        android:id="@+id/catalogView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -42,7 +41,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_menu_add"
         app:elevation="6dp"
-        app:layout_anchor="@id/resourceContainer"
+        app:layout_anchor="@id/catalogView"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.jaspersoft.android.jaspermobile.widget.ScrollDependentFABBehavior" />
 

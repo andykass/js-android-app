@@ -46,8 +46,8 @@ import com.jaspersoft.android.jaspermobile.domain.ProfileForm;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.profile.CheckPasswordUseCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.profile.GetCurrentProfileFormUseCase;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.NavigationActivity_;
-import com.jaspersoft.android.jaspermobile.presentation.view.fragment.ComponentProviderDelegate;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.NavigationActivity_;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.exception.StatusCodes;
 

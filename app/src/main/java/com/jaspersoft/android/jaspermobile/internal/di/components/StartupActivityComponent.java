@@ -2,7 +2,7 @@ package com.jaspersoft.android.jaspermobile.internal.di.components;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.StartupActivityModule;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.StartupDelegate;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.StartupDelegate;
 
 import dagger.Subcomponent;
 

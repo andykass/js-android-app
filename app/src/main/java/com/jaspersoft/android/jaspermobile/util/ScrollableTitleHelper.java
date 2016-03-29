@@ -30,7 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
