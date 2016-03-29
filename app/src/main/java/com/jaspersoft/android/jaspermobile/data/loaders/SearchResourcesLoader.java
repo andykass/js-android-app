@@ -47,13 +47,14 @@ public class SearchResourcesLoader extends CatalogLoader {
     private final RepositorySearchTask mRepositorySearchTask;
     private final ResourceMapper mResourceMapper;
 
-    public SearchResourcesLoader(@ApplicationContext Context context, JasperRestClient client, SortType sortType, ResourceMapper resourceMapper) {
+    public SearchResourcesLoader(@ApplicationContext Context context, JasperRestClient client, SortType sortType, String searchQuery, ResourceMapper resourceMapper) {
         super(context);
         mResourceMapper = resourceMapper;
 
         RepositorySearchCriteria repositorySearchCriteria = RepositorySearchCriteria.builder()
                 .withFolderUri("/")
                 .withLimit(40)
+                .withQuery(searchQuery)
                 .withRecursive(true)
                 .withResourceMask(RepositorySearchCriteria.REPORT)
                 .withSortType(sortType)

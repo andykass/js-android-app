@@ -4,12 +4,13 @@ import com.jaspersoft.android.jaspermobile.activities.save.ReportDownloadManager
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.ProfileModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.DashboardModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.NavigationActivityModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ReportModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ReportRestViewerModule;
@@ -44,7 +45,9 @@ public interface ProfileComponent {
 
     BaseActivityComponent plusBase(ActivityModule activityModule);
 
-    ChooseReportComponent plus(LoadersModule loadersModule, LibraryModule libraryModule, ActivityModule activityModule);
+    ChooseReportComponent plus(LoadersModule loadersModule, ChooseReportModule chooseReportModule, ActivityModule activityModule);
+
+    LibraryComponent plus(LoadersModule loadersModule, LibraryModule jobsModule, ActivityModule activityModule);
 
     JobsComponent plus(LoadersModule loadersModule, JobsModule jobsModule, ActivityModule activityModule);
 

@@ -85,12 +85,6 @@ public abstract class CatalogLoader extends AsyncTaskLoader<LoaderResult<List<Ja
         }
     }
 
-    @Override
-    public void onContentChanged() {
-        mResultList = new ArrayList<>();
-        super.onContentChanged();
-    }
-
     public final boolean isLoading() {
         return mIsLoading;
     }

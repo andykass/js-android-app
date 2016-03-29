@@ -24,13 +24,11 @@
 
 package com.jaspersoft.android.jaspermobile.activities.schedule;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
@@ -58,7 +56,7 @@ public class ChooseReportActivity extends ToolbarActivity implements CatalogPres
         super.onCreate(savedInstanceState);
 
         getProfileComponent()
-                .plus(new LoadersModule(this), new LibraryModule(), new ActivityModule(this))
+                .plus(new LoadersModule(this), new ChooseReportModule(), new ActivityModule(this))
                 .inject(this);
 
         CatalogView catalogView = LibraryCatalogView_.build(this);

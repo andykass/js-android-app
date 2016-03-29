@@ -29,7 +29,6 @@ import android.support.v4.app.LoaderManager;
 import com.jaspersoft.android.jaspermobile.data.fetchers.CatalogFetcherImpl;
 import com.jaspersoft.android.jaspermobile.data.loaders.LibraryCatalogLoaderFactory;
 import com.jaspersoft.android.jaspermobile.data.store.InMemoryLibrarySortStore;
-import com.jaspersoft.android.jaspermobile.data.store.JobSearchQueryStore;
 import com.jaspersoft.android.jaspermobile.data.store.LibrarySearchQueryStore;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
 import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
@@ -44,19 +43,19 @@ import dagger.Provides;
  * @since 2.3
  */
 @Module
-public class LibraryModule {
+public class ChooseReportModule {
 
-    private static final int LIBRARY_LOADER_ID = 2;
+    private static final int CHOOSE_REPORT_LOADER_ID = 3;
 
     @Provides
     @PerActivity
     CatalogFetcher providesCatalogLoader(LoaderManager loaderManager, LibraryCatalogLoaderFactory factory) {
-        return new CatalogFetcherImpl(factory, loaderManager, LIBRARY_LOADER_ID);
+        return new CatalogFetcherImpl(factory, loaderManager, CHOOSE_REPORT_LOADER_ID);
     }
 
     @Provides
     @PerActivity
-    SortStore provideSortStore(InMemoryLibrarySortStore store) {
+    SortStore provideLibrarySortStore(InMemoryLibrarySortStore store) {
         return store;
     }
 

@@ -22,28 +22,43 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.internal.di.components;
+package com.jaspersoft.android.jaspermobile.data.store;
 
-import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
+
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 
-import dagger.Subcomponent;
+import javax.inject.Inject;
+
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
 @PerActivity
-@Subcomponent(
-        modules = {
-                ActivityModule.class,
-                LoadersModule.class,
-                ChooseReportModule.class
-        }
-)
-public interface ChooseReportComponent {
-    void inject(ChooseReportActivity chooseReportActivity);
+public class LibrarySearchQueryStore implements SearchQueryStore {
+    private final PublishSubject<Void> mPublisher = PublishSubject.create();
+    private String mSearchQuery;
+
+    @Inject
+    public LibrarySearchQueryStore() {
+    }
+
+    @Override
+    public String getQuery() {
+        return mSearchQuery;
+    }
+
+    @Override
+    public Observable<Void> observe() {
+        return mPublisher;
+    }
+
+    @Override
+    public void saveQuery(String query) {
+        mSearchQuery = query;
+        mPublisher.onNext(null);
+    }
 }

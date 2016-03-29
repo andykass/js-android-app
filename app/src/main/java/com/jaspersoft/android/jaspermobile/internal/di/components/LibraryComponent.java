@@ -24,11 +24,12 @@
 
 package com.jaspersoft.android.jaspermobile.internal.di.components;
 
-import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
+import com.jaspersoft.android.jaspermobile.ui.presenter.fragment.LibraryFragmentPresenter;
 
 import dagger.Subcomponent;
 
@@ -41,9 +42,9 @@ import dagger.Subcomponent;
         modules = {
                 ActivityModule.class,
                 LoadersModule.class,
-                ChooseReportModule.class
+                LibraryModule.class
         }
 )
-public interface ChooseReportComponent {
-    void inject(ChooseReportActivity chooseReportActivity);
+public interface LibraryComponent {
+    void inject(LibraryFragmentPresenter libraryFragmentPresenter);
 }

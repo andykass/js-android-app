@@ -30,6 +30,7 @@ import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourceMapper;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourcesSortMapper;
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
+import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
@@ -46,14 +47,17 @@ public class LibraryCatalogLoaderFactory extends CatalogLoadersFactory {
     private final Context mContext;
     private final JasperRestClient mClient;
     private final SortStore mSortStore;
+    private final SearchQueryStore mSearchQueryStore;
     private final ResourceMapper mResourceMapper;
     private final ResourcesSortMapper mResourcesSortMapper;
 
     @Inject
-    public LibraryCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, SortStore sortStore, ResourceMapper resourceMapper, ResourcesSortMapper resourcesSortMapper) {
+    public LibraryCatalogLoaderFactory(@ApplicationContext Context context, JasperRestClient client, SortStore sortStore,
+                                       SearchQueryStore searchQueryStore, ResourceMapper resourceMapper, ResourcesSortMapper resourcesSortMapper) {
         mContext = context;
         mClient = client;
         mSortStore = sortStore;
+        mSearchQueryStore = searchQueryStore;
         mResourceMapper = resourceMapper;
         mResourcesSortMapper = resourcesSortMapper;
     }
@@ -61,6 +65,7 @@ public class LibraryCatalogLoaderFactory extends CatalogLoadersFactory {
     @Override
     public CatalogLoader createLoader() {
         Sort sort = mSortStore.getSortType();
-        return new SearchResourcesLoader(mContext, mClient, mResourcesSortMapper.to(sort), mResourceMapper);
+        String searchQuery = mSearchQueryStore.getQuery();
+        return new SearchResourcesLoader(mContext, mClient, mResourcesSortMapper.to(sort), searchQuery, mResourceMapper);
     }
 }

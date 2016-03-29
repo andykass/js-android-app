@@ -55,13 +55,13 @@ public class JobsModule {
 
     @Provides
     @PerActivity
-    SortStore provideJobSortRepository(InMemoryJobsSortStore repository) {
-        return repository;
+    SortStore provideSortStore(InMemoryJobsSortStore store) {
+        return store;
     }
 
     @Provides
     @PerActivity
-    SearchQueryStore provideSearchQueryRepository(JobSearchQueryStore repository) {
-        return repository;
+    SearchQueryStore provideSearchQueryStore(JobSearchQueryStore store) {
+        return store;
     }
 }
