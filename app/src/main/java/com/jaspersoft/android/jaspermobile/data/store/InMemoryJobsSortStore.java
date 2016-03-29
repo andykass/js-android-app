@@ -70,6 +70,6 @@ public class InMemoryJobsSortStore implements SortStore {
 
     @Override
     public void saveSortType(Sort sortType) {
-
+        throw new UnsupportedOperationException("Save not supported for job sort type");
     }
 }
