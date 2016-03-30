@@ -4,6 +4,7 @@ import com.jaspersoft.android.jaspermobile.activities.save.ReportDownloadManager
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
+import com.jaspersoft.android.jaspermobile.internal.di.components.screen.ScheduleFormScreenComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
@@ -15,6 +16,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.Navigati
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ReportModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ReportRestViewerModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ReportVisualizeViewerModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.ScheduleFormScreenModule;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourcePresentationService;
 import com.jaspersoft.android.jaspermobile.util.resource.viewbinder.FileResourceBinder;
 
@@ -50,6 +52,8 @@ public interface ProfileComponent {
     LibraryComponent plus(LoadersModule loadersModule, LibraryModule jobsModule, ActivityModule activityModule);
 
     JobsComponent plus(LoadersModule loadersModule, JobsModule jobsModule, ActivityModule activityModule);
+
+    ScheduleFormScreenComponent plus(ScheduleFormScreenModule module);
 
     Profile getProfile();
     /**

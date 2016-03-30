@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.StartupActivityModule;
@@ -30,7 +31,7 @@ public final class StartupDelegate implements StartupContract.View {
 
     private BasePageState mState;
 
-    public StartupDelegate(Activity activity) {
+    public StartupDelegate(FragmentActivity activity) {
         ComponentProviderDelegate.INSTANCE
                 .getAppComponent(activity)
                 .plus(new StartupActivityModule(activity))

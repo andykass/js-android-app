@@ -187,7 +187,7 @@ public class ToolbarActivity extends BaseActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         mStartupDelegate.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }

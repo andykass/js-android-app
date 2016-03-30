@@ -1,4 +1,4 @@
-package com.jaspersoft.android.jaspermobile.ui.view.component;
+package com.jaspersoft.android.jaspermobile.ui.component;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.data.ComponentManager;

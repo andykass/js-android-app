@@ -20,7 +20,7 @@ import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.executor.PreExecutionThread;
 import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
 import com.jaspersoft.android.jaspermobile.network.cookie.CookieHandlerFactory;
-import com.jaspersoft.android.jaspermobile.ui.view.component.ProfileActivationListener;
+import com.jaspersoft.android.jaspermobile.ui.component.ProfileActivationListener;
 import com.jaspersoft.android.jaspermobile.util.DefaultPrefHelper_;
 import com.jaspersoft.android.sdk.network.Server;
 

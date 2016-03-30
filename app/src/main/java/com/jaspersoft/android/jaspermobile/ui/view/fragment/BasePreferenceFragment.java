@@ -2,6 +2,7 @@ package com.jaspersoft.android.jaspermobile.ui.view.fragment;
 
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.components.BaseActivityComponent;
 
@@ -18,6 +19,6 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     @NonNull
     public BaseActivityComponent getBaseActivityComponent() {
-        return ComponentProviderDelegate.INSTANCE.getBaseActivityComponent(getActivity());
+        return ComponentProviderDelegate.INSTANCE.getBaseActivityComponent((FragmentActivity) getActivity());
     }
 }

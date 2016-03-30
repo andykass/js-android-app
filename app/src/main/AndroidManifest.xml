@@ -136,12 +136,12 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activities.schedule.NewScheduleActivity_"/>
+            android:name=".ui.view.activity.NewScheduleActivity_"/>
 
         <activity
-            android:name=".activities.schedule.EditScheduleActivity_"/>
+            android:name=".ui.view.activity.EditScheduleActivity_"/>
 
-        <activity
+s        <activity
             android:name=".activities.file.FileViewerActivity_"/>
 
         <!-- Activity that allows to specify the application settings -->

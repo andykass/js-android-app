@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.ui.presenter;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
+import com.jaspersoft.android.jaspermobile.ui.component.presenter.BasePresenter;
 import com.jaspersoft.android.jaspermobile.ui.contract.CatalogContract;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
@@ -62,8 +63,8 @@ public class CatalogPresenter extends BasePresenter<CatalogContract.View> implem
     }
 
     @Override
-    protected void onBind() {
-        getView().showFirstLoading();
+    public void onBindView(CatalogContract.View view) {
+        view.showFirstLoading();
         mResourceLoader.initSearch(this);
     }
 

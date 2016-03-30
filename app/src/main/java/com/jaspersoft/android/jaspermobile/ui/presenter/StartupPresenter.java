@@ -24,7 +24,7 @@ import timber.log.Timber;
  * @since 2.3
  */
 @PerActivity
-public class StartupPresenter extends Presenter<StartupContract.View> implements StartupContract.ActionListener {
+public class StartupPresenter extends LegacyPresenter<StartupContract.View> implements StartupContract.ActionListener {
     private final Analytics mAnalytics;
     private final ComponentManager mComponentManager;
     private final PageFactory mPageFactory;

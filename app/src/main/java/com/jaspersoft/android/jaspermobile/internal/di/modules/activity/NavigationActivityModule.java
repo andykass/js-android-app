@@ -1,6 +1,6 @@
 package com.jaspersoft.android.jaspermobile.internal.di.modules.activity;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.ui.contract.NavigationContract;
@@ -15,7 +15,7 @@ import dagger.Provides;
  */
 @Module
 public final class NavigationActivityModule extends ActivityModule {
-    public NavigationActivityModule(Activity activity) {
+    public NavigationActivityModule(FragmentActivity activity) {
         super(activity);
     }
 

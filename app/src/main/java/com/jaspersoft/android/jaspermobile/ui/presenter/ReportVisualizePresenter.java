@@ -46,7 +46,7 @@ import timber.log.Timber;
  * @since 2.3
  */
 @PerActivity
-public class ReportVisualizePresenter extends Presenter<VisualizeReportContract.View> implements VisualizeReportContract.Action {
+public class ReportVisualizePresenter extends LegacyPresenter<VisualizeReportContract.View> implements VisualizeReportContract.Action {
 
     private final double mScreenDiagonal;
     private final String mReportUri;
