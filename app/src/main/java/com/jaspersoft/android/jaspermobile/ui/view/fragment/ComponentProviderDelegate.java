@@ -2,6 +2,7 @@ package com.jaspersoft.android.jaspermobile.ui.view.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.internal.di.HasComponent;
@@ -32,7 +33,7 @@ public enum ComponentProviderDelegate {
         return graphObject.getProfileComponent();
     }
 
-    public BaseActivityComponent getBaseActivityComponent(Activity activity) {
+    public BaseActivityComponent getBaseActivityComponent(FragmentActivity activity) {
         return getProfileComponent(activity)
                 .plusBase(new ActivityModule(activity));
     }

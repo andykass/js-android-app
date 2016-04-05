@@ -25,21 +25,31 @@
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
 /**
- * @author Andrew Tivodar
+ * TODO: reduce presenter on the basis of new abstraction
+ *
+ * @author Tom Koptel
  * @since 2.3
  */
-public abstract class BasePresenter<View> {
-
+public abstract class LegacyPresenter<View> {
     private View mView;
 
-    public final void bindView(View view) {
+    public final void injectView(View view) {
         mView = view;
-        onBind();
     }
 
     public View getView() {
         return mView;
     }
 
-    protected void onBind() {}
+    public void resume() {
+
+    }
+
+    public void pause() {
+
+    }
+
+    public void destroy() {
+
+    }
 }

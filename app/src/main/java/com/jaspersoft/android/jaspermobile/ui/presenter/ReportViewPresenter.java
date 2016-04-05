@@ -33,7 +33,7 @@ import timber.log.Timber;
  * @since 2.3
  */
 @PerActivity
-public class ReportViewPresenter extends Presenter<RestReportContract.View> implements RestReportContract.Action {
+public class ReportViewPresenter extends LegacyPresenter<RestReportContract.View> implements RestReportContract.Action {
     private final String mReportUri;
     private final RequestExceptionHandler mExceptionHandler;
     private final GetReportShowControlsPropertyCase mGetReportShowControlsPropertyCase;

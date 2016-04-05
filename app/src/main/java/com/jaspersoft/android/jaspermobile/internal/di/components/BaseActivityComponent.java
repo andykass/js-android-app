@@ -14,19 +14,18 @@ import com.jaspersoft.android.jaspermobile.activities.recent.fragment.RecentFrag
 import com.jaspersoft.android.jaspermobile.activities.repository.RepositoryPageFragment;
 import com.jaspersoft.android.jaspermobile.activities.repository.fragment.RepositoryFragment;
 import com.jaspersoft.android.jaspermobile.activities.save.fragment.SaveItemFragment;
-import com.jaspersoft.android.jaspermobile.activities.schedule.EditScheduleActivity;
-import com.jaspersoft.android.jaspermobile.activities.schedule.JobsFragment;
-import com.jaspersoft.android.jaspermobile.activities.schedule.NewScheduleActivity;
 import com.jaspersoft.android.jaspermobile.activities.settings.fragment.SettingsFragment;
 import com.jaspersoft.android.jaspermobile.activities.storage.SavedReportsFragment;
 import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItemsFragment;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.WebViewFragment;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.report.ReportCastActivity;
+import com.jaspersoft.android.jaspermobile.dialog.OutputFormatDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.PasswordDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.ReportOptionsFragmentDialog;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.JobsFragment;
 import com.jaspersoft.android.jaspermobile.util.ControllerFragment;
 import com.jaspersoft.android.jaspermobile.util.ResourceOpener;
 import com.jaspersoft.android.jaspermobile.util.filtering.FavoritesResourceFilter;
@@ -79,7 +78,7 @@ public interface BaseActivityComponent {
     void inject(RepositoryResourceFilter filter);
 
     void inject(ReportCastActivity reportCastActivity);
-    void inject(NewScheduleActivity newScheduleActivity);
-    void inject(EditScheduleActivity editScheduleActivity);
     void inject(ToolbarActivity toolbarActivity);
+
+    void inject(OutputFormatDialogFragment fragment);
 }

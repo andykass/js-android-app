@@ -22,32 +22,49 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.ui.presenter;
+package com.jaspersoft.android.jaspermobile.ui.component.presenter;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
- * @author Tom Koptel
+ * @author Andrew Tivodar
  * @since 2.3
  */
-public abstract class Presenter<View> {
-    private View mView;
+public abstract class BasePresenter<T> implements Presenter<T> {
+    protected T mView;
 
-    public final void injectView(View view) {
-        mView = view;
+    @Override
+    public void bindView(@NonNull T view) {
+        if (view == null) {
+            throw new IllegalArgumentException("View should not be null");
+        }
+        this.mView = view;
+        onBindView(view);
     }
 
-    public View getView() {
+    @Override
+    public void onBindView(T view) {
+    }
+
+    @Override
+    public void unbindView() {
+        this.mView = null;
+    }
+
+    @Override
+    public void onCreate(@Nullable PresenterBundle bundle) {
+    }
+
+    @Override
+    public void onDestroy() {
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull PresenterBundle bundle) {
+    }
+
+    protected T getView() {
         return mView;
-    }
-
-    public void resume() {
-
-    }
-
-    public void pause() {
-
-    }
-
-    public void destroy() {
-
     }
 }

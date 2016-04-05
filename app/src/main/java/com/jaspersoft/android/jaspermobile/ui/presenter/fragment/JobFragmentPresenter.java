@@ -40,6 +40,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogSearchPresenter;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.EditScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment;
@@ -130,7 +131,9 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
 
     @Override
     public void onPrimaryAction(JasperResource jasperResource) {
-
+        EditScheduleActivity_.intent(getActivity())
+                .jobId(Integer.valueOf(jasperResource.getId()))
+                .start();
     }
 
     @Override

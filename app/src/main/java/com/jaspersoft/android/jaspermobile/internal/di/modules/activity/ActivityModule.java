@@ -17,6 +17,7 @@ package com.jaspersoft.android.jaspermobile.internal.di.modules.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.ActivityContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
@@ -29,9 +30,9 @@ import dagger.Provides;
  */
 @Module
 public class ActivityModule {
-    private final Activity activity;
+    protected final FragmentActivity activity;
 
-    public ActivityModule(Activity activity) {
+    public ActivityModule(FragmentActivity activity) {
         this.activity = activity;
     }
 

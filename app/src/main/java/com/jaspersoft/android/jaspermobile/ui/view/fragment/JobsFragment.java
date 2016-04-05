@@ -22,7 +22,7 @@
  * <http://www.gnu.org/licenses/lgpl>.
  */
 
-package com.jaspersoft.android.jaspermobile.activities.schedule;
+package com.jaspersoft.android.jaspermobile.ui.view.fragment;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -37,13 +37,15 @@ import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.dialog.DeleteDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.EditScheduleActivity_;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.NewScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.util.ViewType;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.jaspermobile.util.resource.viewbinder.JasperResourceAdapter;

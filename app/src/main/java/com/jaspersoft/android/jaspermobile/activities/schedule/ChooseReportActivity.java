@@ -32,6 +32,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.ChooseReportModul
 import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.NewScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView_;

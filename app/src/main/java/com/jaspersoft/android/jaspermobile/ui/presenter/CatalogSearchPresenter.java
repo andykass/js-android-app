@@ -26,6 +26,7 @@ package com.jaspersoft.android.jaspermobile.ui.presenter;
 
 import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.ui.component.presenter.BasePresenter;
 import com.jaspersoft.android.jaspermobile.ui.contract.CatalogSearchContract;
 
 import javax.inject.Inject;

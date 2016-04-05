@@ -32,7 +32,7 @@ import rx.Subscriber;
  * @since 2.3
  */
 @PerActivity
-public final class AuthenticationPresenter extends Presenter<AuthenticationContract.View> implements AuthenticationContract.ActionListener {
+public final class AuthenticationPresenter extends LegacyPresenter<AuthenticationContract.View> implements AuthenticationContract.ActionListener {
 
     private final SaveProfileUseCase mSaveProfileUseCaseUseCase;
     private final ProfileFormValidation mProfileFormValidation;

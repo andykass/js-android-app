@@ -29,7 +29,7 @@ import timber.log.Timber;
  * @since 2.3
  */
 @PerActivity
-public final class NavigationPresenter extends Presenter<NavigationContract.View> implements NavigationContract.ActionListener {
+public final class NavigationPresenter extends LegacyPresenter<NavigationContract.View> implements NavigationContract.ActionListener {
     private final CookieHandler mCookieHandler;
     private final Navigator mNavigator;
     private final PageFactory mPageFactory;

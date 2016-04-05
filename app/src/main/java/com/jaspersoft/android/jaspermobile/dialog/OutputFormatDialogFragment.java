@@ -30,16 +30,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.util.JobOutputFormatConverter;
-import com.jaspersoft.android.sdk.client.ic.InputControlWrapper;
-import com.jaspersoft.android.sdk.service.data.schedule.JobOutputFormat;
+import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
+import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormatOutputs;
+import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import javax.inject.Inject;
 
 /**
  * @author Andrew Tivodar
@@ -48,20 +48,27 @@ import java.util.Set;
 public class OutputFormatDialogFragment extends BaseDialogFragment implements DialogInterface.OnMultiChoiceClickListener {
 
     private final static String FORMATS_ARG = "formats";
+    private ArrayList<JobFormViewEntity.OutputFormat> selectedFormats;
 
-    private List<JobOutputFormat> supportedFormats;
-    private ArrayList<JobOutputFormat> selectedFormats;
+    @Inject
+    JobFormatOutputs mOutputs;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ComponentProviderDelegate.INSTANCE
+                .getBaseActivityComponent(getActivity())
+                .inject(this);
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setTitle(R.string.sr_output_format);
-
-        createSupportedJobOutputFormatsList();
-
-        builder.setMultiChoiceItems(JobOutputFormatConverter.toStringsArray(getContext(), supportedFormats), getSelected(), this);
+        builder.setMultiChoiceItems(mOutputs.getLabels(), mOutputs.getSelected(selectedFormats), this);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -85,8 +92,20 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
         Bundle args = getArguments();
         if (args != null) {
             if (args.containsKey(FORMATS_ARG)) {
-                selectedFormats = (ArrayList<JobOutputFormat>) args.getSerializable(FORMATS_ARG);
+                selectedFormats = (ArrayList<JobFormViewEntity.OutputFormat>) args.getSerializable(FORMATS_ARG);
             }
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        if (which >= mOutputs.size()) return;
+
+        JobFormViewEntity.OutputFormat item = mOutputs.get(which);
+        if (isChecked) {
+            selectedFormats.add(item);
+        } else {
+            selectedFormats.remove(item);
         }
     }
 
@@ -99,43 +118,6 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
         return new OutputFormatFragmentBuilder(fragmentManager);
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-        if (which >= supportedFormats.size()) return;
-
-        JobOutputFormat item = supportedFormats.get(which);
-        if (isChecked) {
-            selectedFormats.add(item);
-        } else {
-            selectedFormats.remove(item);
-        }
-    }
-
-    private void createSupportedJobOutputFormatsList() {
-        supportedFormats = new ArrayList<>();
-        supportedFormats.add(JobOutputFormat.CSV);
-        supportedFormats.add(JobOutputFormat.DOCX);
-        supportedFormats.add(JobOutputFormat.XLS_NOPAG);
-        supportedFormats.add(JobOutputFormat.XLS);
-        supportedFormats.add(JobOutputFormat.HTML);
-        supportedFormats.add(JobOutputFormat.ODS);
-        supportedFormats.add(JobOutputFormat.ODT);
-        supportedFormats.add(JobOutputFormat.PDF);
-        supportedFormats.add(JobOutputFormat.RTF);
-        supportedFormats.add(JobOutputFormat.XLSX_NOPAG);
-        supportedFormats.add(JobOutputFormat.XLSX);
-        supportedFormats.add(JobOutputFormat.PPTX);
-    }
-
-    private boolean[] getSelected() {
-        boolean[] selected = new boolean[supportedFormats.size()];
-        for (JobOutputFormat selectedFormat : selectedFormats) {
-            int index = supportedFormats.indexOf(selectedFormat);
-            selected[index] = true;
-        }
-        return selected;
-    }
-
     //---------------------------------------------------------------------
     // Dialog Builder
     //---------------------------------------------------------------------
@@ -146,8 +128,8 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
             super(fragmentManager);
         }
 
-        public OutputFormatFragmentBuilder setSelectedFormats(ArrayList<JobOutputFormat> formats) {
-            args.putSerializable(FORMATS_ARG, formats);
+        public OutputFormatFragmentBuilder setSelectedFormats(List<JobFormViewEntity.OutputFormat> formats) {
+            args.putSerializable(FORMATS_ARG, new ArrayList<>(formats));
             return this;
         }
 
@@ -162,6 +144,6 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
     //---------------------------------------------------------------------
 
     public interface OutputFormatClickListener extends DialogClickListener {
-        void onOutputFormatSelected(ArrayList<JobOutputFormat> outputFormatList);
+        void onOutputFormatSelected(List<JobFormViewEntity.OutputFormat> selectedFormats);
     }
 }
