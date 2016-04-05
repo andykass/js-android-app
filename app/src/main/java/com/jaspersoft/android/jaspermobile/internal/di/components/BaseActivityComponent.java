@@ -25,7 +25,6 @@ import com.jaspersoft.android.jaspermobile.dialog.ReportOptionsFragmentDialog;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
-import com.jaspersoft.android.jaspermobile.ui.view.fragment.JobsFragment;
 import com.jaspersoft.android.jaspermobile.util.ControllerFragment;
 import com.jaspersoft.android.jaspermobile.util.ResourceOpener;
 import com.jaspersoft.android.jaspermobile.util.filtering.FavoritesResourceFilter;
@@ -52,7 +51,6 @@ public interface BaseActivityComponent {
     void inject(SimpleInfoFragment simpleInfoFragment);
     void inject(ResourceInfoFragment resourceInfoFragment);
     void inject(ReportInfoFragment reportInfoFragment);
-    void inject(JobsFragment jobsFragment);
     void inject(FileLoadFragment fileLoadFragment);
     void inject(FileViewerActivity fileViewerActivity);
     void inject(FavoritesFragment favoritesFragment);

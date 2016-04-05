@@ -101,7 +101,11 @@
 
         <activity android:name=".activities.viewer.html.report.ReportCastActivity_"/>
 
-        <activity android:name=".activities.schedule.ChooseReportActivity"/>
+        <activity android:name=".ui.view.activity.schedule.ChooseReportActivity"/>
+
+        <activity android:name=".ui.view.activity.schedule.NewScheduleActivity_"/>
+
+        <activity android:name=".ui.view.activity.schedule.EditScheduleActivity_"/>
 
         <!-- Activity that performs report viewing in HTML format -->
         <activity
@@ -136,12 +140,6 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.view.activity.NewScheduleActivity_"/>
-
-        <activity
-            android:name=".ui.view.activity.EditScheduleActivity_"/>
-
-s        <activity
             android:name=".activities.file.FileViewerActivity_"/>
 
         <!-- Activity that allows to specify the application settings -->

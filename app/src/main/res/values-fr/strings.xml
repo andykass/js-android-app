@@ -351,7 +351,6 @@
     <string name="sch_jobs">Programmes</string>
     <string name="sch_not_found">Aucune tâche n\'est prévue.</string>
     <string name="sch_format_paginated">%1$s(Paginé)</string>
-    <string name="sch_next_run_label">Exécutez ensuite : %1$s (état : %2$s)</string>
     <string name="sch_state_normal">Normal</string>
     <string name="sch_state_complete">Terminé</string>
     <string name="sch_state_executing">En cours d\'exécution</string>

@@ -351,7 +351,6 @@
     <string name="sch_jobs">スケジュール</string>
     <string name="sch_not_found">ジョブがスケジュールされていません。</string>
     <string name="sch_format_paginated">%1$s(ページ区切り付き)</string>
-    <string name="sch_next_run_label">次の実行：%1$s(状態：%2$s)</string>
     <string name="sch_state_normal">ノーマル</string>
     <string name="sch_state_complete">完了</string>
     <string name="sch_state_executing">実行しています</string>

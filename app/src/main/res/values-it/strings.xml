@@ -351,7 +351,6 @@
     <string name="sch_jobs">Pianificazioni</string>
     <string name="sch_not_found">Nessun lavoro pianificato.</string>
     <string name="sch_format_paginated">%1$s(Impaginato)</string>
-    <string name="sch_next_run_label">Esegui successivo: %1$s (stato: %2$s)</string>
     <string name="sch_state_normal">Normale</string>
     <string name="sch_state_complete">Completa</string>
     <string name="sch_state_executing">Esecuzione</string>

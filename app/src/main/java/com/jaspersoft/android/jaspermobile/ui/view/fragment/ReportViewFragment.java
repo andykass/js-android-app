@@ -54,7 +54,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.components.ReportRestView
 import com.jaspersoft.android.jaspermobile.ui.contract.RestReportContract;
 import com.jaspersoft.android.jaspermobile.ui.page.ReportPageState;
 import com.jaspersoft.android.jaspermobile.ui.presenter.ReportViewPresenter;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.NewScheduleActivity_;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.schedule.NewScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.util.FavoritesHelper;
 import com.jaspersoft.android.jaspermobile.util.print.ReportPrintJob;
 import com.jaspersoft.android.jaspermobile.util.print.ResourcePrintJob;

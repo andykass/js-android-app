@@ -25,10 +25,10 @@
 package com.jaspersoft.android.jaspermobile.internal.di.components;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobsActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.fragment.JobFragmentPresenter;
+import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
 
 import dagger.Subcomponent;
 
@@ -39,11 +39,11 @@ import dagger.Subcomponent;
 @PerActivity
 @Subcomponent(
         modules = {
-                ActivityModule.class,
-                LoadersModule.class,
-                JobsModule.class
+                FragmentModule.class,
+                JobsActivityModule.class
         }
 )
 public interface JobsComponent {
     void inject(JobFragmentPresenter jobFragmentPresenter);
+    void inject(CatalogView catalogView);
 }

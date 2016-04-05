@@ -28,6 +28,7 @@ import com.jaspersoft.android.jaspermobile.data.entity.mapper.ResourcesSortMappe
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.sdk.service.repository.SortType;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import rx.subjects.PublishSubject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
+@PerScreen
 public class InMemoryLibrarySortStore implements SortStore {
     private final static SortType DEFAULT_SORT_TYPE = SortType.LABEL;
 

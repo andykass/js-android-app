@@ -37,18 +37,14 @@ import android.view.ViewGroup;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LibraryModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogSearchPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment_;
-import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
+import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView_;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -66,13 +62,13 @@ import rx.Subscription;
  * @since 2.3
  */
 @EFragment
-public class LibraryFragmentPresenter extends BaseFragment implements CatalogPresenter.ItemSelectListener {
+public class LibraryFragmentPresenter extends BaseFragment {
 
     private static final String SEARCH_VIEW_TAG = "library_search_view";
 
     private List<Subscription> mSubscriptionList = new ArrayList<>();
 
-    private CatalogView catalogView;
+    private LibraryCatalogView catalogView;
     @OptionsMenuItem(R.id.search)
     MenuItem catalogSearchItem;
 
@@ -98,10 +94,6 @@ public class LibraryFragmentPresenter extends BaseFragment implements CatalogPre
 
     @AfterViews
     void init() {
-        getProfileComponent()
-                .plus(new LoadersModule(this), new LibraryModule(), new ActivityModule(getActivity()))
-                .inject(this);
-
         initCatalog();
 
         ((ToolbarActivity) getActivity()).setCustomToolbarView(null);
@@ -129,20 +121,9 @@ public class LibraryFragmentPresenter extends BaseFragment implements CatalogPre
         }
     }
 
-    @Override
-    public void onPrimaryAction(JasperResource jasperResource) {
-
-    }
-
-    @Override
-    public void onSecondaryAction(JasperResource jasperResource) {
-
-    }
-
     private void initCatalog() {
         catalogView.setEventListener(mCatalogPresenter);
         mCatalogPresenter.bindView(catalogView);
-        mCatalogPresenter.setListener(this);
     }
 
     private void initSearch() {

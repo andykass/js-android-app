@@ -79,6 +79,12 @@
     <string name="r_cm_removed_from_favorites">Removed from favorites.</string>
     <string name="r_cm_remove_from_favorites_failed">Failed to remove from favorites.</string>
     <string name="r_cm_print">Print</string>
+    <string name="r_cm_info" translatable="false">Info</string>
+    <string name="r_cm_cancel_saving" translatable="false">Cancel saving</string>
+    <string name="r_cm_enable" translatable="false">Enable</string>
+    <string name="r_cm_disable" translatable="false">Disable</string>
+    <string name="r_cm_edit" translatable="false">Edit</string>
+    <string name="r_cm_delete" translatable="false">Delete</string>
 
     <!-- Progress Dialog -->
     <string name="r_pd_running_report_msg">Running report...</string>
@@ -172,7 +178,7 @@
     <string name="sch_jobs">Schedules</string>
     <string name="sch_not_found">No job is scheduled.</string>
     <string name="sch_format_paginated">%1$s(Paginated)</string>
-    <string name="sch_next_run_label">Next run: %1$s (state: %2$s)</string>
+    <string name="sch_next_run_label" translatable="false">Next run: %1$s</string>
     <string name="sch_state_normal">Normal</string>
     <string name="sch_state_complete">Complete</string>
     <string name="sch_state_executing">Executing</string>

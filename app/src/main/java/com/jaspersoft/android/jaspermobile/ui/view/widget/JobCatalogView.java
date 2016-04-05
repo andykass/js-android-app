@@ -29,6 +29,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.ui.view.viewholder.JobResourceViewHolder;
 
 import org.androidannotations.annotations.EView;
 import org.androidannotations.annotations.EViewGroup;
@@ -52,14 +54,8 @@ public class JobCatalogView extends CatalogView {
     }
 
     @Override
-    void initViews() {
-        super.initViews();
-
-        mAdapter.setSecondaryActionHidden(true);
-    }
-
-    @Override
     public void showError() {
+        super.showError();
         message.setVisibility(View.VISIBLE);
         message.setText(getContext().getString(R.string.failed_load_data));
     }

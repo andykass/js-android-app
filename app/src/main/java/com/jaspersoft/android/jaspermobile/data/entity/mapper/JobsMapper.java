@@ -24,19 +24,15 @@
 
 package com.jaspersoft.android.jaspermobile.data.entity.mapper;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.internal.di.ApplicationContext;
+import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.jaspermobile.util.resource.JobResource;
-import com.jaspersoft.android.sdk.service.data.repository.Resource;
 import com.jaspersoft.android.sdk.service.data.schedule.JobState;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,40 +44,40 @@ import javax.inject.Inject;
 @PerProfile
 public class JobsMapper {
 
-    private final Context mContext;
-
     @Inject
-    public JobsMapper(@ApplicationContext Context context) {
-        mContext = context;
+    public JobsMapper() {
     }
 
     @NonNull
-    public List<JasperResource> toJasperResources(@NonNull List<JobUnit> jobs) {
-        List<JasperResource> list = new ArrayList<>(jobs.size());
+    public List<JobResource> toJobResources(@NonNull Collection<JobUnit> jobs) {
+        List<JobResource> jobsResources = new ArrayList<>();
         for (JobUnit job : jobs) {
-            if (job != null) {
-                JasperResource jasperResource = new JobResource(String.valueOf(job.getId()), job.getLabel(),
-                        job.getDescription(), job.getNextFireTime(), parseJobState(job.getState()));
-                list.add(jasperResource);
-            }
+            JobResource jobResource = toJobResource(job);
+            jobsResources.add(jobResource);
         }
-        return list;
+        return jobsResources;
     }
 
-    private String parseJobState(JobState jobState) {
+    @NonNull
+    public JobResource toJobResource(@NonNull JobUnit job) {
+        int jobState = parseJobState(job.getState());
+        return new JobResource(job.getLabel(), job.getId(), job.getNextFireTime(), jobState);
+    }
+
+    private int parseJobState(JobState jobState) {
         switch (jobState) {
             case NORMAL:
-                return mContext.getString(R.string.sch_state_normal);
+                return JobResource.NORMAL;
             case COMPLETE:
-                return mContext.getString(R.string.sch_state_complete);
+                return JobResource.COMPLETE;
             case EXECUTING:
-                return mContext.getString(R.string.sch_state_executing);
+                return JobResource.EXECUTING;
             case ERROR:
-                return mContext.getString(R.string.sch_state_error);
+                return JobResource.ERROR;
             case PAUSED:
-                return mContext.getString(R.string.sch_state_paused);
+                return JobResource.PAUSED;
             default:
-                return mContext.getString(R.string.sch_state_unknown);
+                return JobResource.UNKNOWN;
         }
     }
 }

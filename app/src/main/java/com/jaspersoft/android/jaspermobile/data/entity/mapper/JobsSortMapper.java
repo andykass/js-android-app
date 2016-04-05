@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.data.entity.mapper;
 import com.jaspersoft.android.jaspermobile.domain.entity.JobSort;
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 
 import javax.inject.Inject;
@@ -35,7 +36,7 @@ import javax.inject.Inject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
+@PerScreen
 public class JobsSortMapper {
 
     @Inject

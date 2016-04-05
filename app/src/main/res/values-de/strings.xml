@@ -373,7 +373,6 @@
     <string name="sch_jobs">Terminpläne</string>
     <string name="sch_not_found">Kein Auftrag geplant</string>
     <string name="sch_format_paginated">%1$s (Paginiert)</string>
-    <string name="sch_next_run_label">Nächster Lauf: %1$s (Stand: %2$s)</string>
     <string name="sch_state_normal">Normal</string>
     <string name="sch_state_complete">Abgeschlossen</string>
     <string name="sch_state_executing">Führe aus</string>

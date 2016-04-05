@@ -60,4 +60,8 @@
         <item name="colorAccent">@color/js_blue</item>
     </style>
 
+    <style name="Theme.JasperMobile.Toolbar.Resources" parent="Base.Theme.AppCompat.Light">
+        <item name="android:textColorSecondary">@color/js_gray</item>
+    </style>
+
 </resources>

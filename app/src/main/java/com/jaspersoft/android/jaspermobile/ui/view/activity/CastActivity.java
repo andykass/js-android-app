@@ -42,6 +42,7 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.ui.component.activity.ComponentCacheActivity;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourceCastDialogFactory;
 import com.jaspersoft.android.jaspermobile.util.cast.ResourcePresentationService;
 import com.jaspersoft.android.sdk.service.data.server.ServerVersion;
@@ -56,7 +57,7 @@ import org.androidannotations.annotations.OptionsMenuItem;
  */
 @EActivity
 @OptionsMenu(R.menu.cast_menu)
-public abstract class CastActivity extends ToolbarActivity {
+public abstract class CastActivity extends ComponentCacheActivity {
 
     @OptionsMenuItem(R.id.castReport)
     protected MenuItem castAction;

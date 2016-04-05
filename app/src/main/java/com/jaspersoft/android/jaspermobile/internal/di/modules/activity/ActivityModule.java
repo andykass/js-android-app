@@ -41,14 +41,14 @@ public class ActivityModule {
      */
     @Provides
     @PerActivity
-    Activity activity() {
+    public Activity activity() {
         return this.activity;
     }
 
     @Provides
     @PerActivity
     @ActivityContext
-    Context context() {
+    public Context context() {
         return activity;
     }
 }

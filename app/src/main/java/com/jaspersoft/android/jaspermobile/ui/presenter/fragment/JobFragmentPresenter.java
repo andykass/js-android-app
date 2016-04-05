@@ -24,56 +24,63 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.activities.schedule.ChooseReportActivity;
-import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.JobsModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.LoadersModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.components.screen.JobsScreenComponent;
+import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.JobsActivityComponent;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.ChooserReportActivityModule;
+import com.jaspersoft.android.jaspermobile.ui.component.fragment.PresenterControllerFragment;
+import com.jaspersoft.android.jaspermobile.ui.component.fragment.PresenterControllerFragment2;
+import com.jaspersoft.android.jaspermobile.ui.component.presenter.Presenter;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.schedule.ChooseReportActivity;
+import com.jaspersoft.android.jaspermobile.dialog.DeleteJobDialogFragment;
+import com.jaspersoft.android.jaspermobile.domain.entity.JasperResource;
+import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
+import com.jaspersoft.android.jaspermobile.internal.di.components.JobsComponent;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobsActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
+import com.jaspersoft.android.jaspermobile.ui.eventbus.JobResourcesBus;
+import com.jaspersoft.android.jaspermobile.ui.navigation.Navigator;
+import com.jaspersoft.android.jaspermobile.ui.navigation.Page;
+import com.jaspersoft.android.jaspermobile.ui.navigation.PageFactory;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
 import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogSearchPresenter;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.EditScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.ui.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.CatalogSearchFragment_;
-import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
+import com.jaspersoft.android.jaspermobile.ui.view.widget.JobCatalogView;
+import com.jaspersoft.android.jaspermobile.util.resource.ReportResource;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenuItem;
-import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Subscription;
 
 /**
  * @author Andrew Tivodar
  * @since 2.3
  */
-@EFragment(R.layout.fragment_jobs)
-public class JobFragmentPresenter extends BaseFragment implements CatalogPresenter.ItemSelectListener {
+@EFragment
+public class JobFragmentPresenter extends PresenterControllerFragment2<JobsScreenComponent> implements JobResourcesBus.EventListener, DeleteJobDialogFragment.DeleteJobDialogClickListener {
 
     private static final String SEARCH_VIEW_TAG = "job_search_view";
+    private static final int CHOOSE_REPORT_REQUEST = 2112;
+    private static final int EDIT_JOB_REQUEST = 5512;
 
-    private List<Subscription> mSubscriptionList = new ArrayList<>();
-
-    @ViewById(R.id.catalogView)
-    CatalogView mCatalogView;
+    JobCatalogView mCatalogView;
     @OptionsMenuItem(R.id.search)
     MenuItem catalogSearchItem;
 
@@ -81,17 +88,50 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
     CatalogPresenter mCatalogPresenter;
     @Inject
     CatalogSearchPresenter mCatalogSearchPresenter;
-
     @Inject
-    SearchQueryStore mSearchQueryStore;
+    JobResourceModel mJobResourceModel;
+    @Inject
+    JobResourcesBus mJobResourcesBus;
+    @Inject
+    Navigator mNavigator;
+    @Inject
+    PageFactory mPageFactory;
+    private JobsActivityComponent mActivityComponent;
 
-    @AfterViews
-    void init() {
-        getProfileComponent()
-                .plus(new LoadersModule(this), new JobsModule(), new ActivityModule(getActivity()))
-                .inject(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_jobs, container, false);
+        mCatalogView = (JobCatalogView) view.findViewById(R.id.catalogView);
+
+        JobsActivityComponent activityComponent = activityComponent();
+        activityComponent.inject(this);
+
+        registerPresenter(mCatalogPresenter);
+        registerPresenter(mCatalogSearchPresenter);
+
+        activityComponent.inject(mCatalogView);
+
+        return view;
+    }
+
+    private JobsActivityComponent activityComponent() {
+        if (mActivityComponent == null) {
+            mActivityComponent = getComponent().plus(new JobsActivityModule(this));
+        }
+        return mActivityComponent;
+    }
+
+    @Override
+    protected JobsScreenComponent onCreateNonConfigurationComponent() {
+        return getProfileComponent().newJobsScreen();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         initCatalog();
+        mJobResourcesBus.subscribe(this);
 
         ((ToolbarActivity) getActivity()).setCustomToolbarView(null);
 
@@ -99,14 +139,6 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.sch_jobs));
         }
-
-        mSubscriptionList.add(mSearchQueryStore.observe().subscribe(new ResourcesObserver()));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     @Override
@@ -115,36 +147,36 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
         initSearch();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    @Click(R.id.newJob)
+    protected void newJobAction() {
+        Page jobEditPage = mPageFactory.createChooseJobPage();
+        mNavigator.navigateForResult(jobEditPage, CHOOSE_REPORT_REQUEST);
+    }
 
-        for (Subscription subscription : mSubscriptionList) {
-            subscription.unsubscribe();
+    @OnActivityResult(CHOOSE_REPORT_REQUEST)
+    void onJobChosen(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        JasperResource resource = (JasperResource) data.getSerializableExtra(ChooseReportActivity.RESULT_JASPER_RESOURCE);
+        Page jobEditPage = mPageFactory.createNewJobPage(toJasperResource(resource));
+        mNavigator.navigateForResult(jobEditPage, EDIT_JOB_REQUEST);
+    }
+
+    @OnActivityResult(EDIT_JOB_REQUEST)
+    void onJobEdited(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            mCatalogPresenter.refresh();
         }
     }
 
-    @Click(R.id.newJob)
-    protected void newJobAction() {
-        startActivityForResult(new Intent(getActivity(), ChooseReportActivity.class), ChooseReportActivity.CHOOSE_REPORT_REQUEST_CODE);
-    }
-
     @Override
-    public void onPrimaryAction(JasperResource jasperResource) {
-        EditScheduleActivity_.intent(getActivity())
-                .jobId(Integer.valueOf(jasperResource.getId()))
-                .start();
-    }
-
-    @Override
-    public void onSecondaryAction(JasperResource jasperResource) {
-
+    public void onDeleteConfirmed(int jobId) {
+        mJobResourceModel.requestToDelete(jobId);
     }
 
     private void initCatalog() {
         mCatalogView.setEventListener(mCatalogPresenter);
         mCatalogPresenter.bindView(mCatalogView);
-        mCatalogPresenter.setListener(this);
     }
 
     private void initSearch() {
@@ -157,10 +189,28 @@ public class JobFragmentPresenter extends BaseFragment implements CatalogPresent
         mCatalogSearchPresenter.bindView(catalogSearchFragment);
     }
 
-    private class ResourcesObserver extends SimpleSubscriber<Void> {
-        @Override
-        public void onNext(Void item) {
-            mCatalogPresenter.refresh();
-        }
+    @Override
+    public void onSelect(int id) {
+        Page jobEditPage = mPageFactory.createJobEditPage(id);
+        mNavigator.navigateForResult(jobEditPage, EDIT_JOB_REQUEST);
+    }
+
+    @Override
+    public void onDeleteRequest(int id) {
+        String deleteMessage = getActivity().getString(R.string.sdr_delete_message);
+
+        DeleteJobDialogFragment.createBuilder(getActivity(), getFragmentManager())
+                .setJobId(id)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.sdr_delete_title)
+                .setMessage(deleteMessage)
+                .setPositiveButtonText(R.string.spm_delete_btn)
+                .setNegativeButtonText(R.string.cancel)
+                .setTargetFragment(this)
+                .show();
+    }
+
+    private ReportResource toJasperResource(JasperResource resource) {
+        return new ReportResource(resource.getUri().toString(), resource.getLabel(), resource.getDescription(), null);
     }
 }

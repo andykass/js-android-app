@@ -13,7 +13,7 @@ import com.jaspersoft.android.jaspermobile.dialog.ReportOptionsFragmentDialog;
 import com.jaspersoft.android.jaspermobile.domain.LoadOptionParamsRequest;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.NewScheduleActivity_;
+import com.jaspersoft.android.jaspermobile.ui.view.activity.schedule.NewScheduleActivity_;
 import com.jaspersoft.android.jaspermobile.util.ResourceOpener;
 import com.jaspersoft.android.sdk.service.data.report.option.ReportOption;
 import com.jaspersoft.android.sdk.util.FileUtils;

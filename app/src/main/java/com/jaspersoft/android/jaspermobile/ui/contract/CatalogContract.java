@@ -24,6 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.ui.contract;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.Resource;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
 import java.util.List;
@@ -34,9 +35,9 @@ import java.util.List;
  */
 public interface CatalogContract {
     interface View {
-        void showResources(List<JasperResource> jasperResourceList);
+        void showResources(List<Resource> resources);
 
-        void clearResources();
+        void updateResource(int id);
 
         void showFirstLoading();
 
@@ -53,9 +54,5 @@ public interface CatalogContract {
         void onRefresh();
 
         void onScrollToEnd();
-
-        void onItemClick(String itemId);
-
-        void onActionClick(String itemId);
     }
 }

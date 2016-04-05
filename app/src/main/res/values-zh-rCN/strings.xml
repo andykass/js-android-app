@@ -349,7 +349,6 @@
     <string name="sch_jobs">Cronogramas</string>
     <string name="sch_not_found">Não há tarefas agendadas</string>
     <string name="sch_format_paginated">%1$s (Paginados)</string>
-    <string name="sch_next_run_label">Próxima execução: %1$s (status: %2$s)</string>
     <string name="sch_state_normal">Normal</string>
     <string name="sch_state_complete">Concluído</string>
     <string name="sch_state_executing">Em execução</string>

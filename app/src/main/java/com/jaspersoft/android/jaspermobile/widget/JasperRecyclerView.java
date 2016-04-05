@@ -116,6 +116,10 @@ public class JasperRecyclerView extends RecyclerView {
         void setViewType(ViewType viewType) {
             this.mViewType = viewType == ViewType.LIST ? LIST_TYPE : GRID_TYPE;
         }
+
+        protected void onViewTypeChanged(ViewType viewType) {
+
+        }
     }
 
     public class GridLayoutManagerWithLoading extends GridLayoutManager {

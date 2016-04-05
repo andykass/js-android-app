@@ -29,21 +29,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.domain.entity.Resource;
 import com.jaspersoft.android.jaspermobile.ui.contract.CatalogContract;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
-import com.jaspersoft.android.jaspermobile.util.resource.viewbinder.JasperResourceAdapter;
+import com.jaspersoft.android.jaspermobile.ui.view.component.ResourcesAdapter;
 import com.jaspersoft.android.jaspermobile.widget.JasperRecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,7 +56,7 @@ import javax.inject.Named;
  * @since 2.3
  */
 @EViewGroup
-public abstract class CatalogView extends FrameLayout implements CatalogContract.View, SwipeRefreshLayout.OnRefreshListener, JasperResourceAdapter.OnResourceInteractionListener {
+public abstract class CatalogView extends FrameLayout implements CatalogContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private final static CatalogContract.EventListener EMPTY = new EmptyEventListener();
 
@@ -69,7 +71,9 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     @Named("THRESHOLD")
     protected int mTreshold;
 
-    protected JasperResourceAdapter mAdapter;
+    @Inject
+    ResourcesAdapter mAdapter;
+
     private CatalogContract.EventListener mEventListener = EMPTY;
 
     public CatalogView(Context context) {
@@ -90,6 +94,8 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
 
     @AfterViews
     void initViews() {
+        ((SimpleItemAnimator) resourcesList.getItemAnimator()).setSupportsChangeAnimations(false);
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
                 R.color.js_blue,
@@ -97,23 +103,38 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
                 R.color.js_blue,
                 R.color.js_dark_blue);
 
-        createDataAdapter();
+        resourcesList.addOnScrollListener(new ScrollListener());
     }
 
     @Override
-    public void showResources(List<JasperResource> jasperResourceList) {
-        mAdapter.setResources(jasperResourceList);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        resourcesList.setAdapter(mAdapter);
     }
 
     @Override
-    public void clearResources() {
-        mAdapter.clear();
+    public void showResources(List<Resource> resources) {
+        mAdapter.setResource(resources);
+    }
+
+    @Override
+    public void showError() {
+        mAdapter.setResource(new ArrayList<Resource>());
+    }
+
+    @Override
+    public void updateResource(int id) {
+        mAdapter.notifyItemChangedById(id);
     }
 
     @Override
     public void showFirstLoading() {
-        message.setVisibility(View.VISIBLE);
-        message.setText(R.string.loading_msg);
+        if (mAdapter.getItemCount() > 0) {
+            swipeRefreshLayout.setRefreshing(true);
+        } else {
+            message.setVisibility(View.VISIBLE);
+            message.setText(R.string.loading_msg);
+        }
     }
 
     @Override
@@ -125,30 +146,12 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     public void hideLoading() {
         swipeRefreshLayout.setRefreshing(false);
         message.setVisibility(View.GONE);
-
         mAdapter.hideLoading();
     }
 
     @Override
     public void onRefresh() {
         mEventListener.onRefresh();
-    }
-
-    @Override
-    public void onResourceItemClicked(JasperResource jasperResource) {
-        mEventListener.onItemClick(jasperResource.getId());
-    }
-
-    @Override
-    public void onSecondaryActionClicked(JasperResource jasperResource) {
-        mEventListener.onItemClick(jasperResource.getId());
-    }
-
-    private void createDataAdapter() {
-        mAdapter = new JasperResourceAdapter(getContext());
-        mAdapter.setOnItemInteractionListener(this);
-        resourcesList.setAdapter(mAdapter);
-        resourcesList.addOnScrollListener(new ScrollListener());
     }
 
     private static final class EmptyEventListener implements CatalogContract.EventListener {
@@ -160,16 +163,6 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
 
         @Override
         public void onScrollToEnd() {
-
-        }
-
-        @Override
-        public void onItemClick(String itemId) {
-
-        }
-
-        @Override
-        public void onActionClick(String itemId) {
 
         }
     }

@@ -28,6 +28,7 @@ import com.jaspersoft.android.jaspermobile.data.entity.mapper.JobsSortMapper;
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
 import com.jaspersoft.android.jaspermobile.domain.store.SortStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 
 import java.util.Collection;
@@ -42,7 +43,7 @@ import rx.subjects.PublishSubject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
+@PerScreen
 public class InMemoryJobsSortStore implements SortStore {
     private final static JobSortType DEFAULT_SORT_TYPE = JobSortType.SORTBY_JOBNAME;
     private final PublishSubject<Void> mPublisher = PublishSubject.create();

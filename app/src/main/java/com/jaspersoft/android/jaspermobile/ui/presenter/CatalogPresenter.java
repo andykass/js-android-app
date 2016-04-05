@@ -24,12 +24,15 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
+import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
+import com.jaspersoft.android.jaspermobile.domain.entity.Resource;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
+import com.jaspersoft.android.jaspermobile.domain.model.ResourceModel;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.ui.component.presenter.BasePresenter;
 import com.jaspersoft.android.jaspermobile.ui.contract.CatalogContract;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 
 import java.util.List;
@@ -43,86 +46,72 @@ import javax.inject.Inject;
 @PerActivity
 public class CatalogPresenter extends BasePresenter<CatalogContract.View> implements CatalogContract.EventListener, CatalogFetcher.LoaderCallback {
 
-    @Inject
-    CatalogFetcher mResourceLoader;
-    @Inject
-    RequestExceptionHandler mRequestExceptionHandler;
-
-    private ItemSelectListener mListener;
+    private final CatalogFetcher mResourceLoader;
+    private final RequestExceptionHandler mRequestExceptionHandler;
+    protected final ResourceModel mResourceModel;
 
     @Inject
-    public CatalogPresenter() {
-    }
-
-    public void setListener(ItemSelectListener listener) {
-        mListener = listener;
+    public CatalogPresenter(CatalogFetcher resourceLoader, RequestExceptionHandler requestExceptionHandler, ResourceModel resourceModel) {
+        this.mResourceLoader = resourceLoader;
+        this.mRequestExceptionHandler = requestExceptionHandler;
+        this.mResourceModel = resourceModel;
     }
 
     public void refresh() {
-        onRefresh();
+        mResourceLoader.reset();
     }
 
     @Override
     public void onBindView(CatalogContract.View view) {
-        view.showFirstLoading();
-        mResourceLoader.initSearch(this);
+        mResourceModel.subscribe(new SimpleSubscriber<Integer>() {
+            @Override
+            public void onNext(Integer item) {
+                getView().updateResource(item);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mRequestExceptionHandler.showAuthErrorIfExists(e);
+            }
+        });
+        mResourceLoader.subscribe(this);
+       mResourceLoader.search();
     }
 
     @Override
     public void onRefresh() {
-        reloadResources();
+        mResourceLoader.reset();
     }
 
     @Override
     public void onScrollToEnd() {
-        mResourceLoader.requestNext();
+        mResourceLoader.search();
     }
 
     @Override
-    public void onItemClick(String itemId) {
-        if (mListener == null) return;
-
-        JasperResource jasperResource = mResourceLoader.fetch(itemId);
-        mListener.onPrimaryAction(jasperResource);
-    }
-
-    @Override
-    public void onActionClick(String itemId) {
-        if (mListener == null) return;
-
-        JasperResource jasperResource = mResourceLoader.fetch(itemId);
-        mListener.onSecondaryAction(jasperResource);
-    }
-
-    @Override
-    public void onLoadStarted() {
-        getView().showNextLoading();
-    }
-
-    @Override
-    public void onLoaded(List<JasperResource> jasperResources) {
-        getView().hideLoading();
-        if (jasperResources.isEmpty()) {
-            getView().showEmpty();
+    public void onLoadStarted(boolean first) {
+        if (first) {
+            getView().showFirstLoading();
         } else {
-            getView().showResources(jasperResources);
+            getView().showNextLoading();
         }
     }
 
     @Override
-    public void onError(ServiceException ex) {
+    public void onLoaded(List<Resource> resources) {
+        getView().hideLoading();
+        getView().showResources(resources);
+        if (resources.isEmpty()) {
+            getView().showEmpty();
+        }
+    }
+
+    @Override
+    public void onError(ServiceException ex, boolean first) {
         mRequestExceptionHandler.showAuthErrorIfExists(ex);
-        getView().showError();
-    }
-
-    private void reloadResources() {
-        getView().clearResources();
-        getView().showFirstLoading();
-        mResourceLoader.resetSearch();
-    }
-
-    public interface ItemSelectListener {
-        void onPrimaryAction(JasperResource jasperResource);
-        void onSecondaryAction(JasperResource jasperResource);
+        getView().hideLoading();
+        if (first) {
+            getView().showError();
+        }
     }
 }

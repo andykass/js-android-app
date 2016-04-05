@@ -24,9 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.domain.fetchers;
 
-import android.support.annotation.NonNull;
-
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.Resource;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 
 import java.util.List;
@@ -37,19 +35,36 @@ import java.util.List;
  */
 public interface CatalogFetcher {
 
-    void initSearch(LoaderCallback loaderCallback);
+    void subscribe(LoaderCallback loaderCallback);
 
-    void resetSearch();
+    void unsubscribe();
 
-    void requestNext();
+    void reset();
 
-    JasperResource fetch(String id);
+    void search();
 
-    interface LoaderCallback {
-        void onLoadStarted();
+    interface LoaderCallback{
+        void onLoadStarted(boolean first);
 
-        void onLoaded(List<JasperResource> result);
+        void onLoaded(List<Resource> resources);
 
-        void onError(ServiceException ex);
+        void onError(ServiceException ex, boolean first);
     }
+
+    LoaderCallback EMPTY = new LoaderCallback() {
+        @Override
+        public void onLoadStarted(boolean first) {
+
+        }
+
+        @Override
+        public void onLoaded(List<Resource> resources) {
+
+        }
+
+        @Override
+        public void onError(ServiceException ex, boolean first) {
+
+        }
+    };
 }

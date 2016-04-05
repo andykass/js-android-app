@@ -43,8 +43,7 @@ public abstract class BasePresenter<T> implements Presenter<T> {
         onBindView(view);
     }
 
-    @Override
-    public void onBindView(T view) {
+    protected void onBindView(T view) {
     }
 
     @Override

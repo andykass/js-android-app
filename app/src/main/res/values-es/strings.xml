@@ -372,7 +372,6 @@
     <string name="sch_jobs">Programaciones</string>
     <string name="sch_not_found">No hay trabajos programados.</string>
     <string name="sch_format_paginated">%1$s (Paginado)</string>
-    <string name="sch_next_run_label">Siguiente ejecución: %1$s (estado: %2$s)</string>
     <string name="sch_state_normal">Normal</string>
     <string name="sch_state_complete">Completo</string>
     <string name="sch_state_executing">Ejecutando</string>

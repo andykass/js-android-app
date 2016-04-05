@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        app:layout_aspectRatio="110%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/metadataContainer"
+            android:background="@android:color/white"
+            android:contentDescription="@string/img_cd_grid_item"
+            tools:background="@drawable/bg_gradient_grey"
+            tools:src="@drawable/im_thumbnail_report" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_resource_item" />
+
+        <RelativeLayout
+            android:id="@+id/metadataContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/grid_item_metadata_height"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@android:id/text1"
+                style="@style/Widget.JasperMobile.TextView.Grid.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toLeftOf="@+id/actionsToolbar"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                tools:text="Large Text" />
+
+            <android.support.v7.widget.Toolbar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/actionsToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:minHeight="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:theme="@style/Theme.JasperMobile.Toolbar.Resources"
+                app:popupTheme="@style/Theme.JasperMobile"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.percent.PercentFrameLayout>

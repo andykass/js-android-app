@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.data.store;
 
 import com.jaspersoft.android.jaspermobile.domain.store.SearchQueryStore;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 
 import javax.inject.Inject;
 
@@ -37,7 +38,7 @@ import rx.subjects.PublishSubject;
  * @author Andrew Tivodar
  * @since 2.3
  */
-@PerActivity
+@PerScreen
 public class LibrarySearchQueryStore implements SearchQueryStore {
     private final PublishSubject<Void> mPublisher = PublishSubject.create();
     private String mSearchQuery;

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.jaspersoft.android.jaspermobile.internal.di.ActivityContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
+import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
 import javax.inject.Inject;
 
@@ -29,5 +30,20 @@ public class PageFactory {
     @NonNull
     public Page createSignUpPage() {
         return new SignUpPage(mContext);
+    }
+
+    @NonNull
+    public Page createChooseJobPage() {
+        return new ChooseJobPage(mContext);
+    }
+
+    @NonNull
+    public Page createJobEditPage(int jobId) {
+        return new EditJobPage(mContext, jobId);
+    }
+
+    @NonNull
+    public Page createNewJobPage(JasperResource jasperResource) {
+        return new CreateJobPage(mContext, jasperResource);
     }
 }
