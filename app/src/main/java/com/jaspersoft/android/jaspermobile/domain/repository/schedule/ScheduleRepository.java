@@ -11,4 +11,5 @@ public interface ScheduleRepository {
     JobForm readForm(int id) throws Exception;
     JobData createForm(JobForm form) throws Exception;
     JobForm updateForm(int jobId, JobForm form) throws Exception;
+    void deleteJob(int id) throws Exception;
 }

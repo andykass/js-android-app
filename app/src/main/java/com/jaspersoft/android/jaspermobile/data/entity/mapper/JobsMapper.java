@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.data.entity.mapper;
 import android.support.annotation.NonNull;
 
 import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.JobTarget;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
 import com.jaspersoft.android.sdk.service.data.schedule.JobState;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;
@@ -61,7 +62,8 @@ public class JobsMapper {
     @NonNull
     public JobResource toJobResource(@NonNull JobUnit job) {
         int jobState = parseJobState(job.getState());
-        return new JobResource(job.getLabel(), job.getId(), job.getNextFireTime(), jobState);
+        JobTarget jobTarget = new JobTarget(job.getReportUri(), job.getReportLabel());
+        return new JobResource(job.getLabel(), job.getId(), job.getPreviousFireTime(), job.getNextFireTime(), jobState, job.getDescription(), jobTarget, job.getOwner().toString());
     }
 
     private int parseJobState(JobState jobState) {

@@ -3,6 +3,7 @@ package com.jaspersoft.android.jaspermobile.ui.navigation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.ActivityContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
@@ -45,5 +46,10 @@ public class PageFactory {
     @NonNull
     public Page createNewJobPage(JasperResource jasperResource) {
         return new CreateJobPage(mContext, jasperResource);
+    }
+
+    @NonNull
+    public Page createJobInfoPage(JobResource job) {
+        return new JobInfoPage(mContext, job);
     }
 }

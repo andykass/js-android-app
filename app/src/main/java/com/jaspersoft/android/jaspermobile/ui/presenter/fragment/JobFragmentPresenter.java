@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.JobsScreenComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.JobsActivityComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.ChooserReportActivityModule;
@@ -105,11 +106,13 @@ public class JobFragmentPresenter extends PresenterControllerFragment2<JobsScree
 
         JobsActivityComponent activityComponent = activityComponent();
         activityComponent.inject(this);
+        activityComponent.inject(mCatalogView);
+
+        initCatalog();
+        mJobResourcesBus.subscribe(this);
 
         registerPresenter(mCatalogPresenter);
         registerPresenter(mCatalogSearchPresenter);
-
-        activityComponent.inject(mCatalogView);
 
         return view;
     }
@@ -130,15 +133,18 @@ public class JobFragmentPresenter extends PresenterControllerFragment2<JobsScree
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initCatalog();
-        mJobResourcesBus.subscribe(this);
-
         ((ToolbarActivity) getActivity()).setCustomToolbarView(null);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.sch_jobs));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCatalogPresenter.refresh();
     }
 
     @Override
@@ -190,9 +196,15 @@ public class JobFragmentPresenter extends PresenterControllerFragment2<JobsScree
     }
 
     @Override
-    public void onSelect(int id) {
+    public void onSelect(JobResource job) {
+        Page jobInfoPage = mPageFactory.createJobInfoPage(job);
+        mNavigator.navigate(jobInfoPage, false);
+    }
+
+    @Override
+    public void onEditRequest(int id) {
         Page jobEditPage = mPageFactory.createJobEditPage(id);
-        mNavigator.navigateForResult(jobEditPage, EDIT_JOB_REQUEST);
+        mNavigator.navigate(jobEditPage, false);
     }
 
     @Override

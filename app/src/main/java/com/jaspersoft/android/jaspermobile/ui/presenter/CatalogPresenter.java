@@ -62,7 +62,13 @@ public class CatalogPresenter extends BasePresenter<CatalogContract.View> implem
     }
 
     @Override
-    public void onBindView(CatalogContract.View view) {
+    public void onInit() {
+        mResourceLoader.search();
+        getView().showFirstLoading();
+    }
+
+    @Override
+    protected void onResumeView() {
         mResourceModel.subscribe(new SimpleSubscriber<Integer>() {
             @Override
             public void onNext(Integer item) {
@@ -75,7 +81,11 @@ public class CatalogPresenter extends BasePresenter<CatalogContract.View> implem
             }
         });
         mResourceLoader.subscribe(this);
-       mResourceLoader.search();
+    }
+
+    @Override
+    protected void onPauseView() {
+        mResourceLoader.unsubscribe();
     }
 
     @Override

@@ -26,10 +26,8 @@ package com.jaspersoft.android.jaspermobile.ui.component.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.jaspersoft.android.jaspermobile.ui.component.presenter.Presenter;
-import com.jaspersoft.android.jaspermobile.ui.component.presenter.PresenterControllerDelegate;
 import com.jaspersoft.android.jaspermobile.ui.component.presenter.PresenterControllerDelegate2;
 
 import java.util.ArrayList;
@@ -39,40 +37,40 @@ import java.util.List;
 public abstract class PresenterControllerFragment2<C>
         extends ComponentControllerFragment<C> {
 
-    private final List<PresenterControllerDelegate2<?>> mDelegates = new ArrayList<>();
+    private final List<PresenterControllerDelegate2> mDelegates = new ArrayList<>();
 
-    protected final <P extends Presenter> void registerPresenter(P presenter) {
-        PresenterControllerDelegate2<P> presenterDelegate = new PresenterControllerDelegate2<>(presenter);
+    protected final void registerPresenter(Presenter presenter) {
+        PresenterControllerDelegate2 presenterDelegate = new PresenterControllerDelegate2(presenter);
         mDelegates.add(presenterDelegate);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        for (PresenterControllerDelegate2<?> delegate : mDelegates) {
+        for (PresenterControllerDelegate2 delegate : mDelegates) {
             delegate.onResume();
         }
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        for (PresenterControllerDelegate2 delegate : mDelegates) {
+            delegate.onPause();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        for (PresenterControllerDelegate2<?> delegate : mDelegates) {
+        for (PresenterControllerDelegate2 delegate : mDelegates) {
             delegate.onSaveInstanceState();
         }
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onDestroyView() {
-        for (PresenterControllerDelegate2<?> delegate : mDelegates) {
-            delegate.onDestroyView();
-        }
-        super.onDestroyView();
-    }
-
-    @Override
     public void onDestroy() {
-        for (PresenterControllerDelegate2<?> delegate : mDelegates) {
+        for (PresenterControllerDelegate2 delegate : mDelegates) {
             delegate.onDestroy();
         }
         super.onDestroy();

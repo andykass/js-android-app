@@ -31,6 +31,10 @@ public class Navigator {
         mActivity.startActivityForResult(page.getIntent(), result);
     }
 
+    public void navigateUp(){
+        mActivity.finish();
+    }
+
     protected void startActivity(Page page) {
         mActivity.startActivity(page.getIntent());
     }

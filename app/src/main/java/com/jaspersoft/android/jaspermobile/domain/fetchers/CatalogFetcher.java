@@ -50,21 +50,4 @@ public interface CatalogFetcher {
 
         void onError(ServiceException ex, boolean first);
     }
-
-    LoaderCallback EMPTY = new LoaderCallback() {
-        @Override
-        public void onLoadStarted(boolean first) {
-
-        }
-
-        @Override
-        public void onLoaded(List<Resource> resources) {
-
-        }
-
-        @Override
-        public void onError(ServiceException ex, boolean first) {
-
-        }
-    };
 }

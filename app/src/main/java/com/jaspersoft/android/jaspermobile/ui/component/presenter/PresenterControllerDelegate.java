@@ -24,12 +24,12 @@ public class PresenterControllerDelegate<P extends Presenter> {
     }
 
     public void onDestroyView() {
-        presenter.unbindView();
+        presenter.pauseView();
     }
 
     public void onDestroy() {
         if (!isDestroyedBySystem) {
-            presenter.onDestroy();
+            presenter.unbindView();
         }
     }
 }

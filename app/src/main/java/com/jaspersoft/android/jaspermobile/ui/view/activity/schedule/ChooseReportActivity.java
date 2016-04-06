@@ -40,6 +40,8 @@ import com.jaspersoft.android.jaspermobile.ui.presenter.CatalogPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.LibraryCatalogView_;
 
+import org.androidannotations.annotations.EActivity;
+
 import javax.inject.Inject;
 
 /**
@@ -58,15 +60,15 @@ public class ChooseReportActivity extends PresenterControllerActivity2<ChooseRep
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose_report);
 
         ChooseReportActivityComponent activityComponent = activityComponent();
         activityComponent.inject(this);
         registerPresenter(mCatalogPresenter);
 
-        LibraryCatalogView catalogView = LibraryCatalogView_.build(this);
+        LibraryCatalogView catalogView = (LibraryCatalogView) findViewById(R.id.catalogView);
         activityComponent.inject(catalogView);
 
-        setContentView(catalogView);
         catalogView.setEventListener(mCatalogPresenter);
         mCatalogPresenter.bindView(catalogView);
 

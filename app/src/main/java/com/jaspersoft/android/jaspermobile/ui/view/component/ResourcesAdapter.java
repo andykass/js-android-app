@@ -76,6 +76,10 @@ public class ResourcesAdapter<RT extends Resource, VH extends ResourceViewHolder
         notifyDataSetChanged();
     }
 
+    public List<Resource> getResources() {
+        return (List<Resource>) mResources;
+    }
+
     public final void notifyItemChangedById(int id) {
         for (int i = 0; i < mResources.size(); i++) {
             if (mResources.get(i).getId() == id) {
@@ -127,6 +131,10 @@ public class ResourcesAdapter<RT extends Resource, VH extends ResourceViewHolder
 
         mIsLoading = false;
         notifyItemRemoved(mResources.size());
+    }
+
+    public boolean isLoading() {
+        return mIsLoading;
     }
 
     private ResourceViewHolderFactory<RT, VH> getCurrentViewHolderFactory() {

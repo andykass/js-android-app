@@ -35,7 +35,7 @@ public abstract class BasePresenter<T> implements Presenter<T> {
     protected T mView;
 
     @Override
-    public void bindView(@NonNull T view) {
+    public final void bindView(@NonNull T view) {
         if (view == null) {
             throw new IllegalArgumentException("View should not be null");
         }
@@ -43,12 +43,14 @@ public abstract class BasePresenter<T> implements Presenter<T> {
         onBindView(view);
     }
 
-    protected void onBindView(T view) {
+    @Override
+    public final void pauseView() {
+        onPauseView();
     }
 
     @Override
-    public void unbindView() {
-        this.mView = null;
+    public final void resumeView() {
+        onResumeView();
     }
 
     @Override
@@ -56,14 +58,24 @@ public abstract class BasePresenter<T> implements Presenter<T> {
     }
 
     @Override
-    public void onDestroy() {
+    public final void unbindView() {
+        this.mView = null;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull PresenterBundle bundle) {
     }
 
-    protected T getView() {
+    protected void onBindView(T view) {
+    }
+
+    protected void onResumeView() {
+    }
+
+    protected void onPauseView() {
+    }
+
+    protected final T getView() {
         return mView;
     }
 }

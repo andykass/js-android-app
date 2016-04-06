@@ -107,6 +107,9 @@
 
         <activity android:name=".ui.view.activity.schedule.EditScheduleActivity_"/>
 
+        <activity android:name=".ui.presenter.activity.JobInfoActivity_"
+                  android:theme="@style/Theme.JasperMobile.NoToolbar"/>
+
         <!-- Activity that performs report viewing in HTML format -->
         <activity
             android:name=".activities.viewer.html.SavedReportHtmlViewerActivity_"

@@ -7,6 +7,8 @@ import com.jaspersoft.android.sdk.service.data.schedule.JobData;
 import com.jaspersoft.android.sdk.service.data.schedule.JobForm;
 import com.jaspersoft.android.sdk.service.report.schedule.ReportScheduleService;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 /**
@@ -39,5 +41,11 @@ public class NetworkScheduleRepository implements ScheduleRepository {
         ReportScheduleService service = mRestClient.syncScheduleService();
         service.updateJob(jobId, form);
         return form;
+    }
+
+    @Override
+    public void deleteJob(int id) throws Exception {
+        ReportScheduleService service = mRestClient.syncScheduleService();
+        service.deleteJobs(Collections.singleton(id));
     }
 }

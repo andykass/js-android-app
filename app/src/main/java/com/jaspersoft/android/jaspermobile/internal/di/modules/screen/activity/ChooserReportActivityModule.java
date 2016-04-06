@@ -83,7 +83,7 @@ public class ChooserReportActivityModule extends ActivityModule {
 
     @Provides
     @PerActivity
-    ResourcesAdapter provideResourcesAdapter(ResourcesAdapter<JasperResource, JasperResourceViewHolder, JasperResourceModel> adapter) {
+    ResourcesAdapter<?, ?, ?> provideResourcesAdapter(ResourcesAdapter<JasperResource, JasperResourceViewHolder, JasperResourceModel> adapter) {
         return adapter;
     }
 }
