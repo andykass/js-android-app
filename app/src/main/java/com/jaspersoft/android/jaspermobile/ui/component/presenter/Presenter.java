@@ -7,6 +7,7 @@ public interface Presenter<T> {
     void onCreate(@Nullable PresenterBundle bundle);
     void onSaveInstanceState(@NonNull PresenterBundle bundle);
     void bindView(T view);
+    void pauseView();
+    void resumeView();
     void unbindView();
-    void onDestroy();
 }

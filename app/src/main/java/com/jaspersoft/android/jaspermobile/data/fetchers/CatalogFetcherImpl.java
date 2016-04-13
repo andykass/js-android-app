@@ -25,12 +25,14 @@ public abstract class CatalogFetcherImpl<SearchType, ResourceType extends Resour
     private Subscription mSearchSubscription;
     private CompositeSubscription mSubscriptionsList;
     private boolean mPreviousWasEmpty;
+    private boolean mDelivered;
 
     public CatalogFetcherImpl() {
         this.mSubscriptionsList = new CompositeSubscription();
         this.mResourceList = new ArrayList<>();
         this.mLoaderCallback = EMPTY;
         this.mPreviousWasEmpty = true;
+        this.mDelivered = true;
     }
 
     public LoaderCallback getLoaderCallback() {
@@ -45,8 +47,9 @@ public abstract class CatalogFetcherImpl<SearchType, ResourceType extends Resour
     public void subscribe(LoaderCallback loaderCallback) {
         mLoaderCallback = loaderCallback;
 
-        if (!mResourceList.isEmpty()) {
+        if (!mDelivered) {
             mLoaderCallback.onLoaded(mResourceList);
+            mDelivered = true;
         }
     }
 
@@ -131,4 +134,21 @@ public abstract class CatalogFetcherImpl<SearchType, ResourceType extends Resour
             reset();
         }
     }
+
+    LoaderCallback EMPTY = new LoaderCallback() {
+        @Override
+        public void onLoadStarted(boolean first) {
+
+        }
+
+        @Override
+        public void onLoaded(List<Resource> resources) {
+            mDelivered = false;
+        }
+
+        @Override
+        public void onError(ServiceException ex, boolean first) {
+
+        }
+    };
 }

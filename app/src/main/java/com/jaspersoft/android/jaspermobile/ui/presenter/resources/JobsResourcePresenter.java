@@ -54,7 +54,7 @@ public class JobsResourcePresenter extends ResourcePresenter<JobResourceContract
 
     @Override
     public void onSelect() {
-        mJobResourcesBus.sendSelectEvent(getEntity().getId());
+        mJobResourcesBus.sendSelectEvent(getEntity());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class JobsResourcePresenter extends ResourcePresenter<JobResourceContract
 
     @Override
     public void onEditAction() {
-        mJobResourcesBus.sendSelectEvent(getEntity().getId());
+        mJobResourcesBus.sendEditRequestEvent(getEntity().getId());
     }
 
     @Override

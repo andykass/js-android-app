@@ -188,6 +188,15 @@
     <string name="sdr_delete_title">Delete schedule</string>
     <string name="sdr_delete_message">Do you really want to delete this schedule?</string>
     <string name="sch_choose_report" translatable="false">Choose report to schedule…</string>
+    <string name="sch_resource_label" translatable="false">Report label</string>
+    <string name="sch_resource_uri" translatable="false">Report uri</string>
+    <string name="sch_label" translatable="false">Name</string>
+    <string name="sch_description" translatable="false">Description</string>
+    <string name="sch_id" translatable="false">Id</string>
+    <string name="sch_owner" translatable="false">Owner</string>
+    <string name="sch_state" translatable="false">State</string>
+    <string name="sch_lass_run" translatable="false">Last run</string>
+    <string name="sch_next_run" translatable="false">Next run</string>
 
     <!-- Report Viewer Activity -->
     <string name="rv_ab_save_report">Save Report</string>

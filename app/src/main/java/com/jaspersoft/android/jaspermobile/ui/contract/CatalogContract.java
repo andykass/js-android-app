@@ -26,6 +26,7 @@ package com.jaspersoft.android.jaspermobile.ui.contract;
 
 import com.jaspersoft.android.jaspermobile.domain.entity.Resource;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
+import com.jaspersoft.android.sdk.service.exception.ServiceException;
 
 import java.util.List;
 
@@ -51,6 +52,8 @@ public interface CatalogContract {
     }
 
     interface EventListener {
+        void onInit();
+
         void onRefresh();
 
         void onScrollToEnd();

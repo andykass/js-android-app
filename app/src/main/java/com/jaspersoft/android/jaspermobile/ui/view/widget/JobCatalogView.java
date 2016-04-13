@@ -56,13 +56,11 @@ public class JobCatalogView extends CatalogView {
     @Override
     public void showError() {
         super.showError();
-        message.setVisibility(View.VISIBLE);
         message.setText(getContext().getString(R.string.failed_load_data));
     }
 
     @Override
     public void showEmpty() {
-        message.setVisibility(View.VISIBLE);
         message.setText(getContext().getString(R.string.sch_not_found));
     }
 }

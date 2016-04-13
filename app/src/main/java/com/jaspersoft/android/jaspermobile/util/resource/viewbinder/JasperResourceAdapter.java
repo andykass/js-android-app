@@ -73,7 +73,6 @@ public class JasperResourceAdapter extends JasperRecyclerView.Adapter<BaseResour
     }
 
     public void addAll(List<JasperResource> jasperResources) {
-       int fas = jasperResources.get(2).hashCode();
         int pos = this.jasperResources.size();
         this.jasperResources.addAll(jasperResources);
         notifyItemRangeInserted(pos, jasperResources.size());

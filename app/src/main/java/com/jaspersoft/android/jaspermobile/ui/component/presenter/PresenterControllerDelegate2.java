@@ -24,15 +24,16 @@
 
 package com.jaspersoft.android.jaspermobile.ui.component.presenter;
 
-public class PresenterControllerDelegate2<P extends Presenter> {
+public class PresenterControllerDelegate2 {
     private boolean isDestroyedBySystem;
-    private final P presenter;
+    private final Presenter presenter;
 
-    public PresenterControllerDelegate2(P presenter) {
+    public PresenterControllerDelegate2(Presenter presenter) {
         this.presenter = presenter;
     }
 
     public void onResume() {
+        presenter.resumeView();
         isDestroyedBySystem = false;
     }
 
@@ -40,13 +41,13 @@ public class PresenterControllerDelegate2<P extends Presenter> {
         isDestroyedBySystem = true;
     }
 
-    public void onDestroyView() {
-        presenter.unbindView();
+    public void onPause() {
+        presenter.pauseView();
     }
 
     public void onDestroy() {
         if (!isDestroyedBySystem) {
-            presenter.onDestroy();
+            presenter.unbindView();
         }
     }
 }

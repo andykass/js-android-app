@@ -91,7 +91,7 @@ public class JobsActivityModule extends FragmentModule {
 
     @Provides
     @PerActivity
-    ResourcesAdapter provideResourcesAdapter(ResourcesAdapter<JobResource, JobResourceViewHolder, JobResourceModel> adapter) {
+    ResourcesAdapter<?, ?, ?> provideResourcesAdapter(ResourcesAdapter<JobResource, JobResourceViewHolder, JobResourceModel> adapter) {
         return adapter;
     }
 }

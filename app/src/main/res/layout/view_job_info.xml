@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2015 TIBCO Software, Inc. All rights reserved.
+  ~ http://community.jaspersoft.com/project/jaspermobile-android
+  ~
+  ~ Unless you have purchased a commercial license agreement from TIBCO Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is part of TIBCO Jaspersoft Mobile for Android.
+  ~
+  ~ TIBCO Jaspersoft Mobile is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ TIBCO Jaspersoft Mobile is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with TIBCO Jaspersoft Mobile for Android. If not, see
+  ~ <http://www.gnu.org/licenses/lgpl>.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/jobInfoToolbar"
+        style="@style/Widget.JasperMobile.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_menu_navigation_up">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="right"
+            android:visibility="gone"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            style="@style/Widget.JasperMobile.CardView.Auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/info_content_side_margin_port"
+            android:layout_marginRight="@dimen/info_content_side_margin_port"
+            app:cardBackgroundColor="@color/js_dark_gray"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_resource_label"/>
+
+                    <TextView
+                        android:id="@+id/reportLabelValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_resource_uri"/>
+
+                    <TextView
+                        android:id="@+id/reportUriValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_label"/>
+
+                    <TextView
+                        android:id="@+id/jobNameValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_description"/>
+
+                    <TextView
+                        android:id="@+id/jobDescriptionValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_id"/>
+
+                    <TextView
+                        android:id="@+id/jobIdValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_owner"/>
+
+                    <TextView
+                        android:id="@+id/jobOwnerValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_state"/>
+
+                    <TextView
+                        android:id="@+id/jobStateValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_lass_run"/>
+
+                    <TextView
+                        android:id="@+id/jobLastRunValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/inputControl.label"
+                        android:text="@string/sch_next_run"/>
+
+                    <TextView
+                        android:id="@+id/jobNextRunValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+</merge>

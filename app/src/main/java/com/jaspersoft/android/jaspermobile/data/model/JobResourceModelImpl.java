@@ -120,7 +120,6 @@ public class JobResourceModelImpl implements JobResourceModel {
                     }
                 });
 
-
         mThumbnailSubscriptions.add(jobId, deleteSubscription);
         mUpdateSubscriber.onNext(jobId);
     }

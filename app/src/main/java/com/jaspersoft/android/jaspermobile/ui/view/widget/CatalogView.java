@@ -25,6 +25,9 @@
 package com.jaspersoft.android.jaspermobile.ui.view.widget;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,9 +75,10 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     protected int mTreshold;
 
     @Inject
-    ResourcesAdapter mAdapter;
+    ResourcesAdapter<?, ?, ?> mAdapter;
 
     private CatalogContract.EventListener mEventListener = EMPTY;
+    private boolean mInited;
 
     public CatalogView(Context context) {
         super(context);
@@ -110,6 +114,41 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         resourcesList.setAdapter(mAdapter);
+        if (mInited) return;
+
+        mEventListener.onInit();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        ss.message = message.getText().toString();
+        ss.refreshing = swipeRefreshLayout.isRefreshing();
+        ss.loading = mAdapter.isLoading();
+        ss.resources = new ArrayList<>(mAdapter.getResources());
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        mAdapter.setResource(ss.resources);
+        if (ss.loading) {
+            mAdapter.showLoading();
+        }
+        swipeRefreshLayout.setRefreshing(ss.refreshing);
+        message.setText(ss.message);
+
+        mInited = true;
     }
 
     @Override
@@ -132,7 +171,6 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
         if (mAdapter.getItemCount() > 0) {
             swipeRefreshLayout.setRefreshing(true);
         } else {
-            message.setVisibility(View.VISIBLE);
             message.setText(R.string.loading_msg);
         }
     }
@@ -145,7 +183,7 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     @Override
     public void hideLoading() {
         swipeRefreshLayout.setRefreshing(false);
-        message.setVisibility(View.GONE);
+        message.setText("");
         mAdapter.hideLoading();
     }
 
@@ -155,6 +193,11 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
     }
 
     private static final class EmptyEventListener implements CatalogContract.EventListener {
+
+        @Override
+        public void onInit() {
+
+        }
 
         @Override
         public void onRefresh() {
@@ -191,5 +234,58 @@ public abstract class CatalogView extends FrameLayout implements CatalogContract
                 mEventListener.onScrollToEnd();
             }
         }
+    }
+
+    //---------------------------------------------------------------------
+    // Saved state
+    //---------------------------------------------------------------------
+
+    static class SavedState extends BaseSavedState {
+        private final static String MESSAGE_KEY = "message";
+        private final static String REFRESHING_KEY = "refreshing";
+        private final static String LOADING_KEY = "loading";
+        private final static String RESOURCES_KEY = "resources";
+
+        String message;
+        boolean refreshing;
+        boolean loading;
+        ArrayList<Resource> resources;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+
+            Bundle bundle = in.readBundle();
+            message = bundle.getString(MESSAGE_KEY);
+            refreshing = bundle.getBoolean(REFRESHING_KEY);
+            loading = bundle.getBoolean(LOADING_KEY);
+            resources = (ArrayList<Resource>) bundle.getSerializable(RESOURCES_KEY);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+
+            Bundle state = new Bundle();
+            state.putString(MESSAGE_KEY, message);
+            state.putBoolean(REFRESHING_KEY, refreshing);
+            state.putBoolean(LOADING_KEY, loading);
+            state.putSerializable(RESOURCES_KEY, resources);
+
+            out.writeBundle(state);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
