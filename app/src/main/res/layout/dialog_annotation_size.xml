@@ -22,32 +22,16 @@
   ~ along with TIBCO Jaspersoft Mobile for Android. If not, see
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SeekBar
+        android:id="@+id/annotationSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="12"/>
 
-    <item
-        android:id="@+id/favoriteAction"
-        android:icon="@drawable/ic_menu_star_outline"
-        android:title="@string/r_cm_add_to_favorites"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/aboutAction"
-        android:icon="@drawable/ic_menu_info"
-        android:title="@string/r_cm_view_details"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/refreshAction"
-        android:icon="@drawable/ic_menu_refresh"
-        android:title="@string/r_ab_refresh"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/shareAction"
-        android:icon="@drawable/ic_menu_share"
-        android:title="@string/r_cm_share"
-        app:showAsAction="ifRoom" />
-
-</menu>
+</FrameLayout>

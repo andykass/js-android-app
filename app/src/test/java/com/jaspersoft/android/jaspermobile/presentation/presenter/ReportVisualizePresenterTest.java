@@ -4,9 +4,11 @@ import android.webkit.ConsoleMessage;
 
 import com.jaspersoft.android.jaspermobile.FakePostExecutionThread;
 import com.jaspersoft.android.jaspermobile.FakePreExecutionThread;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.VisualizeTemplate;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetVisualizeExecOptionsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetVisualizeTemplateCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.SaveScreenCaptureCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.presentation.contract.VisualizeReportContract;
 import com.jaspersoft.android.jaspermobile.presentation.model.visualize.ErrorEvent;
@@ -29,6 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -38,6 +42,7 @@ import rx.Subscriber;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,6 +58,7 @@ public class ReportVisualizePresenterTest {
     private static final double SCREEN_DIAGONAL = 10.1;
     private static final String JSON_REPORT_PARAMS = "{}";
     private static final String REPORT_URI = "/my/uri";
+    private static final File SCREEN_CAPTURED_FILE = new File("my_file.jpg");
 
     private ReportVisualizePresenter mReportVisualizePresenter;
     private FakeGetVisualizeTemplateCase mGetVisualizeTemplateCase;
@@ -61,6 +67,7 @@ public class ReportVisualizePresenterTest {
     private FakeFlushInputControlsCase mFakeFlushInputControlsCase;
     private FakeGetReportMetadataCase mFakeGetReportMetadataCase;
     private FakeAuthorizeSessionUseCase mFakeAuthorizeSessionUseCase;
+    private FakeSaveScreenCaptureCase mFakeSaveScreenCaptureCase;
 
     @Mock
     RequestExceptionHandler mExceptionHandler;
@@ -94,9 +101,25 @@ public class ReportVisualizePresenterTest {
                 mGetJsonParamsCase,
                 mFakeFlushInputControlsCase,
                 mFakeGetReportMetadataCase,
-                mFakeAuthorizeSessionUseCase
-        );
+                mFakeAuthorizeSessionUseCase,
+                mFakeSaveScreenCaptureCase);
         mReportVisualizePresenter.injectView(mView);
+    }
+
+    @Test
+    public void should_handle_screen_capture_error() throws Exception {
+        when(mExceptionHandler.extractMessage(any(Throwable.class))).thenReturn("Opps!");
+        when(mFakeSaveScreenCaptureCase.buildUseCaseObservable(any(ScreenCapture.class)))
+                .thenReturn(Observable.<File>error(new IOException()));
+
+        mReportVisualizePresenter.shareReport(null);
+        verify(mView).showError("Opps!");
+    }
+
+    @Test
+    public void should_handle_screen_capture_success() throws Exception {
+        mReportVisualizePresenter.shareReport(null);
+        verify(mView).navigateToAnnotationPage(SCREEN_CAPTURED_FILE);
     }
 
     @Test
@@ -354,6 +377,7 @@ public class ReportVisualizePresenterTest {
         mFakeFlushInputControlsCase = spy(new FakeFlushInputControlsCase());
         mFakeGetReportMetadataCase = spy(new FakeGetReportMetadataCase());
         mFakeAuthorizeSessionUseCase = spy(new FakeAuthorizeSessionUseCase());
+        mFakeSaveScreenCaptureCase = spy(new FakeSaveScreenCaptureCase());
 
         fakeState.setControlsPageShown(false);
         when(mView.getState()).thenReturn(fakeState);
@@ -407,6 +431,19 @@ public class ReportVisualizePresenterTest {
         protected Observable<VisualizeExecOptions.Builder> buildUseCaseObservable(String reportUri) {
             return Observable.just(
                     new VisualizeExecOptions.Builder().setParams(JSON_REPORT_PARAMS)
+            );
+        }
+    }
+
+    private class FakeSaveScreenCaptureCase extends SaveScreenCaptureCase {
+        public FakeSaveScreenCaptureCase() {
+            super(FakePreExecutionThread.create(), FakePostExecutionThread.create(), null);
+        }
+
+        @Override
+        protected Observable<File> buildUseCaseObservable(ScreenCapture capture) {
+            return Observable.just(
+                    SCREEN_CAPTURED_FILE
             );
         }
     }

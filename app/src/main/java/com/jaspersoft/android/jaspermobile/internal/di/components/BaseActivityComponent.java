@@ -18,6 +18,7 @@ import com.jaspersoft.android.jaspermobile.activities.schedule.EditScheduleActiv
 import com.jaspersoft.android.jaspermobile.activities.schedule.JobsFragment;
 import com.jaspersoft.android.jaspermobile.activities.schedule.NewScheduleActivity;
 import com.jaspersoft.android.jaspermobile.activities.settings.fragment.SettingsFragment;
+import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity;
 import com.jaspersoft.android.jaspermobile.activities.storage.SavedReportsFragment;
 import com.jaspersoft.android.jaspermobile.activities.storage.fragment.SavedItemsFragment;
 import com.jaspersoft.android.jaspermobile.activities.viewer.html.WebViewFragment;
@@ -81,5 +82,6 @@ public interface BaseActivityComponent {
     void inject(ReportCastActivity reportCastActivity);
     void inject(NewScheduleActivity newScheduleActivity);
     void inject(EditScheduleActivity editScheduleActivity);
+    void inject(AnnotationActivity toolbarActivity);
     void inject(ToolbarActivity toolbarActivity);
 }

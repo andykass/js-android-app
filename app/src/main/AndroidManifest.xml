@@ -144,6 +144,10 @@
         <activity
             android:name=".activities.file.FileViewerActivity_"/>
 
+        <activity
+            android:name=".activities.share.AnnotationActivity_"
+            android:screenOrientation="locked"/>
+
         <!-- Activity that allows to specify the application settings -->
         <activity
             android:name=".activities.settings.SettingsActivity_"
@@ -223,6 +227,17 @@
             android:name=".db.MobileDbProvider"
             android:authorities="com.jaspersoft.android.jaspermobile.db.provider"
             android:exported="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.jaspersoft.android.jaspermobile.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cache_files_path" />
+
+        </provider>
 
         <service
         android:name=".activities.save.SaveReportService_"

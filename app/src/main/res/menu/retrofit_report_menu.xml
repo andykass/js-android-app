@@ -44,4 +44,10 @@
         android:title="@string/r_cm_view_details"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/shareAction"
+        android:icon="@drawable/ic_menu_share"
+        android:title="@string/r_cm_share"
+        app:showAsAction="ifRoom" />
+
 </menu>

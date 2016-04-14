@@ -16,6 +16,7 @@ import com.jaspersoft.android.jaspermobile.data.cache.report.ReportCache;
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportPageCache;
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportParamsCache;
 import com.jaspersoft.android.jaspermobile.data.cache.report.ReportPropertyCache;
+import com.jaspersoft.android.jaspermobile.data.repository.ExternalFileRepository;
 import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryControlsRepository;
 import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryReportOptionsRepository;
 import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryReportPageRepository;
@@ -24,6 +25,7 @@ import com.jaspersoft.android.jaspermobile.data.repository.report.InMemoryReport
 import com.jaspersoft.android.jaspermobile.data.repository.resource.InMemoryResourceRepository;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
+import com.jaspersoft.android.jaspermobile.domain.repository.FilesRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.report.ControlsRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.report.ReportOptionsRepository;
 import com.jaspersoft.android.jaspermobile.domain.repository.report.ReportPageRepository;
@@ -110,6 +112,12 @@ public final class ProfileModule {
     @PerProfile
     ReportPropertyRepository providesReportPropertyRepository(InMemoryReportPropertyRepository reportPropertyRepository) {
         return reportPropertyRepository;
+    }
+
+    @Provides
+    @PerProfile
+    FilesRepository providesFilesRepository(ExternalFileRepository repository) {
+        return repository;
     }
 
     @Provides

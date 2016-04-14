@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,11 +21,13 @@ import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControl
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportActivity_;
 import com.jaspersoft.android.jaspermobile.activities.schedule.NewScheduleActivity_;
+import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity_;
 import com.jaspersoft.android.jaspermobile.dialog.NumberDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.PageDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.VisualizeTemplate;
 import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
@@ -55,6 +58,7 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -83,6 +87,8 @@ public class ReportVisualizeFragment extends BaseFragment
 
     private static final int REQUEST_INITIAL_REPORT_PARAMETERS = 100;
     private static final int REQUEST_NEW_REPORT_PARAMETERS = 200;
+    private static final int REQUEST_REPORT_ANNOTATION = 300;
+    private static final String CACHE_AUTHORITY = "com.jaspersoft.android.jaspermobile.fileprovider";
 
     @FragmentArg
     protected ResourceLookup resource;
@@ -306,6 +312,12 @@ public class ReportVisualizeFragment extends BaseFragment
         }
     }
 
+    @OptionsItem
+    final void shareAction() {
+        ScreenCapture reportScreenCapture = ScreenCapture.Factory.capture(webView);
+        mActionListener.shareReport(reportScreenCapture);
+    }
+
     private void runReport() {
         mPresenter.init();
     }
@@ -315,6 +327,20 @@ public class ReportVisualizeFragment extends BaseFragment
         hideError();
         showReloadButton(false);
         mActionListener.refresh();
+    }
+
+    @OnActivityResult(REQUEST_REPORT_ANNOTATION)
+    protected void onAnnotationDone(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        Uri fileUri = data.getData();
+        Uri sharedFileUri = FileProvider.getUriForFile(getActivity(), CACHE_AUTHORITY, new File(fileUri.getPath()));
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        share.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
+        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message));
+        startActivity(Intent.createChooser(share, getString(R.string.share_chooser_title)));
     }
 
     //---------------------------------------------------------------------
@@ -329,6 +355,19 @@ public class ReportVisualizeFragment extends BaseFragment
     @Override
     public void showSaveAction(boolean visibilityFlag) {
         saveMenuItemVisibilityFlag = visibilityFlag;
+    }
+
+    @Override
+    public void showProgress() {
+        ProgressDialogFragment.builder(getFragmentManager())
+                .setLoadingMessage(R.string.loading_msg)
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -458,6 +497,14 @@ public class ReportVisualizeFragment extends BaseFragment
         showPagination(false);
         showReloadButton(true);
         showError(getString(R.string.da_session_expired));
+    }
+
+    @Override
+    public void navigateToAnnotationPage(File file) {
+        Intent intent = AnnotationActivity_.intent(getContext())
+                .imageUri(Uri.fromFile(file))
+                .get();
+        startActivityForResult(intent, REQUEST_REPORT_ANNOTATION);
     }
 
     @Override

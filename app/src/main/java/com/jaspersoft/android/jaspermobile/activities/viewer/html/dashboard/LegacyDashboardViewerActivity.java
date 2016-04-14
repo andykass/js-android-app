@@ -33,6 +33,7 @@ import com.jaspersoft.android.jaspermobile.util.ScrollableTitleHelper;
 import com.jaspersoft.android.jaspermobile.webview.dashboard.flow.WebFlowFactory;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -45,17 +46,6 @@ import org.androidannotations.annotations.Extra;
  */
 @EActivity
 public class LegacyDashboardViewerActivity extends BaseDashboardActivity {
-
-    @Bean
-    protected ScrollableTitleHelper scrollableTitleHelper;
-    @Extra
-    protected ResourceLookup resource;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        scrollableTitleHelper.injectTitle(resource.getLabel());
-    }
 
     @Override
     protected String getScreenName() {

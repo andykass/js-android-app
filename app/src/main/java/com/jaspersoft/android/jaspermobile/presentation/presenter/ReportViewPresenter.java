@@ -5,6 +5,7 @@ import android.support.annotation.VisibleForTesting;
 import com.jaspersoft.android.jaspermobile.domain.PageRequest;
 import com.jaspersoft.android.jaspermobile.domain.ReportPage;
 import com.jaspersoft.android.jaspermobile.domain.ReportControlFlags;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushInputControlsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.FlushReportCachesCase;
@@ -15,12 +16,15 @@ import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportTot
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.ReloadReportCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.RunReportCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.UpdateReportCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.SaveScreenCaptureCase;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.presentation.contract.RestReportContract;
 import com.jaspersoft.android.jaspermobile.presentation.page.ReportPageState;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
 import com.jaspersoft.android.sdk.service.exception.StatusCodes;
+
+import java.io.File;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,6 +49,7 @@ public class ReportViewPresenter extends Presenter<RestReportContract.View> impl
     private final ReloadReportCase mReloadReportCase;
     private final FlushReportCachesCase mFlushReportCachesCase;
     private final FlushInputControlsCase mFlushInputControlsCase;
+    private final SaveScreenCaptureCase mSaveScreenCaptureCase;
 
     @Inject
     public ReportViewPresenter(
@@ -58,7 +63,8 @@ public class ReportViewPresenter extends Presenter<RestReportContract.View> impl
             UpdateReportCase updateReportCase,
             ReloadReportCase reloadReportCase,
             FlushReportCachesCase flushReportCachesCase,
-            FlushInputControlsCase flushInputControlsCase
+            FlushInputControlsCase flushInputControlsCase,
+            SaveScreenCaptureCase saveScreenCaptureCase
     ) {
         mReportUri = reportUri;
         mExceptionHandler = exceptionHandler;
@@ -71,6 +77,7 @@ public class ReportViewPresenter extends Presenter<RestReportContract.View> impl
         mReloadReportCase = reloadReportCase;
         mFlushReportCachesCase = flushReportCachesCase;
         mFlushInputControlsCase = flushInputControlsCase;
+        mSaveScreenCaptureCase = saveScreenCaptureCase;
     }
 
     public void init() {
@@ -240,6 +247,27 @@ public class ReportViewPresenter extends Presenter<RestReportContract.View> impl
     @Override
     public void refresh() {
         reloadByPosition("1");
+    }
+
+    @Override
+    public void shareReport(ScreenCapture screenCapture) {
+        mSaveScreenCaptureCase.execute(screenCapture, new SimpleSubscriber<File>() {
+            @Override
+            public void onStart() {
+                getView().showProgress();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                handleError(e);
+            }
+
+            @Override
+            public void onNext(File item) {
+                getView().hideLoading();
+                getView().navigateToAnnotationPage(item);
+            }
+        });
     }
 
     private void reloadByPosition(final String position) {

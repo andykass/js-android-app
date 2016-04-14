@@ -75,11 +75,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
 
     private static final int REQUEST_DASHBOARDS_PARAMETERS = 200;
 
-    @Bean
-    protected ScrollableTitleHelper scrollableTitleHelper;
-    @Extra
-    protected ResourceLookup resource;
-
     @InstanceState
     protected boolean mMaximized;
 
@@ -125,7 +120,6 @@ public class Amber2DashboardActivity extends BaseDashboardActivity implements Da
                 invalidateOptionsMenu();
             }
         }));
-        scrollableTitleHelper.injectTitle(resource.getLabel());
         showMenuItems();
     }
 

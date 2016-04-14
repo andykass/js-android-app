@@ -59,12 +59,6 @@ import org.androidannotations.annotations.UiThread;
 @EActivity
 public class AmberDashboardActivity extends BaseDashboardActivity implements DashboardCallback {
 
-    @Bean
-    protected ScrollableTitleHelper scrollableTitleHelper;
-
-    @Extra
-    protected ResourceLookup resource;
-
     @InstanceState
     protected boolean mMaximized;
 
@@ -84,7 +78,6 @@ public class AmberDashboardActivity extends BaseDashboardActivity implements Das
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
-        scrollableTitleHelper.injectTitle(resource.getLabel());
         showMenuItems();
     }
 

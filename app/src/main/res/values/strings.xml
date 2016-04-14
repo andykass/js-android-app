@@ -79,6 +79,7 @@
     <string name="r_cm_removed_from_favorites">Removed from favorites.</string>
     <string name="r_cm_remove_from_favorites_failed">Failed to remove from favorites.</string>
     <string name="r_cm_print">Print</string>
+    <string name="r_cm_share" translatable="false">Share</string>
 
     <!-- Progress Dialog -->
     <string name="r_pd_running_report_msg">Running report...</string>
@@ -197,6 +198,16 @@
 
     <!-- Toasts -->
     <string name="rv_t_external_storage_not_available">The external memory card is not available. Please insert the card and try again.</string>
+    <string name="annotation_title" translatable="false">Touch to annotate…</string>
+    <string name="annotation_pick_color" translatable="false">Pick color…</string>
+    <string name="annotation_pick_size" translatable="false">Pick size…</string>
+    <string name="annotation_add_note" translatable="false">Add note</string>
+    <string name="annotation_edit_note" translatable="false">Edit note</string>
+    <string name="annotation_hint" translatable="false">Enter value</string>
+    <string name="annotation_done" translatable="false">Done</string>
+    <string name="annotation_reset" translatable="false">Reset</string>
+    <string name="share_chooser_title" translatable="false">Share via</string>
+    <string name="share_message" translatable="false">Shared from TIBCO JasperMobile</string>
 
     <!-- Save Report Activity -->
     <string name="sr_ab_title">Save Report</string>

@@ -24,10 +24,13 @@
 
 package com.jaspersoft.android.jaspermobile.activities.viewer.html.dashboard;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,22 +40,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.Analytics;
-import com.jaspersoft.android.jaspermobile.BuildConfig;
 import com.jaspersoft.android.jaspermobile.GraphObject;
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.dialog.LogDialog;
+import com.jaspersoft.android.jaspermobile.activities.share.AnnotationActivity_;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.ErrorSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.profile.AuthorizeSessionUseCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.SaveScreenCaptureCase;
 import com.jaspersoft.android.jaspermobile.internal.di.components.DashboardActivityComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.ActivityModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.DashboardModule;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.presentation.view.activity.ToolbarActivity;
 import com.jaspersoft.android.jaspermobile.util.FavoritesHelper;
+import com.jaspersoft.android.jaspermobile.util.ScrollableTitleHelper;
 import com.jaspersoft.android.jaspermobile.util.print.ResourcePrintJob;
 import com.jaspersoft.android.jaspermobile.webview.DefaultUrlPolicy;
 import com.jaspersoft.android.jaspermobile.webview.JasperChromeClientListenerImpl;
@@ -65,6 +70,16 @@ import com.jaspersoft.android.jaspermobile.webview.dashboard.InjectionRequestInt
 import com.jaspersoft.android.jaspermobile.webview.dashboard.script.ScriptTagFactory;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
+
+import java.io.File;
+
 import javax.inject.Inject;
 
 import timber.log.Timber;
@@ -75,18 +90,27 @@ import timber.log.Timber;
  * @author Tom Koptel
  * @since 2.0
  */
+@OptionsMenu(R.menu.dashboard_menu)
+@EActivity
 public abstract class BaseDashboardActivity extends ToolbarActivity
         implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener {
-    public final static String RESOURCE_EXTRA = "resource";
+    private static final int REQUEST_DASHBOARD_ANNOTATION = 320;
+    private static final String CACHE_AUTHORITY = "com.jaspersoft.android.jaspermobile.fileprovider";
+
+    @Extra
+    protected ResourceLookup resource;
 
     protected WebView webView;
-    private TextView emptyView;
-    private ProgressBar progressBar;
-
-    protected ResourceLookup resource;
-    private MenuItem favoriteAction;
+    protected TextView emptyView;
+    protected ProgressBar progressBar;
 
     private JasperChromeClientListenerImpl chromeClientListener;
+
+    @OptionsMenuItem(R.id.favoriteAction)
+    protected MenuItem favoriteActionButton;
+
+    @Bean
+    protected ScrollableTitleHelper scrollableTitleHelper;
 
     @Inject
     Analytics analytics;
@@ -100,20 +124,13 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     FavoritesHelper favoritesHelper;
     @Inject
     AuthorizeSessionUseCase mAuthorizeSessionUseCase;
+    @Inject
+    SaveScreenCaptureCase mSaveScreenCaptureCase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_viewer);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            resource = extras.getParcelable(RESOURCE_EXTRA);
-        }
 
         webView = (WebView) findViewById(R.id.webView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -121,6 +138,7 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
 
         getComponent().inject(this);
         initWebView();
+        scrollableTitleHelper.injectTitle(resource.getLabel());
     }
 
     public DashboardActivityComponent getComponent() {
@@ -133,48 +151,9 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.dashboard_menu, menu);
-        favoriteAction = menu.findItem(R.id.favoriteAction);
-
-        favoritesHelper.updateFavoriteIconState(favoriteAction, resource.getUri());
-
-        if (isDebugOrQa()) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.debug, menu);
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.refreshAction) {
-            onRefresh();
-        }
-        if (itemId == R.id.aboutAction) {
-            aboutAction();
-        }
-        if (itemId == R.id.favoriteAction) {
-            favoriteAction();
-        }
-        if (itemId == R.id.showLog) {
-            showLog();
-        }
-        if (itemId == android.R.id.home) {
-            onHomeAsUpCalled();
-        }
-        if (itemId == R.id.printAction) {
-            Bundle args = new Bundle();
-            args.putString(ResourcePrintJob.PRINT_NAME_KEY, resource.getLabel());
-
-            mResourcePrintJob.printResource(args);
-        }
-
-        return true;
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        favoritesHelper.updateFavoriteIconState(favoriteActionButton, resource.getUri());
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -185,6 +164,65 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
             webView.removeAllViews();
             webView.destroy();
         }
+    }
+
+    @OptionsItem(R.id.favoriteAction)
+    protected void favoriteAction() {
+        favoritesHelper.switchFavoriteState(resource, favoriteActionButton);
+    }
+
+    @OptionsItem(R.id.aboutAction)
+    protected void aboutAction() {
+        SimpleDialogFragment.createBuilder(this, getSupportFragmentManager())
+                .setTitle(resource.getLabel())
+                .setMessage(resource.getDescription())
+                .setNegativeButtonText(R.string.ok)
+                .show();
+    }
+
+    @OptionsItem(R.id.printAction)
+    protected void printAction() {
+        Bundle args = new Bundle();
+        args.putString(ResourcePrintJob.PRINT_NAME_KEY, resource.getLabel());
+
+        mResourcePrintJob.printResource(args);
+    }
+
+    @OptionsItem(R.id.shareAction)
+    protected void shareAction() {
+        ScreenCapture screenCapture = ScreenCapture.Factory.capture(webView);
+
+        mSaveScreenCaptureCase.execute(screenCapture, new SimpleSubscriber<File>() {
+            @Override
+            public void onStart() {
+                showLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                RequestExceptionHandler.showAuthErrorIfExists(BaseDashboardActivity.this, e);
+            }
+
+            @Override
+            public void onNext(File item) {
+                hideLoading();
+                navigateToAnnotationPage(item);
+            }
+        });
+    }
+
+    @OnActivityResult(REQUEST_DASHBOARD_ANNOTATION)
+    protected void onAnnotationDone(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        Uri fileUri = data.getData();
+        Uri sharedFileUri = FileProvider.getUriForFile(this, CACHE_AUTHORITY, new File(fileUri.getPath()));
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        share.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
+        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message));
+        startActivity(Intent.createChooser(share, getString(R.string.share_chooser_title)));
     }
 
     //---------------------------------------------------------------------
@@ -265,19 +303,17 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
 
     public abstract void onPageFinished();
 
-    public abstract void onRefresh();
+    @OptionsItem(R.id.refreshAction)
+    protected abstract void onRefresh();
 
-    public abstract void onHomeAsUpCalled();
+    @OptionsItem(android.R.id.home)
+    protected abstract void onHomeAsUpCalled();
 
     public abstract void onSessionRefreshed();
 
     //---------------------------------------------------------------------
     // Helper methods
     //---------------------------------------------------------------------
-
-    private boolean isDebugOrQa() {
-        return BuildConfig.FLAVOR.equals("qa") || BuildConfig.DEBUG;
-    }
 
     private void initWebView() {
         chromeClientListener = new JasperChromeClientListenerImpl(progressBar);
@@ -301,22 +337,10 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
         onWebViewConfigured(webView);
     }
 
-    private void favoriteAction() {
-        favoritesHelper.switchFavoriteState(resource, favoriteAction);
-    }
-
-    private void aboutAction() {
-        SimpleDialogFragment.createBuilder(this, getSupportFragmentManager())
-                .setTitle(resource.getLabel())
-                .setMessage(resource.getDescription())
-                .setNegativeButtonText(R.string.ok)
-                .show();
-    }
-
-    private void showLog() {
-        if (chromeClientListener != null) {
-            LogDialog.create(getSupportFragmentManager(), chromeClientListener.getMessages());
-        }
+    private void navigateToAnnotationPage(File file) {
+        AnnotationActivity_.intent(this)
+                .imageUri(Uri.fromFile(file))
+                .startForResult(REQUEST_DASHBOARD_ANNOTATION);
     }
 
     protected final class GenericSubscriber<R> extends ErrorSubscriber<R> {

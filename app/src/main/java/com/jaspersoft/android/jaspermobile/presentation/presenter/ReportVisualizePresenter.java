@@ -1,9 +1,9 @@
 package com.jaspersoft.android.jaspermobile.presentation.presenter;
 
-
 import android.support.annotation.VisibleForTesting;
 
 import com.jaspersoft.android.jaspermobile.domain.ReportControlFlags;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.VisualizeTemplate;
 import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
@@ -13,6 +13,7 @@ import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMet
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportShowControlsPropertyCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetVisualizeExecOptionsCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetVisualizeTemplateCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.SaveScreenCaptureCase;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.presentation.contract.VisualizeReportContract;
@@ -28,9 +29,14 @@ import com.jaspersoft.android.jaspermobile.presentation.model.visualize.Visualiz
 import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeExecOptions;
 import com.jaspersoft.android.jaspermobile.presentation.model.visualize.VisualizeViewModel;
 import com.jaspersoft.android.jaspermobile.presentation.model.visualize.WebViewErrorEvent;
+import com.jaspersoft.android.jaspermobile.presentation.navigation.MainPage;
+import com.jaspersoft.android.jaspermobile.presentation.navigation.Navigator;
+import com.jaspersoft.android.jaspermobile.presentation.navigation.Page;
+import com.jaspersoft.android.jaspermobile.presentation.navigation.PageFactory;
 import com.jaspersoft.android.jaspermobile.presentation.page.ReportPageState;
 import com.jaspersoft.android.sdk.client.oxm.resource.ResourceLookup;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 
@@ -59,6 +65,7 @@ public class ReportVisualizePresenter extends Presenter<VisualizeReportContract.
     private final FlushInputControlsCase mFlushInputControlsCase;
     private final GetReportMetadataCase mGetReportMetadataCase;
     private final AuthorizeSessionUseCase mAuthorizeSessionUseCase;
+    private final SaveScreenCaptureCase mSaveScreenCaptureCase;
 
     private CompositeSubscription mCompositeSubscription;
 
@@ -73,8 +80,8 @@ public class ReportVisualizePresenter extends Presenter<VisualizeReportContract.
             GetVisualizeExecOptionsCase getVisualizeExecOptionsCase,
             FlushInputControlsCase flushInputControlsCase,
             GetReportMetadataCase getReportMetadataCase,
-            AuthorizeSessionUseCase authorizeSessionUseCase
-    ) {
+            AuthorizeSessionUseCase authorizeSessionUseCase,
+            SaveScreenCaptureCase saveScreenCaptureCase) {
         mScreenDiagonal = screenDiagonal;
         mReportUri = reportUri;
         mPostExecutionThread = postExecutionThread;
@@ -85,6 +92,7 @@ public class ReportVisualizePresenter extends Presenter<VisualizeReportContract.
         mFlushInputControlsCase = flushInputControlsCase;
         mGetReportMetadataCase = getReportMetadataCase;
         mAuthorizeSessionUseCase = authorizeSessionUseCase;
+        mSaveScreenCaptureCase = saveScreenCaptureCase;
     }
 
     public void init() {
@@ -158,6 +166,27 @@ public class ReportVisualizePresenter extends Presenter<VisualizeReportContract.
         } else {
             refreshVisualize();
         }
+    }
+
+    @Override
+    public void shareReport(ScreenCapture screenCapture) {
+        mSaveScreenCaptureCase.execute(screenCapture, new SimpleSubscriber<File>() {
+            @Override
+            public void onStart() {
+                getView().showProgress();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                handleError(e);
+            }
+
+            @Override
+            public void onNext(File item) {
+                getView().hideLoading();
+                getView().navigateToAnnotationPage(item);
+            }
+        });
     }
 
     private void reloadVisualize() {

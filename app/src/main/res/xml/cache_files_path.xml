@@ -23,31 +23,6 @@
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/favoriteAction"
-        android:icon="@drawable/ic_menu_star_outline"
-        android:title="@string/r_cm_add_to_favorites"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/aboutAction"
-        android:icon="@drawable/ic_menu_info"
-        android:title="@string/r_cm_view_details"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/refreshAction"
-        android:icon="@drawable/ic_menu_refresh"
-        android:title="@string/r_ab_refresh"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/shareAction"
-        android:icon="@drawable/ic_menu_share"
-        android:title="@string/r_cm_share"
-        app:showAsAction="ifRoom" />
-
-</menu>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <cache-path name="shared_report" path="shared_cache"/>
+</paths>

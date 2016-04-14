@@ -6,12 +6,14 @@ import com.jaspersoft.android.jaspermobile.FakePostExecutionThread;
 import com.jaspersoft.android.jaspermobile.FakePreExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.PageRequest;
 import com.jaspersoft.android.jaspermobile.domain.ReportPage;
+import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportMultiPagePropertyCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportPageContentCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.GetReportTotalPagesPropertyCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.ReloadReportCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.RunReportCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.report.UpdateReportCase;
+import com.jaspersoft.android.jaspermobile.domain.interactor.resource.SaveScreenCaptureCase;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.presentation.contract.RestReportContract;
 import com.jaspersoft.android.jaspermobile.presentation.page.ReportPageState;
@@ -21,6 +23,9 @@ import com.jaspersoft.android.sdk.service.exception.StatusCodes;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.io.File;
+import java.io.IOException;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -46,6 +51,7 @@ public class ReportViewPresenterTest {
     private static final String REQUESTED_PAGE = "11";
     private static final PageRequest CURRENT_PAGE_REQUEST = new PageRequest.Builder().setUri(REPORT_URI).setRange(CURRENT_PAGE).asHtml().build();
     private static final PageRequest NEW_PAGE_REQUEST = new PageRequest.Builder().setUri(REPORT_URI).setRange(REQUESTED_PAGE).asHtml().build();
+    private static final File SCREEN_CAPTURED_FILE = new File("my_file.jpg");
 
     @Mock
     RequestExceptionHandler mExceptionHandler;
@@ -62,6 +68,7 @@ public class ReportViewPresenterTest {
     private FakeReloadReportCase mFakeReloadReportCase;
     private FakeFlushReportCachesCase mFakeFlushReportCachesCase;
     private FakeFlushInputControlsCase mFakeFlushInputControlsCase;
+    private FakeSaveScreenCaptureCase mFakeSaveScreenCaptureCase;
 
     private ReportPageState mReportPageState;
 
@@ -80,9 +87,26 @@ public class ReportViewPresenterTest {
                 mFakeUpdateReportCase,
                 mFakeReloadReportCase,
                 mFakeFlushReportCachesCase,
-                mFakeFlushInputControlsCase
+                mFakeFlushInputControlsCase,
+                mFakeSaveScreenCaptureCase
         );
         presenter.injectView(mView);
+    }
+
+    @Test
+    public void should_handle_screen_capture_error() throws Exception {
+        when(mExceptionHandler.extractMessage(any(Throwable.class))).thenReturn("Opps!");
+        when(mFakeSaveScreenCaptureCase.buildUseCaseObservable(any(ScreenCapture.class)))
+                .thenReturn(Observable.<File>error(new IOException()));
+
+        presenter.shareReport(null);
+        verify(mView).showError("Opps!");
+    }
+
+    @Test
+    public void should_handle_screen_capture_success() throws Exception {
+        presenter.shareReport(null);
+        verify(mView).navigateToAnnotationPage(SCREEN_CAPTURED_FILE);
     }
 
     @Test
@@ -252,6 +276,7 @@ public class ReportViewPresenterTest {
         state.setRequestedPage(REQUESTED_PAGE);
         mReportPageState = spy(state);
 
+        mFakeSaveScreenCaptureCase = spy(new FakeSaveScreenCaptureCase());
         mFakeGetReportShowControlsPropertyCase = spy(new FakeGetReportShowControlsPropertyCase());
         mFakeGetReportPageContentCase = spy(new FakeGetReportPageContentCase());
         mFakeGetReportMultiPagePropertyCase = spy(new FakeGetReportMultiPagePropertyCase());
@@ -340,6 +365,19 @@ public class ReportViewPresenterTest {
         @Override
         protected Observable<ReportPage> buildUseCaseObservable(@NonNull PageRequest request) {
             return Observable.just(PAGE);
+        }
+    }
+
+    private class FakeSaveScreenCaptureCase extends SaveScreenCaptureCase {
+        public FakeSaveScreenCaptureCase() {
+            super(FakePreExecutionThread.create(), FakePostExecutionThread.create(), null);
+        }
+
+        @Override
+        protected Observable<File> buildUseCaseObservable(ScreenCapture capture) {
+            return Observable.just(
+                    SCREEN_CAPTURED_FILE
+            );
         }
     }
 }
