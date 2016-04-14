@@ -63,6 +63,8 @@ public class Message {
 
     @NonNull
     public String create() {
+        clear();
+
         return append(generateAppVersionInfo())
                 .append(generateServerVersion())
                 .append(generateServerEdition())
@@ -86,6 +88,11 @@ public class Message {
             mParts.add(message);
         }
         return this;
+    }
+
+    private void clear() {
+        mParts.clear();
+        mTextMessage.setLength(0);
     }
 
     @VisibleForTesting
