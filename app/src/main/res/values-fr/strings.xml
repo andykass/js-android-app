@@ -388,7 +388,7 @@
     <string name="error_export_failed">Échec de l\'exportation du rapport</string>
     <string name="error_export_cancelled">Exportation du rapport annulé</string>
     <string name="error_schedule_duplicate_file_name">Dupliquer de nom du fichier de sortie</string>
-    <string name="error_schedule_in_the_past">La date de début est déjà passée. Elle doit être ultérieure.</string>
+    <string name="error_schedule_start_date_in_the_past">La date de début est déjà passée. Elle doit être ultérieure.</string>
     <string name="error_schedule_special_characters">Le nom de sortie de base contient des caractères non valides.</string>
     <string name="error_schedule_folder_not_exist">Le dossier de sortie des tâches est introuvable.</string>
     <string name="error_schedule_folder_not_writable">Vous n\'êtes pas autorisé à enregistrer la sortie de tâches dans le dossier.</string>

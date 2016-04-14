@@ -24,7 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.ui.component.presenter.SimplePresenter;

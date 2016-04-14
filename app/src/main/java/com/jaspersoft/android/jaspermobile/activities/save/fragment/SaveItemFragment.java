@@ -43,7 +43,7 @@ import com.jaspersoft.android.jaspermobile.JasperMobileApplication;
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportService;
 import com.jaspersoft.android.jaspermobile.data.entity.ExportBundle;
-import com.jaspersoft.android.jaspermobile.dialog.NumberDialogFragment;
+import com.jaspersoft.android.jaspermobile.dialog.NumberPickerDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.ui.view.fragment.BaseFragment;
 import com.jaspersoft.android.jaspermobile.util.SavedItemHelper;
@@ -76,7 +76,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  */
 @EFragment(R.layout.save_report_layout)
 @OptionsMenu(R.menu.save_item_menu)
-public class SaveItemFragment extends BaseFragment implements NumberDialogFragment.NumberDialogClickListener {
+public class SaveItemFragment extends BaseFragment implements NumberPickerDialogFragment.NumberDialogClickListener {
 
     public static final String TAG = SaveItemFragment.class.getSimpleName();
 
@@ -213,7 +213,7 @@ public class SaveItemFragment extends BaseFragment implements NumberDialogFragme
 
     @Click(R.id.fromPageControl)
     void clickOnFromPage() {
-        NumberDialogFragment.createBuilder(getFragmentManager())
+        NumberPickerDialogFragment.createBuilder(getFragmentManager())
                 .setMinValue(1)
                 .setCurrentValue(mFromPage)
                 .setMaxValue(pageCount)
@@ -224,7 +224,7 @@ public class SaveItemFragment extends BaseFragment implements NumberDialogFragme
 
     @Click(R.id.toPageControl)
     void clickOnToPage() {
-        NumberDialogFragment.createBuilder(getFragmentManager())
+        NumberPickerDialogFragment.createBuilder(getFragmentManager())
                 .setMinValue(mFromPage)
                 .setCurrentValue(mToPage)
                 .setMaxValue(pageCount)
@@ -310,7 +310,7 @@ public class SaveItemFragment extends BaseFragment implements NumberDialogFragme
     //---------------------------------------------------------------------
 
     @Override
-    public void onPageSelected(int page, int requestCode) {
+    public void onNumberPicked(int page, int requestCode) {
         if (requestCode == FROM_PAGE_REQUEST_CODE) {
             boolean isPagePositive = (page > 1);
             boolean isRangeCorrect = (page <= mToPage);

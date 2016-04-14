@@ -25,16 +25,12 @@
 package com.jaspersoft.android.jaspermobile.ui.view.viewholder.factory;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.ActivityContext;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.viewholder.JobResourceViewHolder;
-import com.jaspersoft.android.jaspermobile.util.resource.JasperResourceType;
 
 import javax.inject.Inject;
 

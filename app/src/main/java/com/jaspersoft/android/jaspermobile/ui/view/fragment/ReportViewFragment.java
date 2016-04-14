@@ -44,8 +44,8 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.activities.save.SaveReportActivity_;
+import com.jaspersoft.android.jaspermobile.dialog.NumberPickerDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.NumberDialogFragment;
-import com.jaspersoft.android.jaspermobile.dialog.PageDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.SimpleDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.JasperServer;
@@ -100,8 +100,8 @@ import rx.functions.Action1;
 })
 public class ReportViewFragment extends BaseFragment
         implements RestReportContract.View,
-        NumberDialogFragment.NumberDialogClickListener,
-        PageDialogFragment.PageDialogClickListener {
+        NumberPickerDialogFragment.NumberDialogClickListener,
+        NumberDialogFragment.NumberDialogClickListener {
 
     public static final String TAG = "report-view";
     private static final String MIME = "text/html";
@@ -203,14 +203,14 @@ public class ReportViewFragment extends BaseFragment
             @Override
             public void onPagePickerRequested() {
                 if (paginationControl.isTotalPagesLoaded()) {
-                    NumberDialogFragment.createBuilder(getFragmentManager())
+                    NumberPickerDialogFragment.createBuilder(getFragmentManager())
                             .setMinValue(1)
                             .setCurrentValue(paginationControl.getCurrentPage())
                             .setMaxValue(paginationControl.getTotalPages())
                             .setTargetFragment(ReportViewFragment.this)
                             .show();
                 } else {
-                    PageDialogFragment.createBuilder(getFragmentManager())
+                    NumberDialogFragment.createBuilder(getFragmentManager())
                             .setMaxValue(Integer.MAX_VALUE)
                             .setTargetFragment(ReportViewFragment.this)
                             .show();
@@ -488,12 +488,12 @@ public class ReportViewFragment extends BaseFragment
     }
 
     @Override
-    public void onPageSelected(int page, int requestCode) {
+    public void onNumberPicked(int page, int requestCode) {
         updatePage(page);
     }
 
     @Override
-    public void onPageSelected(int page) {
+    public void onNumberSubmit(int page, int requestCode) {
         updatePage(page);
     }
 

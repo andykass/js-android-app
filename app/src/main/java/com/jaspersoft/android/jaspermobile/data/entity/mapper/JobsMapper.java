@@ -26,8 +26,8 @@ package com.jaspersoft.android.jaspermobile.data.entity.mapper;
 
 import android.support.annotation.NonNull;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobTarget;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobTarget;
 import com.jaspersoft.android.jaspermobile.internal.di.PerProfile;
 import com.jaspersoft.android.sdk.service.data.schedule.JobState;
 import com.jaspersoft.android.sdk.service.data.schedule.JobUnit;

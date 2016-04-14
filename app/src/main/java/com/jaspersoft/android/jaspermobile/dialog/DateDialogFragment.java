@@ -75,8 +75,8 @@ public class DateDialogFragment extends BaseDialogFragment {
     }
 
     @Override
-    protected Class<DateDialogClickListener> getDialogCallbackClass() {
-        return DateDialogClickListener.class;
+    protected Class<IcDateDialogClickListener> getDialogCallbackClass() {
+        return IcDateDialogClickListener.class;
     }
 
     protected void initDialogParams() {
@@ -138,8 +138,8 @@ public class DateDialogFragment extends BaseDialogFragment {
     // Dialog Callback
     //---------------------------------------------------------------------
 
-    public interface DateDialogClickListener extends DialogClickListener {
-        void onDateSelected(String id, Calendar date);
+    public interface IcDateDialogClickListener extends DialogClickListener {
+        void onDateSelected(Calendar date, int requestCode, Object... data);
     }
 
     //---------------------------------------------------------------------
@@ -150,7 +150,7 @@ public class DateDialogFragment extends BaseDialogFragment {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             activeDate.set(year, monthOfYear, dayOfMonth);
-            ((DateDialogClickListener) mDialogListener).onDateSelected(icId, activeDate);
+            ((IcDateDialogClickListener) mDialogListener).onDateSelected(activeDate, requestCode, icId);
         }
     }
 
@@ -160,7 +160,7 @@ public class DateDialogFragment extends BaseDialogFragment {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             activeDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
             activeDate.set(Calendar.MINUTE, minute);
-            ((DateDialogClickListener) mDialogListener).onDateSelected(icId, activeDate);
+            ((IcDateDialogClickListener) mDialogListener).onDateSelected(activeDate, requestCode, icId);
         }
     }
 }

@@ -24,14 +24,20 @@
 
 package com.jaspersoft.android.jaspermobile.util.rx;
 
+import com.jaspersoft.android.jaspermobile.domain.interactor.UseCase;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
+ * Please do not use transformers as they fall out of DI injection scope and it would be impossible to mock out schedulers in future.
+ * Please wrap any related to background work tasks as {@link UseCase} objects.
+ *
  * @author Tom Koptel
  * @since 2.3
  */
+@Deprecated
 public final class RxTransformer {
 
     private RxTransformer() {}

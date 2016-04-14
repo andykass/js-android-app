@@ -27,11 +27,11 @@ package com.jaspersoft.android.jaspermobile.ui.presenter.activity;
 import android.app.Activity;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.JobInfoScreenComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.JobInfoActivityComponent;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.JobInfoScreenModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobInfoActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobInfoActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.job.JobInfoScreenModule;
 import com.jaspersoft.android.jaspermobile.ui.component.activity.PresenterControllerActivity3;
 import com.jaspersoft.android.jaspermobile.ui.presenter.JobInfoPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.JobInfoView;

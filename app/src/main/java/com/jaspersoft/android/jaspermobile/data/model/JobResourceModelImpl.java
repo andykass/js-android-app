@@ -27,9 +27,8 @@ package com.jaspersoft.android.jaspermobile.data.model;
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.utils.UniqueCompositeSubscription;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.jaspermobile.util.rx.RxTransformer;
 import com.jaspersoft.android.sdk.service.exception.ServiceException;
@@ -43,9 +42,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action1;
 import rx.functions.Func0;
-import rx.observables.ConnectableObservable;
 
 /**
  * @author Andrew Tivodar

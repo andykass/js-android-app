@@ -410,7 +410,7 @@
     <string name="error_export_failed">Berichtsexport fehlgeschlagen</string>
     <string name="error_export_cancelled">Berichtsexport abgebrochen</string>
     <string name="error_schedule_duplicate_file_name">Ausgabedateinamen duplizieren</string>
-    <string name="error_schedule_in_the_past">Das Startdatum liegt in der Vergangenheit. Es sollte in der Zukunft liegen.</string>
+    <string name="error_schedule_start_date_in_the_past">Das Startdatum liegt in der Vergangenheit. Es sollte in der Zukunft liegen.</string>
     <string name="error_schedule_special_characters">Der Basisausgabename enthält ungültige Zeichen.</string>
     <string name="error_schedule_folder_not_exist">Das Auftragsausgabeverzeichnis kann nicht gefunden werden.</string>
     <string name="error_schedule_folder_not_writable">Sie haben keine Berechtigung, die Auftrags-Ausgabe in diesem Verzeichnis zu speichern.</string>

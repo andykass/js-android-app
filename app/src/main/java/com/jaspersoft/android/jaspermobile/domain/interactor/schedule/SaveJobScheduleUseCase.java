@@ -1,12 +1,11 @@
 package com.jaspersoft.android.jaspermobile.domain.interactor.schedule;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.executor.PreExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.interactor.AbstractUseCase2;
 import com.jaspersoft.android.jaspermobile.domain.repository.schedule.ScheduleRepository;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
-import com.jaspersoft.android.sdk.service.data.schedule.JobData;
-import com.jaspersoft.android.sdk.service.data.schedule.JobForm;
 
 import javax.inject.Inject;
 
@@ -18,7 +17,7 @@ import rx.functions.Func0;
  * @since 2.5
  */
 @PerScreen
-public class SaveJobScheduleUseCase extends AbstractUseCase2<JobData, JobForm> {
+public class SaveJobScheduleUseCase extends AbstractUseCase2<Void, JobScheduleBundle> {
     private ScheduleRepository mScheduleRepository;
 
     @Inject
@@ -32,13 +31,13 @@ public class SaveJobScheduleUseCase extends AbstractUseCase2<JobData, JobForm> {
     }
 
     @Override
-    protected Observable<JobData> buildUseCaseObservable(final JobForm form) {
-        return Observable.defer(new Func0<Observable<JobData>>() {
+    protected Observable<Void> buildUseCaseObservable(final JobScheduleBundle form) {
+        return Observable.defer(new Func0<Observable<Void>>() {
             @Override
-            public Observable<JobData> call() {
+            public Observable<Void> call() {
                 try {
-                    JobData result = mScheduleRepository.createForm(form);
-                    return Observable.just(result);
+                    mScheduleRepository.add(form);
+                    return Observable.just(null);
                 } catch (Exception e) {
                     return Observable.error(e);
                 }

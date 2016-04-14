@@ -24,7 +24,7 @@
 
 package com.jaspersoft.android.jaspermobile.ui.presenter.resources;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.ui.eventbus.JobResourcesBus;

@@ -26,8 +26,8 @@ package com.jaspersoft.android.jaspermobile.internal.di.components.screen;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.JobsActivityComponent;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.JobsScreenModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobsActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.job.JobsScreenModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobsActivityModule;
 
 import dagger.Subcomponent;
 

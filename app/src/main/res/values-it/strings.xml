@@ -388,7 +388,7 @@
     <string name="error_export_failed">Esportazione del rapporto non riuscita</string>
     <string name="error_export_cancelled">Esportazione del rapporto annullata</string>
     <string name="error_schedule_duplicate_file_name">Nome del file di stampa duplicato</string>
-    <string name="error_schedule_in_the_past">La data di inizio è nel passato. Dovrebbe essere in futuro.</string>
+    <string name="error_schedule_start_date_in_the_past">La data di inizio è nel passato. Dovrebbe essere in futuro.</string>
     <string name="error_schedule_special_characters">Il nome di stampa di base contiene caratteri non validi.</string>
     <string name="error_schedule_folder_not_exist">La cartella di stampa del lavoro non può essere trovata.</string>
     <string name="error_schedule_folder_not_writable">Non si possiedono le autorizzazioni per salvare la stampa del lavoro nella cartella.</string>

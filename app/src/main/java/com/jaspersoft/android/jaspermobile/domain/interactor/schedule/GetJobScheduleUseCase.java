@@ -1,11 +1,14 @@
 package com.jaspersoft.android.jaspermobile.domain.interactor.schedule;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.executor.PostExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.executor.PreExecutionThread;
 import com.jaspersoft.android.jaspermobile.domain.interactor.AbstractUseCase2;
 import com.jaspersoft.android.jaspermobile.domain.repository.schedule.ScheduleRepository;
+import com.jaspersoft.android.jaspermobile.domain.repository.schedule.ScheduleSpecification;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
-import com.jaspersoft.android.sdk.service.data.schedule.JobForm;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,7 +20,7 @@ import rx.functions.Func0;
  * @since 2.5
  */
 @PerScreen
-public class GetJobScheduleUseCase extends AbstractUseCase2<JobForm, Integer> {
+public class GetJobScheduleUseCase extends AbstractUseCase2<JobScheduleBundle, Integer> {
     private ScheduleRepository mScheduleRepository;
 
     @Inject
@@ -31,13 +34,14 @@ public class GetJobScheduleUseCase extends AbstractUseCase2<JobForm, Integer> {
     }
 
     @Override
-    protected Observable<JobForm> buildUseCaseObservable(final Integer jobId) {
-        return Observable.defer(new Func0<Observable<JobForm>>() {
+    protected Observable<JobScheduleBundle> buildUseCaseObservable(final Integer jobId) {
+        return Observable.defer(new Func0<Observable<JobScheduleBundle>>() {
             @Override
-            public Observable<JobForm> call() {
+            public Observable<JobScheduleBundle> call() {
                 try {
-                    JobForm result = mScheduleRepository.readForm(jobId);
-                    return Observable.just(result);
+                    ScheduleSpecification scheduleSpecification = new ScheduleSpecification(jobId);
+                    List<JobScheduleBundle> result = mScheduleRepository.query(scheduleSpecification);
+                    return Observable.just(result.get(0));
                 } catch (Exception e) {
                     return Observable.error(e);
                 }

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/scheduleNameContainer"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -28,6 +32,7 @@
 
     <LinearLayout
         android:id="@+id/fileNameContainer"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -50,6 +55,7 @@
 
     <LinearLayout
         android:id="@+id/outputPathContainer"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -79,6 +85,7 @@
 
     <com.jaspersoft.android.jaspermobile.widget.DateTimeView
         android:id="@+id/scheduleDate"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -86,6 +93,7 @@
 
     <LinearLayout
         android:id="@+id/outputFormatContainer"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -106,5 +114,36 @@
             android:layout_height="wrap_content"
             android:singleLine="true"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/recurrence"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            style="@style/saveReport.outputFormat.label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sr_recurrence_type"/>
+
+        <TextView
+            android:id="@+id/recurrenceType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            tools:text="None"/>
+    </LinearLayout>
+
+    <include
+        layout="@layout/view_schedule_simple_recurrence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </merge>

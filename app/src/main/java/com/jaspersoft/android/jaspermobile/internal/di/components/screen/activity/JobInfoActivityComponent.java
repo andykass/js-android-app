@@ -25,7 +25,7 @@
 package com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobInfoActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobInfoActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.activity.JobInfoActivity;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.JobInfoView;
 

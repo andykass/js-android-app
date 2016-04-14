@@ -47,6 +47,7 @@ subprojects {
 
     ext.jasperSdkVersion = '1.11';
     ext.daggerVersion = '2.1';
+    ext.autoValue = '1.2';
 
     ext.fabricToolsVersion = '1.21.2';
     ext.dexCountToolsVersion = '0.3.0';

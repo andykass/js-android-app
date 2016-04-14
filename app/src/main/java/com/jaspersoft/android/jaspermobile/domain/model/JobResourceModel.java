@@ -24,12 +24,8 @@
 
 package com.jaspersoft.android.jaspermobile.domain.model;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
-import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 
-import java.util.Date;
-
-import rx.Observable;
 import rx.Subscriber;
 
 /**

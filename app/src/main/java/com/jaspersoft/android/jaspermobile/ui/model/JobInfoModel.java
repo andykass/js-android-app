@@ -25,18 +25,12 @@
 package com.jaspersoft.android.jaspermobile.ui.model;
 
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
-import com.jaspersoft.android.jaspermobile.domain.repository.schedule.ScheduleRepository;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.interactor.schedule.DeleteJobScheduleUseCase;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.jaspermobile.ui.contract.JobInfoContract;
-import com.jaspersoft.android.jaspermobile.util.rx.RxTransformer;
 
 import javax.inject.Inject;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author Andrew Tivodar
@@ -46,19 +40,17 @@ import rx.subscriptions.CompositeSubscription;
 public class JobInfoModel extends SimpleModel<JobInfoContract.ResultCallback> implements JobInfoContract.Model {
 
     private final JobResource mJobResource;
-    private final ScheduleRepository mScheduleRepository;
-    private final CompositeSubscription mCompositeSubscription;
+    private final DeleteJobScheduleUseCase mDeleteJobScheduleUseCase;
 
     @Inject
-    public JobInfoModel(JobResource job, ScheduleRepository scheduleRepository) {
+    public JobInfoModel(JobResource job, DeleteJobScheduleUseCase deleteJobScheduleUseCase) {
         mJobResource = job;
-        mScheduleRepository = scheduleRepository;
-        mCompositeSubscription = new CompositeSubscription();
+        mDeleteJobScheduleUseCase = deleteJobScheduleUseCase;
     }
 
     @Override
     public void clear() {
-        mCompositeSubscription.unsubscribe();
+        mDeleteJobScheduleUseCase.unsubscribe();
     }
 
     @Override
@@ -68,19 +60,8 @@ public class JobInfoModel extends SimpleModel<JobInfoContract.ResultCallback> im
 
     @Override
     public void requestJobDeletion() {
-        Subscription deleteSubscription = Observable.create(new Observable.OnSubscribe<Void>() {
-            @Override
-            public void call(Subscriber<? super Void> subscriber) {
-                try {
-                    mScheduleRepository.deleteJob(mJobResource.getId());
-                    subscriber.onNext(null);
-                } catch (Exception e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
-                .compose(RxTransformer.<Void>applySchedulers())
-                .subscribe(new SimpleSubscriber<Void>() {
+        mDeleteJobScheduleUseCase.execute(mJobResource.getId(),
+                new SimpleSubscriber<Void>() {
                     @Override
                     public void onError(Throwable e) {
                         getCallback().onError(e);
@@ -90,7 +71,7 @@ public class JobInfoModel extends SimpleModel<JobInfoContract.ResultCallback> im
                     public void onNext(Void item) {
                         getCallback().onDeletionSuccess();
                     }
-                });
-        mCompositeSubscription.add(deleteSubscription);
+                }
+        );
     }
 }

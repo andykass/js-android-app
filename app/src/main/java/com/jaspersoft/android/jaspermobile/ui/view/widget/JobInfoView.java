@@ -38,7 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.ui.component.ViewStateControllerDelegate;
 import com.jaspersoft.android.jaspermobile.ui.contract.JobInfoContract;
 import com.jaspersoft.android.jaspermobile.ui.presenter.JobInfoPresenter;

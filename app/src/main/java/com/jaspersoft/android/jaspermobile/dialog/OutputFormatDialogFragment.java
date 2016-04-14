@@ -32,14 +32,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormatOutputs;
-import com.jaspersoft.android.jaspermobile.ui.view.fragment.ComponentProviderDelegate;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * @author Andrew Tivodar
@@ -47,28 +43,18 @@ import javax.inject.Inject;
  */
 public class OutputFormatDialogFragment extends BaseDialogFragment implements DialogInterface.OnMultiChoiceClickListener {
 
-    private final static String FORMATS_ARG = "formats";
-    private ArrayList<JobFormViewEntity.OutputFormat> selectedFormats;
+    private final static String SELECTED_FORMATS_ARG = "SELECTED_FORMATS_ARG";
+    private final static String FORMATS_ARG = "FORMATS_ARG";
 
-    @Inject
-    JobFormatOutputs mOutputs;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ComponentProviderDelegate.INSTANCE
-                .getBaseActivityComponent(getActivity())
-                .inject(this);
-    }
+    private List<JobFormViewEntity.OutputFormat> selectedFormats;
+    private List<JobFormViewEntity.OutputFormat> formats;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.sr_output_format);
-        builder.setMultiChoiceItems(mOutputs.getLabels(), mOutputs.getSelected(selectedFormats), this);
+        builder.setMultiChoiceItems(getLabels(), getSelected(), this);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -91,22 +77,39 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
 
         Bundle args = getArguments();
         if (args != null) {
-            if (args.containsKey(FORMATS_ARG)) {
-                selectedFormats = (ArrayList<JobFormViewEntity.OutputFormat>) args.getSerializable(FORMATS_ARG);
-            }
+            selectedFormats = args.getParcelableArrayList(SELECTED_FORMATS_ARG);
+            formats = args.getParcelableArrayList(FORMATS_ARG);
         }
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-        if (which >= mOutputs.size()) return;
+        if (which >= formats.size()) return;
 
-        JobFormViewEntity.OutputFormat item = mOutputs.get(which);
+        JobFormViewEntity.OutputFormat item = formats.get(which);
         if (isChecked) {
             selectedFormats.add(item);
         } else {
             selectedFormats.remove(item);
         }
+    }
+
+    private String[] getLabels() {
+        int size = formats.size();
+        String[] labels = new String[size];
+        for (int i = 0; i < size; i++) {
+            labels[i] = formats.get(i).toString();
+        }
+        return labels;
+    }
+
+    private boolean[] getSelected() {
+        boolean[] selected = new boolean[formats.size()];
+        for (JobFormViewEntity.OutputFormat selectedFormat : selectedFormats) {
+            int index = formats.indexOf(selectedFormat);
+            selected[index] = true;
+        }
+        return selected;
     }
 
     @Override
@@ -128,8 +131,13 @@ public class OutputFormatDialogFragment extends BaseDialogFragment implements Di
             super(fragmentManager);
         }
 
-        public OutputFormatFragmentBuilder setSelectedFormats(List<JobFormViewEntity.OutputFormat> formats) {
-            args.putSerializable(FORMATS_ARG, new ArrayList<>(formats));
+        public OutputFormatFragmentBuilder setSelected(List<JobFormViewEntity.OutputFormat> formats) {
+            args.putParcelableArrayList(SELECTED_FORMATS_ARG, new ArrayList<>(formats));
+            return this;
+        }
+
+        public OutputFormatFragmentBuilder setFormats(List<JobFormViewEntity.OutputFormat> formats) {
+            args.putParcelableArrayList(FORMATS_ARG, new ArrayList<>(formats));
             return this;
         }
 

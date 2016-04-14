@@ -171,6 +171,7 @@
     <string name="sch_file_name">Output file name</string>
     <string name="sch_run_immediately">Run immediately</string>
     <string name="sch_start_date">Schedule start date</string>
+    <string name="sch_end_date" translatable="false">Schedule end date</string>
     <string name="sch_destination">Output destination path</string>
     <string name="sch_created">Job scheduled</string>
     <string name="sch_updated">Job updated</string>
@@ -216,6 +217,20 @@
     <string name="sr_ab_title">Save Report</string>
     <string name="sr_report_name">File name</string>
     <string name="sr_output_format">Output format</string>
+    <string name="sr_recurrence_type" translatable="false">Recurrence</string>
+    <string name="sr_recurrence_none" translatable="false">None</string>
+    <string name="sr_recurrence_simple" translatable="false">Simple</string>
+    <string name="sr_recurrence_simple_unit_minute" translatable="false">Minutes</string>
+    <string name="sr_recurrence_simple_unit_hour" translatable="false">Hours</string>
+    <string name="sr_recurrence_simple_unit_day" translatable="false">Days</string>
+    <string name="sr_recurrence_simple_unit_week" translatable="false">Weeks</string>
+    <string name="sr_recurrence_calendar" translatable="false">Calendar</string>
+    <string name="sr_repeat_every" translatable="false">Repeat every (required)</string>
+    <string name="sr_schedule_end" translatable="false">Schedule end</string>
+    <string name="sr_run_number_of_times" translatable="false">Run a set number of times</string>
+    <string name="sr_number_of_runs" translatable="false">Number of runs</string>
+    <string name="sr_run_until" translatable="false">Run until a specified date</string>
+    <string name="sr_run_indefinitely" translatable="false">Run indefinitely</string>
     <string name="sr_from">From page</string>
     <string name="sr_to">To page</string>
     <string name="sr_failed_to_create_local_repo">Failed to create local file storage.</string>
@@ -306,7 +321,8 @@
     <string name="error_export_failed">Report export failed</string>
     <string name="error_export_cancelled">Report export cancelled</string>
     <string name="error_schedule_duplicate_file_name">Duplicate Output File name</string>
-    <string name="error_schedule_in_the_past">The start date is in the past. It should be in the future.</string>
+    <string name="error_schedule_start_date_in_the_past">The start date is in the past. It should be in the future.</string>
+    <string name="error_schedule_end_date_in_the_past" translatable="false">The end date is in the past. It should be in the future.</string>
     <string name="error_schedule_special_characters">The base output name contains invalid characters. You might have mistyped it.</string>
     <string name="error_schedule_folder_not_exist">The job output folder cannot be found. It might have been deleted or moved.</string>
     <string name="error_schedule_folder_not_writable">You do not have permission to save the job output to the folder. Select another location to save the job.</string>

@@ -75,7 +75,7 @@ public class VisualizeEndpoint {
      * Creates builder or throws exception if baseUrl malformed
      *
      * @param baseUrl should be base url of target JRS server
-     * @return builder with default values
+     * @return build with default values
      */
     public static EndpointBuilder forBaseUrl(String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {

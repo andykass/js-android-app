@@ -1,6 +1,6 @@
 package com.jaspersoft.android.jaspermobile.ui.contract;
 
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
 
 /**
  * @author Tom Koptel
@@ -8,29 +8,29 @@ import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
  */
 public interface ScheduleFormContract {
     interface View {
-        void showForm(JobFormViewEntity form);
+        void showForm(JobFormViewBundle formBundle);
         void showFormLoadingMessage();
         void hideFormLoadingMessage();
         void showSubmitMessage();
         void hideSubmitMessage();
         void showSubmitSuccess();
-        JobFormViewEntity takeForm();
+        JobFormViewBundle takeForm();
     }
 
     interface EventListener {
         void onViewReady();
-        void onSubmitClick(JobFormViewEntity form);
+        void onSubmitClick(JobFormViewBundle form);
     }
 
     interface Model {
         void load();
-        void submit(JobFormViewEntity form);
+        void submit(JobFormViewBundle form);
 
         void bind(Callback callbacks);
         void unbind();
 
         interface Callback {
-            void onFormLoadSuccess(JobFormViewEntity form);
+            void onFormLoadSuccess(JobFormViewBundle form);
             void onFormLoadError(Throwable error);
 
             void onFormSubmitSuccess();

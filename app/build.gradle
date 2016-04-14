@@ -167,13 +167,16 @@ android {
         compile 'com.google.android.gms:play-services-analytics:8.4.0'
         compile 'com.google.android.gms:play-services-cast:8.4.0'
 
-        compile("com.google.dagger:dagger:${daggerVersion}")
-        apt "com.google.dagger:dagger-compiler:${daggerVersion}"
-
-        provided "javax.annotation:jsr250-api:1.0"
-
         compile("org.androidannotations:androidannotations-api:3.2")
         apt "org.androidannotations:androidannotations:3.2"
+
+        compile("com.google.dagger:dagger:${daggerVersion}")
+        apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+        provided "javax.annotation:jsr250-api:1.0"
+
+        provided "com.google.auto.value:auto-value:${autoValue}"
+        apt "com.google.auto.value:auto-value:${autoValue}"
+        apt "com.ryanharter.auto.value:auto-value-parcel:0.2.1"
 
         compile "com.jakewharton.timber:timber:2.5.0"
         compile("com.github.orhanobut:hawk:1.20") {

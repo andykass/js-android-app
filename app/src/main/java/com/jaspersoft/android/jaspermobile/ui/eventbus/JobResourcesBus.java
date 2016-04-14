@@ -1,14 +1,12 @@
 package com.jaspersoft.android.jaspermobile.ui.eventbus;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Subscriber;
 
 /**
  * @author Andrew Tivodar

@@ -1,16 +1,14 @@
 package com.jaspersoft.android.jaspermobile.ui.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.network.RequestExceptionHandler;
 import com.jaspersoft.android.jaspermobile.ui.component.presenter.BasePresenter;
-import com.jaspersoft.android.jaspermobile.ui.component.presenter.PresenterBundle;
 import com.jaspersoft.android.jaspermobile.ui.contract.ScheduleFormContract;
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 /**
  * @author Tom Koptel
@@ -19,11 +17,8 @@ import javax.inject.Inject;
 @PerActivity
 public class ScheduleFormPresenter extends BasePresenter<ScheduleFormContract.View>
         implements ScheduleFormContract.EventListener, ScheduleFormContract.Model.Callback {
-    private static final String FORM_KEY = "form";
-
     private final ScheduleFormContract.Model mModel;
-    private RequestExceptionHandler mExceptionHandler;
-    private JobFormViewEntity mViewForm;
+    private final RequestExceptionHandler mExceptionHandler;
 
     @Inject
     public ScheduleFormPresenter(ScheduleFormContract.Model model, RequestExceptionHandler exceptionHandler) {
@@ -32,49 +27,26 @@ public class ScheduleFormPresenter extends BasePresenter<ScheduleFormContract.Vi
     }
 
     @Override
-    public void onCreate(@Nullable PresenterBundle bundle) {
-        super.onCreate(bundle);
-
-        if (bundle != null && bundle.containsKey(FORM_KEY)) {
-            mViewForm = (JobFormViewEntity) bundle.getSerializable(FORM_KEY);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull PresenterBundle bundle) {
-        bundle.putSerializable(FORM_KEY, mView.takeForm());
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
     public void onBindView(ScheduleFormContract.View view) {
         mModel.bind(this);
-
-        if (mViewForm == null) {
-            mView.showFormLoadingMessage();
-            mModel.load();
-        } else {
-            mView.showForm(mViewForm);
-        }
     }
 
     @Override
     public void onViewReady() {
+        mView.showFormLoadingMessage();
+        mModel.load();
     }
 
     @Override
-    public void onSubmitClick(JobFormViewEntity form) {
+    public void onSubmitClick(JobFormViewBundle form) {
         mView.showSubmitMessage();
         mModel.submit(form);
     }
 
     @Override
-    public void onFormLoadSuccess(JobFormViewEntity form) {
-        boolean formIsMissing = mViewForm == null;
-        if (formIsMissing) {
-            mView.hideFormLoadingMessage();
-            mView.showForm(form);
-        }
+    public void onFormLoadSuccess(JobFormViewBundle form) {
+        mView.hideFormLoadingMessage();
+        mView.showForm(form);
     }
 
     @Override
@@ -89,7 +61,6 @@ public class ScheduleFormPresenter extends BasePresenter<ScheduleFormContract.Vi
         mView.hideFormLoadingMessage();
     }
 
-    @Override
     public void onFormSubmitError(Throwable error) {
         mView.hideSubmitMessage();
         handleError(error);
@@ -97,5 +68,6 @@ public class ScheduleFormPresenter extends BasePresenter<ScheduleFormContract.Vi
 
     private void handleError(Throwable error) {
         mExceptionHandler.showAuthErrorIfExists(error);
+        Timber.e(error, "ScheduleFormPresenter messaged!");
     }
 }

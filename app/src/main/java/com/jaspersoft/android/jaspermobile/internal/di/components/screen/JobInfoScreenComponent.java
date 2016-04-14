@@ -25,12 +25,9 @@
 package com.jaspersoft.android.jaspermobile.internal.di.components.screen;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
-import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.ChooseReportActivityComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity.JobInfoActivityComponent;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.ChooseReportScreenModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.JobInfoScreenModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.ChooserReportActivityModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobInfoActivityModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.job.JobInfoScreenModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobInfoActivityModule;
 
 import dagger.Subcomponent;
 

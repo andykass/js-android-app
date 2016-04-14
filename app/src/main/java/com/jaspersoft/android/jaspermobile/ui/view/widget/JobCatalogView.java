@@ -29,10 +29,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
-import com.jaspersoft.android.jaspermobile.ui.view.viewholder.JobResourceViewHolder;
 
-import org.androidannotations.annotations.EView;
 import org.androidannotations.annotations.EViewGroup;
 
 /**

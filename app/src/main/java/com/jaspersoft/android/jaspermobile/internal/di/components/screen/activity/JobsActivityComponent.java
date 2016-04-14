@@ -25,8 +25,7 @@
 package com.jaspersoft.android.jaspermobile.internal.di.components.screen.activity;
 
 import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.activity.JobsActivityModule;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.FragmentModule;
+import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobsActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.presenter.fragment.JobFragmentPresenter;
 import com.jaspersoft.android.jaspermobile.ui.view.widget.CatalogView;
 

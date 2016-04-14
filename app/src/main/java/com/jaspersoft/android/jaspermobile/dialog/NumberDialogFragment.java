@@ -30,13 +30,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 
 import com.jaspersoft.android.jaspermobile.R;
 
@@ -48,18 +48,15 @@ import org.androidannotations.annotations.SystemService;
  * @since 1.9
  */
 @EFragment
-public class NumberDialogFragment extends BaseDialogFragment implements DialogInterface.OnShowListener, DialogInterface.OnClickListener {
+public class NumberDialogFragment extends BaseDialogFragment implements DialogInterface.OnShowListener {
 
-    private final static String MIN_VALUE_ARG = "min_value";
     private final static String MAX_VALUE_ARG = "max_value";
-    private final static String CURRENT_VALUE_ARG = "mSelectedValue";
+    private final static String INIT_VALUE_ARG = "init_value";
 
-    private int mMinValue;
     private int mMaxValue;
-    private int mSelectedValue;
+    private int mInitValue = Integer.MIN_VALUE;
 
-    private EditText etNumber;
-    private NumberPicker numberPicker;
+    private EditText numberEditText;
 
     @SystemService
     protected InputMethodManager inputMethodManager;
@@ -68,43 +65,34 @@ public class NumberDialogFragment extends BaseDialogFragment implements DialogIn
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        ViewGroup customView = (ViewGroup) layoutInflater
+                .inflate(R.layout.page_dialog_layout,
+                        (ViewGroup) getActivity().getWindow().getDecorView(), false);
+        numberEditText = (EditText) customView.findViewById(R.id.customNumber);
+        numberEditText.setFilters(new InputFilter[]{new InputFilterMinMax(1, mMaxValue)});
 
-        ViewGroup customView = (ViewGroup) LayoutInflater.from(getActivity())
-                .inflate(R.layout.number_dialog_layout, (ViewGroup) getView(), false);
+        if (mInitValue != Integer.MIN_VALUE) {
+            numberEditText.setText(String.valueOf(mInitValue));
+        }
 
-        numberPicker = (NumberPicker) customView.findViewById(R.id.numberPicker);
-        numberPicker.setMinValue(mMinValue);
-        numberPicker.setMaxValue(mMaxValue);
-
-        int inputId = getActivity().getResources().getIdentifier("numberpicker_input", "id", "android");
-        etNumber = (EditText) numberPicker.findViewById(inputId);
-        etNumber.addTextChangedListener(new PickerTextWatcher());
-
-        builder.setTitle(R.string.dialog_current_page);
+        builder.setTitle(R.string.rv_select_page);
         builder.setView(customView);
-        builder.setCancelable(true);
-        builder.setPositiveButton(R.string.ok, this);
-        builder.setNegativeButton(R.string.cancel, this);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, null);
 
-        AlertDialog dialog = builder.create();
-        if (savedInstanceState == null) {
-            dialog.setOnShowListener(this);
-        }
-
-        return dialog;
+        Dialog pageDialog = builder.create();
+        pageDialog.setOnShowListener(this);
+        return pageDialog;
     }
 
     @Override
-    public void onShow(DialogInterface dialog) {
-        numberPicker.setValue(mSelectedValue);
-    }
+    public void onShow(DialogInterface dialogInterface) {
+        numberEditText.requestFocus();
+        inputMethodManager.showSoftInput(numberEditText, 0);
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE && mDialogListener != null) {
-            ((NumberDialogClickListener) mDialogListener).onPageSelected(numberPicker.getValue(), requestCode);
-        }
-        inputMethodManager.hideSoftInputFromWindow(etNumber.getWindowToken(), 0);
+        AlertDialog dialog = ((AlertDialog) getDialog());
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new OnPositiveCLickListener());
     }
 
     @Override
@@ -117,49 +105,45 @@ public class NumberDialogFragment extends BaseDialogFragment implements DialogIn
 
         Bundle args = getArguments();
         if (args != null) {
-            if (args.containsKey(MIN_VALUE_ARG)) {
-                mMinValue = args.getInt(MIN_VALUE_ARG);
-            }
             if (args.containsKey(MAX_VALUE_ARG)) {
                 mMaxValue = args.getInt(MAX_VALUE_ARG);
             }
-            if (args.containsKey(CURRENT_VALUE_ARG)) {
-                mSelectedValue = args.getInt(CURRENT_VALUE_ARG);
+            if (args.containsKey(INIT_VALUE_ARG)) {
+                mInitValue = args.getInt(INIT_VALUE_ARG);
             }
         }
     }
 
-    public static NumberDialogFragmentBuilder createBuilder(FragmentManager fragmentManager) {
-        return new NumberDialogFragmentBuilder(fragmentManager);
+    public static PageDialogFragmentBuilder createBuilder(FragmentManager fragmentManager) {
+        return new PageDialogFragmentBuilder(fragmentManager);
     }
 
     //---------------------------------------------------------------------
     // Dialog Builder
     //---------------------------------------------------------------------
 
-    public static class NumberDialogFragmentBuilder extends BaseDialogFragmentBuilder<NumberDialogFragment> {
+    public static class PageDialogFragmentBuilder extends BaseDialogFragmentBuilder<NumberDialogFragment> {
 
-        public NumberDialogFragmentBuilder(FragmentManager fragmentManager) {
+        public PageDialogFragmentBuilder(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
-        public NumberDialogFragmentBuilder setMinValue(int minValue) {
-            args.putInt(MIN_VALUE_ARG, minValue);
+        public PageDialogFragmentBuilder setValue(int value) {
+            args.putInt(INIT_VALUE_ARG, value);
             return this;
         }
 
-        public NumberDialogFragmentBuilder setMaxValue(int maxValue) {
+
+        public PageDialogFragmentBuilder setMaxValue(int maxValue) {
             args.putInt(MAX_VALUE_ARG, maxValue);
-            return this;
-        }
-
-        public NumberDialogFragmentBuilder setCurrentValue(int value) {
-            args.putInt(CURRENT_VALUE_ARG, value);
             return this;
         }
 
         @Override
         protected NumberDialogFragment build() {
+            if (!args.containsKey(MAX_VALUE_ARG)) {
+                args.putInt(MAX_VALUE_ARG, Integer.MAX_VALUE);
+            }
             return new NumberDialogFragment_();
         }
     }
@@ -169,36 +153,58 @@ public class NumberDialogFragment extends BaseDialogFragment implements DialogIn
     //---------------------------------------------------------------------
 
     public interface NumberDialogClickListener extends DialogClickListener {
-        public void onPageSelected(int page, int requestCode);
+        void onNumberSubmit(int number, int requestCode);
     }
 
     //---------------------------------------------------------------------
     // Nested classes
     //---------------------------------------------------------------------
 
-    private class PickerTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    private static class InputFilterMinMax implements InputFilter {
+        private int min, max;
 
+        public InputFilterMinMax(int min, int max) {
+            this.min = min;
+            this.max = max;
         }
 
         @Override
-        public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
             try {
-                int value = Integer.valueOf(String.valueOf(sequence));
-                if (value >= numberPicker.getMinValue() && value <= numberPicker.getMaxValue()) {
-                    numberPicker.setValue(value);
-                }
-
-            } catch (NumberFormatException ex) {
-                // swallow error
+                int input = Integer.parseInt(dest.toString() + source.toString());
+                if (isInRange(min, max, input))
+                    return null;
+            } catch (NumberFormatException nfe) {
             }
+            return "";
         }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-
+        private boolean isInRange(int a, int b, int c) {
+            return b > a ? c >= a && c <= b : c >= b && c <= a;
         }
     }
 
+    private class OnPositiveCLickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if (numberEditText.length() == 0) {
+                numberEditText.setError(
+                        getString(R.string.sp_error_field_required));
+            } else {
+                int page;
+                try {
+                    page = Integer.valueOf(numberEditText.getText().toString());
+                } catch (NumberFormatException ex) {
+                    page = Integer.MAX_VALUE;
+                    numberEditText.setText(String.valueOf(page));
+                }
+
+                if (mDialogListener != null) {
+                    ((NumberDialogClickListener) mDialogListener).onNumberSubmit(page, requestCode);
+                }
+                dismiss();
+            }
+        }
+    }
 }

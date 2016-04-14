@@ -22,11 +22,18 @@
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
 
-<com.jaspersoft.android.jaspermobile.ui.view.widget.ScheduleFormView_
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scheduleFormView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"/>
+    android:layout_height="match_parent">
+
+    <com.jaspersoft.android.jaspermobile.ui.view.widget.ScheduleFormView_
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scheduleFormView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"/>
+
+</ScrollView>
 

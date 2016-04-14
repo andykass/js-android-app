@@ -24,9 +24,8 @@
 
 package com.jaspersoft.android.jaspermobile.data.entity.mapper;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobSort;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobSort;
 import com.jaspersoft.android.jaspermobile.domain.entity.Sort;
-import com.jaspersoft.android.jaspermobile.internal.di.PerActivity;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
 import com.jaspersoft.android.sdk.service.report.schedule.JobSortType;
 

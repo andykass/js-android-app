@@ -1,13 +1,14 @@
 package com.jaspersoft.android.jaspermobile.ui.model;
 
+import android.support.annotation.NonNull;
+
 import com.jaspersoft.android.jaspermobile.Analytics;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.interactor.schedule.GetJobScheduleUseCase;
 import com.jaspersoft.android.jaspermobile.domain.interactor.schedule.UpdateJobScheduleUseCase;
-import com.jaspersoft.android.jaspermobile.domain.request.UpdateJobRequest;
 import com.jaspersoft.android.jaspermobile.internal.di.PerScreen;
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormMapper;
-import com.jaspersoft.android.jaspermobile.ui.view.entity.JobFormViewEntity;
-import com.jaspersoft.android.sdk.service.data.schedule.JobForm;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
+import com.jaspersoft.android.jaspermobile.ui.mapper.UiEntityMapper;
 
 import rx.Subscriber;
 
@@ -17,47 +18,53 @@ import rx.Subscriber;
  */
 @PerScreen
 public final class ScheduleUpdateModel extends AbstractScheduleModel {
-    private int mJobId;
-    private JobFormMapper mMapper;
-    private GetJobScheduleUseCase mGetJobScheduleUseCase;
-    private UpdateJobScheduleUseCase mUpdateJobScheduleUseCase;
-    private Analytics mAnalytics;
+    @NonNull
+    private final UiEntityMapper<JobScheduleBundle, JobFormViewBundle> bundleMapper;
+    @NonNull
+    private final GetJobScheduleUseCase getJobScheduleUseCase;
+    @NonNull
+    private final UpdateJobScheduleUseCase updateJobScheduleUseCase;
+    @NonNull
+    private final Analytics analytics;
+    private final int jobId;
+    private boolean loadDataEventConsumed;
 
     public ScheduleUpdateModel(
             int jobId,
-            JobFormMapper mapper,
-            GetJobScheduleUseCase getJobScheduleUseCase,
-            UpdateJobScheduleUseCase updateJobScheduleUseCase,
-            Analytics analytics
+            @NonNull UiEntityMapper<JobScheduleBundle, JobFormViewBundle> bundleMapper,
+            @NonNull GetJobScheduleUseCase getJobScheduleUseCase,
+            @NonNull UpdateJobScheduleUseCase updateJobScheduleUseCase,
+            @NonNull Analytics analytics
     ) {
-        mJobId = jobId;
-        mMapper = mapper;
-        mGetJobScheduleUseCase = getJobScheduleUseCase;
-        mUpdateJobScheduleUseCase = updateJobScheduleUseCase;
-        mAnalytics = analytics;
+        this.jobId = jobId;
+        this.bundleMapper = bundleMapper;
+        this.getJobScheduleUseCase = getJobScheduleUseCase;
+        this.updateJobScheduleUseCase = updateJobScheduleUseCase;
+        this.analytics = analytics;
     }
 
     @Override
     public void load() {
-        mGetJobScheduleUseCase.execute(mJobId, createReadFormSubscriber());
+        getJobScheduleUseCase.execute(jobId, createReadFormSubscriber());
     }
 
     @Override
-    public void submit(JobFormViewEntity viewEntity) {
-        JobForm form = mMapper.toDataEntity(viewEntity);
-        UpdateJobRequest request = new UpdateJobRequest(mJobId, form);
-        mUpdateJobScheduleUseCase.execute(request, createUpdateFormSubscriber());
+    public void submit(JobFormViewBundle viewEntity) {
+        JobScheduleBundle form = bundleMapper.toDomainEntity(viewEntity);
+        updateJobScheduleUseCase.execute(form, createUpdateFormSubscriber());
     }
 
     @Override
     public void bind(Callback callbacks) {
         super.bind(callbacks);
-        mGetJobScheduleUseCase.subscribe(createReadFormSubscriber());
-        mUpdateJobScheduleUseCase.subscribe(createUpdateFormSubscriber());
+        if (!loadDataEventConsumed) {
+            getJobScheduleUseCase.subscribe(createReadFormSubscriber());
+        }
+        updateJobScheduleUseCase.subscribe(createUpdateFormSubscriber());
     }
 
-    private Subscriber<? super JobForm> createReadFormSubscriber() {
-        return new Subscriber<JobForm>() {
+    private Subscriber<? super JobScheduleBundle> createReadFormSubscriber() {
+        return new Subscriber<JobScheduleBundle>() {
             @Override
             public void onCompleted() {
                 logJobCreatedEvent();
@@ -69,15 +76,16 @@ public final class ScheduleUpdateModel extends AbstractScheduleModel {
             }
 
             @Override
-            public void onNext(JobForm item) {
-                JobFormViewEntity form = mMapper.toUiEntity(item);
+            public void onNext(JobScheduleBundle item) {
+                loadDataEventConsumed = true;
+                JobFormViewBundle form = bundleMapper.toUiEntity(item);
                 mCallbacks.onFormLoadSuccess(form);
             }
         };
     }
 
-    private Subscriber<? super JobForm> createUpdateFormSubscriber() {
-        return new Subscriber<JobForm>() {
+    private Subscriber<? super Void> createUpdateFormSubscriber() {
+        return new Subscriber<Void>() {
             @Override
             public void onCompleted() {
                 logJobViewedEvent();
@@ -89,7 +97,7 @@ public final class ScheduleUpdateModel extends AbstractScheduleModel {
             }
 
             @Override
-            public void onNext(JobForm item) {
+            public void onNext(Void item) {
                 mCallbacks.onFormSubmitSuccess();
             }
         };
@@ -98,19 +106,19 @@ public final class ScheduleUpdateModel extends AbstractScheduleModel {
     @Override
     public void unbind() {
         super.unbind();
-        mGetJobScheduleUseCase.unsubscribe();
-        mUpdateJobScheduleUseCase.unsubscribe();
+        getJobScheduleUseCase.unsubscribe();
+        updateJobScheduleUseCase.unsubscribe();
     }
 
     private void logJobViewedEvent() {
-        mAnalytics.sendEvent(
+        analytics.sendEvent(
                 Analytics.EventCategory.JOB.getValue(),
                 Analytics.EventAction.VIEWED.getValue(),
                 null);
     }
 
     private void logJobCreatedEvent() {
-        mAnalytics.sendEvent(
+        analytics.sendEvent(
                 Analytics.EventCategory.JOB.getValue(),
                 Analytics.EventAction.CHANGED.getValue(),
                 null);

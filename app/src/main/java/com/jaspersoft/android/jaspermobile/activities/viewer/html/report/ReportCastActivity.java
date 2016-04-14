@@ -42,8 +42,8 @@ import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity;
 import com.jaspersoft.android.jaspermobile.activities.inputcontrols.InputControlsActivity_;
 import com.jaspersoft.android.jaspermobile.data.entity.mapper.ReportParamsMapper;
+import com.jaspersoft.android.jaspermobile.dialog.NumberPickerDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.NumberDialogFragment;
-import com.jaspersoft.android.jaspermobile.dialog.PageDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.ReportControlFlags;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
 import com.jaspersoft.android.jaspermobile.domain.interactor.profile.AuthorizeSessionUseCase;
@@ -89,8 +89,8 @@ import timber.log.Timber;
 public class ReportCastActivity extends CastActivity
         implements
         ResourcePresentationService.ResourcePresentationCallback,
+        NumberPickerDialogFragment.NumberDialogClickListener,
         NumberDialogFragment.NumberDialogClickListener,
-        PageDialogFragment.PageDialogClickListener,
         AbstractPaginationView.OnPageChangeListener,
         AbstractPaginationView.OnPickerSelectedListener {
 
@@ -312,22 +312,27 @@ public class ReportCastActivity extends CastActivity
     @Override
     public void onPagePickerRequested() {
         if (paginationBar.isTotalPagesLoaded()) {
-            NumberDialogFragment.createBuilder(getSupportFragmentManager())
+            NumberPickerDialogFragment.createBuilder(getSupportFragmentManager())
                     .setMinValue(1)
                     .setCurrentValue(paginationBar.getCurrentPage())
                     .setMaxValue(paginationBar.getTotalPages())
                     .show();
         } else {
-            PageDialogFragment.createBuilder(getSupportFragmentManager())
+            NumberDialogFragment.createBuilder(getSupportFragmentManager())
                     .setMaxValue(Integer.MAX_VALUE)
                     .show();
         }
     }
 
     @Override
-    public void onPageSelected(int page, int requestCode) {
+    public void onNumberPicked(int page, int requestCode) {
         paginationBar.updateCurrentPage(page);
-        onPageSelected(page);
+        onNumberSubmit(page, requestCode);
+    }
+
+    @Override
+    public void onNumberSubmit(int currentPage, int requestCode) {
+        onPageSelected(currentPage);
     }
 
     @Override

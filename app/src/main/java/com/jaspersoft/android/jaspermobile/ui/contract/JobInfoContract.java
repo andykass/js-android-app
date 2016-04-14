@@ -24,7 +24,8 @@
 
 package com.jaspersoft.android.jaspermobile.ui.contract;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
+
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 
 /**
  * @author Andrew Tivodar

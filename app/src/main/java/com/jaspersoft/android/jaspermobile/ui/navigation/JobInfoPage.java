@@ -27,10 +27,8 @@ package com.jaspersoft.android.jaspermobile.ui.navigation;
 import android.content.Context;
 import android.content.Intent;
 
-import com.jaspersoft.android.jaspermobile.domain.entity.JobResource;
-import com.jaspersoft.android.jaspermobile.ui.presenter.activity.JobInfoActivity;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.ui.presenter.activity.JobInfoActivity_;
-import com.jaspersoft.android.jaspermobile.ui.view.activity.schedule.EditScheduleActivity_;
 
 
 /**

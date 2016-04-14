@@ -409,7 +409,7 @@
     <string name="error_export_failed">No se pudo exportar el informe</string>
     <string name="error_export_cancelled">Exportación del informe cancelada</string>
     <string name="error_schedule_duplicate_file_name">Nombre del archivo de salida duplicado</string>
-    <string name="error_schedule_in_the_past">La fecha de inicio está en el pasado. Debe estar en el futuro.</string>
+    <string name="error_schedule_start_date_in_the_past">La fecha de inicio está en el pasado. Debe estar en el futuro.</string>
     <string name="error_schedule_special_characters">El nombre base de salida contiene caracteres inválidos.</string>
     <string name="error_schedule_folder_not_exist">No se encontró la carpeta de salida del trabajo.</string>
     <string name="error_schedule_folder_not_writable">No tiene permisos para guardar la salida del trabajo en la carpeta.</string>

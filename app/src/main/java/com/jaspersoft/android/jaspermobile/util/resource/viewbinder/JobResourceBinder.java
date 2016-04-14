@@ -70,7 +70,10 @@ class JobResourceBinder extends ResourceBinder {
                 runDateString = "--";
             }
 
-            resourceView.setSubTitle(getContext().getString(R.string.sch_next_run_label, runDateString, ((JobResource) item).getState()));
+            String state = ((JobResource) item).getState();
+            String subTitle = getContext().getString(R.string.sch_next_run_label, runDateString) + state;
+            resourceView.setSubTitle(subTitle);
+
             return;
         }
 

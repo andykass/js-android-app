@@ -388,7 +388,7 @@
     <string name="error_export_failed">Falha ao exportar relatório</string>
     <string name="error_export_cancelled">Exportação de relatório cancelada</string>
     <string name="error_schedule_duplicate_file_name">Nome do arquivo de saída duplicado</string>
-    <string name="error_schedule_in_the_past">A data de início deve ser após a data atual.</string>
+    <string name="error_schedule_start_date_in_the_past">A data de início deve ser após a data atual.</string>
     <string name="error_schedule_special_characters">O nome de base para a saída contém caracteres inválidos.</string>
     <string name="error_schedule_folder_not_exist">Pasta de resultados de tarefas não encontrada.</string>
     <string name="error_schedule_folder_not_writable">Você não tem permissão para salvar o resultado da tarefa nesta pasta.</string>

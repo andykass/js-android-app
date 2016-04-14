@@ -108,7 +108,7 @@ import timber.log.Timber;
 @OptionsMenu(R.menu.input_control_menu)
 public class InputControlsActivity extends ToolbarActivity
         implements InputControlsAdapter.InputControlInteractionListener,
-        DateDialogFragment.DateDialogClickListener,
+        DateDialogFragment.IcDateDialogClickListener,
         SimpleDialogFragment.SimpleDialogClickListener,
         SaveReportOptionDialogFragment.SaveReportOptionDialogCallback,
         TextInputControlDialogFragment.InputControlValueDialogCallback {
@@ -330,7 +330,8 @@ public class InputControlsActivity extends ToolbarActivity
     }
 
     @Override
-    public void onDateSelected(String icId, Calendar date) {
+    public void onDateSelected(Calendar date, int requestCode, Object... data) {
+        String icId = (String) data[0];
         InputControl inputControl = getInputControl(icId);
 
         updateDateValue(inputControl, date);

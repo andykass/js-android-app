@@ -149,7 +149,7 @@ public class RequestExceptionHandler {
             case StatusCodes.JOB_DUPLICATE_OUTPUT_FILE_NAME:
                 return mContext.getString(R.string.error_schedule_duplicate_file_name);
             case StatusCodes.JOB_START_DATE_IN_THE_PAST:
-                return mContext.getString(R.string.error_schedule_in_the_past);
+                return mContext.getString(R.string.error_schedule_start_date_in_the_past);
             case StatusCodes.JOB_OUTPUT_FILENAME_INVALID_CHARS:
                 return mContext.getString(R.string.error_schedule_special_characters);
             case StatusCodes.JOB_OUTPUT_FOLDER_DOES_NOT_EXIST:

@@ -388,7 +388,7 @@
     <string name="error_export_failed">レポートの書き出しに失敗しました</string>
     <string name="error_export_cancelled">レポートの書き出しがキャンセルされました</string>
     <string name="error_schedule_duplicate_file_name">出力ファイル名が重複しています</string>
-    <string name="error_schedule_in_the_past">開始日が過去の日付となっています。現在以降の日付を設定してください。</string>
+    <string name="error_schedule_start_date_in_the_past">開始日が過去の日付となっています。現在以降の日付を設定してください。</string>
     <string name="error_schedule_special_characters">ベースとなる出力名に無効な文字が含まれています。</string>
     <string name="error_schedule_folder_not_exist">ジョブの出力フォルダが見つかりません。</string>
     <string name="error_schedule_folder_not_writable">あなたには、フォルダにジョブを出力して保存する権限がありません。</string>
