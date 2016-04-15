@@ -24,6 +24,8 @@
 
 package com.jaspersoft.android.jaspermobile.ui.contract;
 
+import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
+
 import java.util.Date;
 
 /**
@@ -36,6 +38,8 @@ public interface JobResourceContract extends ResourceContract {
         void showSubTitle(Date nextFireDate);
         void showProgress(boolean enabled);
         void showEnabled(boolean enabled);
+        void showImage();
+        void showThumbnail(ResourceIcon resourceIcon);
         void setEventListener(EventListener eventListener);
     }
 

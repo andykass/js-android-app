@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height"
-    android:background="@android:color/white">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_item_height"
+                android:background="@android:color/white">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_resource_item" />
+        android:background="@drawable/bg_resource_item"/>
+
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="@dimen/list_item_image_width"
+        android:layout_height="@dimen/list_item_image_width"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="@string/img_cd_list_item"
+        tools:background="@drawable/bg_gradient_grey"
+        tools:src="@drawable/ic_report"/>
 
     <LinearLayout
         android:id="@+id/metadataContainer"
@@ -16,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_toLeftOf="@+id/actionsToolbar"
+        android:layout_toRightOf="@android:id/icon"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -25,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            tools:text="Large Text" />
+            tools:text="Large Text"/>
 
         <TextView
             android:id="@android:id/text2"
@@ -33,19 +44,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            tools:text="Small Text" />
+            tools:text="Small Text"/>
     </LinearLayout>
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/actionsToolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:minHeight="?attr/actionBarSize"
-        app:contentInsetStart="0dp"
-        app:popupTheme="@style/Theme.JasperMobile"
-        app:theme="@style/Theme.JasperMobile.Toolbar.Resources">
+    <android.support.v7.widget.Toolbar android:id="@+id/actionsToolbar"
+                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:layout_alignParentRight="true"
+                                       android:layout_centerVertical="true"
+                                       android:minHeight="?attr/actionBarSize"
+                                       app:contentInsetStart="0dp"
+                                       app:popupTheme="@style/Theme.JasperMobile"
+                                       app:theme="@style/Theme.JasperMobile.Toolbar.Resources">
 
         <ProgressBar
             android:id="@+id/progressBar"

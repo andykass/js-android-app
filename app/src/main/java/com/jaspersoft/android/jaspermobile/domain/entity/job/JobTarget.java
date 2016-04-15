@@ -25,21 +25,22 @@
 package com.jaspersoft.android.jaspermobile.domain.entity.job;
 
 import java.io.Serializable;
+import java.net.URI;
 
 /**
  * @author Andrew Tivodar
  * @since 2.5
  */
 public class JobTarget implements Serializable {
-    private String mReportUri;
+    private URI mReportUri;
     private String mReportLabel;
 
-    public JobTarget(String reportUri, String reportLabel) {
+    public JobTarget(URI reportUri, String reportLabel) {
         mReportUri = reportUri;
         mReportLabel = reportLabel;
     }
 
-    public String getReportUri() {
+    public URI getReportUri() {
         return mReportUri;
     }
 

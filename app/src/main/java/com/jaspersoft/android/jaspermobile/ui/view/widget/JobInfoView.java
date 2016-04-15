@@ -144,7 +144,7 @@ public class JobInfoView extends LinearLayout implements JobInfoContract.View, T
     @Override
     public void showInfo(JobResource resource) {
         reportLabel.setText(resource.getJobTarget().getReportLabel());
-        reportUri.setText(resource.getJobTarget().getReportUri());
+        reportUri.setText(resource.getJobTarget().getReportUri().toString());
         jobName.setText(resource.getLabel());
         jobDescription.setText(resource.getDescription().isEmpty() ? EMPTY : resource.getDescription());
         jobId.setText(String.valueOf(resource.getId()));

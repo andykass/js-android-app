@@ -25,11 +25,13 @@
 package com.jaspersoft.android.jaspermobile.internal.di.modules.screen.job;
 
 import com.jaspersoft.android.jaspermobile.data.fetchers.JobsFetcher;
+import com.jaspersoft.android.jaspermobile.data.fetchers.ThumbnailFetcherImpl;
 import com.jaspersoft.android.jaspermobile.data.model.JobResourceModelImpl;
 import com.jaspersoft.android.jaspermobile.data.store.InMemoryJobsSortStore;
 import com.jaspersoft.android.jaspermobile.data.store.InMemoryRepresentationStore;
 import com.jaspersoft.android.jaspermobile.data.store.JobSearchQueryStore;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.CatalogFetcher;
+import com.jaspersoft.android.jaspermobile.domain.fetchers.ThumbnailFetcher;
 import com.jaspersoft.android.jaspermobile.domain.model.JobResourceModel;
 import com.jaspersoft.android.jaspermobile.domain.model.ResourceModel;
 import com.jaspersoft.android.jaspermobile.domain.store.RepresentationStore;
@@ -50,6 +52,12 @@ public class JobsScreenModule  {
     @Provides
     @PerScreen
     CatalogFetcher providesCatalogLoader(JobsFetcher fetcher) {
+        return fetcher;
+    }
+
+    @Provides
+    @PerScreen
+    ThumbnailFetcher provideThumbnailFetcher(ThumbnailFetcherImpl fetcher) {
         return fetcher;
     }
 

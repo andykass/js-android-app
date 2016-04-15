@@ -32,7 +32,7 @@ import rx.Subscriber;
  * @author Andrew Tivodar
  * @since 2.3
  */
-public interface JobResourceModel extends ResourceModel {
+public interface JobResourceModel extends JasperResourceModel {
     boolean isInAction(int id);
     void subscribeOnDeletion(Subscriber<Integer> subscriber);
     void requestToDelete(int jobId);

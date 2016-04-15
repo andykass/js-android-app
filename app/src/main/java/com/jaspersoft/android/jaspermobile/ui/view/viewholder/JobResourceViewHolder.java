@@ -25,20 +25,18 @@
 package com.jaspersoft.android.jaspermobile.ui.view.viewholder;
 
 import android.content.Context;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPresenter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
 import com.jaspersoft.android.jaspermobile.ui.contract.JobResourceContract;
-import com.jaspersoft.android.jaspermobile.util.resource.JobResource;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,6 +54,7 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
 
     protected TextView tvName;
     protected TextView tvDescription;
+    protected ImageView ivIcon;
     protected Toolbar actionsToolbar;
     protected ProgressBar progressBar;
 
@@ -66,6 +65,7 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
         this.tvDescription = (TextView) itemView.findViewById(android.R.id.text2);
         this.actionsToolbar = (Toolbar) itemView.findViewById(R.id.actionsToolbar);
         this.progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+        this.ivIcon = (ImageView) itemView.findViewById(android.R.id.icon);
 
         actionsToolbar.setOnMenuItemClickListener(this);
         mContext = itemView.getContext();
@@ -112,13 +112,27 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
 
     @Override
     public void showEnabled(boolean enabled) {
-        itemView.getBackground().mutate().setAlpha(enabled ? 255 : 192);
+        itemView.getBackground().mutate().setColorFilter(enabled ? Color.WHITE : Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+        ivIcon.setAlpha(enabled ? 255 : 160);
 
         if (enabled) {
             actionsToolbar.inflateMenu(R.menu.job_item_menu_enabled);
         } else {
             actionsToolbar.inflateMenu(R.menu.job_item_menu_disabled);
         }
+    }
+
+    @Override
+    public void showImage() {
+        ivIcon.setBackgroundResource(R.drawable.bg_resource_icon_grey);
+        ivIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ivIcon.setImageResource(R.drawable.ic_report);
+    }
+
+    @Override
+    public void showThumbnail(ResourceIcon resourceIcon) {
+        ivIcon.setImageBitmap(resourceIcon.getIcon());
+        ivIcon.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
