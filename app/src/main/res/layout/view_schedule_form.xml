@@ -76,6 +76,30 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/descriptionContainer"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            style="@style/inputControl.label"
+            android:text="@string/sch_description"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:text="@string/empty_text_place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+
     <include
         android:id="@+id/runImmediately"
         layout="@layout/item_input_control_boolean"

@@ -27,6 +27,9 @@ public abstract class JobFormViewEntity implements Parcelable {
     @NonNull
     public abstract String jobName();
 
+    @Nullable
+    public abstract String description();
+
     @NonNull
     public abstract String fileName();
 
@@ -108,6 +111,8 @@ public abstract class JobFormViewEntity implements Parcelable {
         public abstract Builder version(int version);
 
         public abstract Builder source(@NonNull String source);
+
+        public abstract Builder description(@Nullable String description);
 
         public abstract Builder jobName(@NonNull String jobName);
 

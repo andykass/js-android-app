@@ -24,6 +24,9 @@ public abstract class JobScheduleForm {
     @NonNull
     public abstract String jobName();
 
+    @Nullable
+    public abstract String description();
+
     @NonNull
     public abstract String fileName();
 
@@ -65,6 +68,8 @@ public abstract class JobScheduleForm {
         public abstract Builder source(@NonNull String source);
 
         public abstract Builder jobName(@NonNull String jobName);
+
+        public abstract Builder description(@Nullable String description);
 
         public abstract Builder fileName(@NonNull String fileName);
 

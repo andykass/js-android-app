@@ -34,6 +34,7 @@ import static org.mockito.Mockito.when;
  */
 public class JobDataFormMapperTest {
 
+    private static final String DESCRIPTION = "description";
     private JobDataFormMapper formMapper;
 
     private JobScheduleForm defaultDomainEntity, mappedDomainEntity;
@@ -85,6 +86,7 @@ public class JobDataFormMapperTest {
         assertThat(dataForm.getVersion(), is(defaultDomainEntity.version()));
         assertThat(dataForm.getSource().getUri(), is(defaultDomainEntity.source()));
         assertThat(dataForm.getLabel(), is(defaultDomainEntity.jobName()));
+        assertThat(dataForm.getDescription(), is(defaultDomainEntity.description()));
         assertThat(dataForm.getBaseOutputFilename(), is(defaultDomainEntity.fileName()));
         assertThat(dataForm.getRepositoryDestination().getFolderUri(), is(defaultDomainEntity.folderUri()));
         assertThat(dataForm.getStartDate(), is(defaultDomainEntity.startDate()));
@@ -106,6 +108,7 @@ public class JobDataFormMapperTest {
         assertThat(mappedDomainEntity.version(), is(dataForm.getVersion()));
         assertThat(mappedDomainEntity.source(), is(dataForm.getSource().getUri()));
         assertThat(mappedDomainEntity.jobName(), is(dataForm.getLabel()));
+        assertThat(mappedDomainEntity.description(), is(DESCRIPTION));
         assertThat(mappedDomainEntity.fileName(), is(dataForm.getBaseOutputFilename()));
         assertThat(mappedDomainEntity.folderUri(), is(dataForm.getRepositoryDestination().getFolderUri()));
         assertThat(mappedDomainEntity.startDate(), is(dataForm.getStartDate()));
@@ -126,6 +129,7 @@ public class JobDataFormMapperTest {
                 .build();
         JobForm form = new JobForm.Builder()
                 .withVersion(0)
+                .withDescription(DESCRIPTION)
                 .withJobSource(source)
                 .withLabel("Job name")
                 .withRepositoryDestination(destination)
@@ -140,6 +144,7 @@ public class JobDataFormMapperTest {
     private void givenDomainEntity() {
         defaultDomainEntity = JobScheduleForm.builder()
                 .id(90)
+                .description(DESCRIPTION)
                 .version(0)
                 .source("/report/uri")
                 .jobName("Job name")

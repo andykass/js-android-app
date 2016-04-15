@@ -45,6 +45,7 @@ final class JobUiFormMapper implements UiEntityMapper<JobScheduleForm, JobFormVi
         builder.version(domain.version());
         builder.source(domain.source());
         builder.jobName(domain.jobName());
+        builder.description(domain.description());
         builder.fileName(domain.fileName());
         builder.folderUri(domain.folderUri());
         builder.startDate(domain.startDate());
@@ -66,6 +67,7 @@ final class JobUiFormMapper implements UiEntityMapper<JobScheduleForm, JobFormVi
         builder.version(ui.version());
         builder.source(ui.source());
         builder.jobName(ui.jobName());
+        builder.description(ui.description());
         builder.fileName(ui.fileName());
         builder.folderUri(ui.folderUri());
         builder.startDate(ui.startDate());

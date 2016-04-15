@@ -62,6 +62,7 @@ public class ScheduleFormView extends LinearLayout implements
 {
 
     public final static int JOB_NAME_CODE = 563;
+    public final static int JOB_DESCRIPTION_CODE = 562;
     public final static int FILE_NAME_CODE = 251;
     public final static int OUTPUT_PATH_CODE = 515;
     public final static int REPEAT_INTERVAL_COUNT_CODE = 517;
@@ -81,6 +82,8 @@ public class ScheduleFormView extends LinearLayout implements
 
     @ViewById(R.id.scheduleName)
     TextView jobName;
+    @ViewById(R.id.description)
+    TextView description;
     @ViewById(R.id.fileName)
     TextView fileName;
     @ViewById(R.id.ic_boolean_title)
@@ -164,6 +167,7 @@ public class ScheduleFormView extends LinearLayout implements
     private void update(JobFormViewEntity form) {
         jobName.setText(form.jobName());
         fileName.setText(form.fileName());
+        description.setText(provideDescription());
 
         runImmediatelyTitle.setText(getString(R.string.sch_run_immediately));
         checkBoxCheckedChange(!form.hasStartDate());
@@ -177,6 +181,12 @@ public class ScheduleFormView extends LinearLayout implements
         outputPath.setText(form.folderUri());
 
         updateRecurrenceForm(form.recurrence());
+    }
+
+    private String provideDescription() {
+        String description = form.description();
+        description = description == null ? getString(R.string.empty_text_place_holder) : description;
+        return description;
     }
 
     private void updateRecurrenceForm(JobFormViewEntity.Recurrence recurrence) {
@@ -284,6 +294,20 @@ public class ScheduleFormView extends LinearLayout implements
 
     private String getString(@StringRes int id) {
         return getContext().getResources().getString(id);
+    }
+
+    @Click(R.id.descriptionContainer)
+    protected void descriptionContainer() {
+        String description = form.description();
+        description = description == null ? "" : description;
+        ValueInputDialogFragment.createBuilder(mFragmentManager)
+                .setLabel(getString(R.string.sch_description))
+                .setValue(description)
+                .setRequired(true)
+                .setCancelableOnTouchOutside(true)
+                .setRequestCode(JOB_DESCRIPTION_CODE)
+                .setTargetFragment(mParentFragment)
+                .show();
     }
 
     @Click(R.id.runImmediately)
@@ -537,6 +561,9 @@ public class ScheduleFormView extends LinearLayout implements
     @Override
     public void onTextValueEntered(int requestCode, String name) {
         switch (requestCode) {
+            case JOB_DESCRIPTION_CODE:
+                updateJobDescription(name);
+                break;
             case JOB_NAME_CODE:
                 updateJobName(name);
                 break;
@@ -570,6 +597,13 @@ public class ScheduleFormView extends LinearLayout implements
                 .fileName(fileName)
                 .build();
         this.fileName.setText(fileName);
+    }
+
+    private void updateJobDescription(String description) {
+        form = form.newBuilder()
+                .description(description)
+                .build();
+        this.description.setText(description);
     }
 
     private void updateJobName(String name) {

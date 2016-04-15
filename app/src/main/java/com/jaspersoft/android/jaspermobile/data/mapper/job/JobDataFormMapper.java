@@ -60,6 +60,7 @@ public class JobDataFormMapper implements DataEntityMapper<JobScheduleForm, Iden
         JobForm.Builder formBuilder = new JobForm.Builder();
         formBuilder.withVersion(domainForm.version());
         formBuilder.withLabel(domainForm.jobName());
+        formBuilder.withDescription(domainForm.description());
         formBuilder.withBaseOutputFilename(domainForm.fileName());
         formBuilder.withStartDate(domainForm.startDate());
         formBuilder.withRepositoryDestination(destination);
@@ -83,6 +84,7 @@ public class JobDataFormMapper implements DataEntityMapper<JobScheduleForm, Iden
         builder.version(version);
 
         builder.jobName(form.getLabel());
+        builder.description(form.getDescription());
         builder.fileName(form.getBaseOutputFilename());
         builder.startDate(form.getStartDate());
         builder.folderUri(form.getRepositoryDestination().getFolderUri());

@@ -23,8 +23,9 @@ import static org.mockito.Mockito.when;
  * @author Tom Koptel
  * @since 2.5
  */
-public class JobFormMapperTest {
+public class JobUiFormMapperTest {
 
+    private static final String DESCRIPTION = "description";
     private JobFormViewEntity defaultUiEntity;
     private JobFormViewEntity mappedUiEntity;
     private JobScheduleForm defaultDomainEntity;
@@ -64,6 +65,7 @@ public class JobFormMapperTest {
 
         assertThat(mappedUiEntity.id(), is(defaultDomainEntity.id()));
         assertThat(mappedUiEntity.fileName(), is(defaultDomainEntity.fileName()));
+        assertThat(mappedUiEntity.description(), is(defaultDomainEntity.description()));
         assertThat(mappedUiEntity.folderUri(), is(defaultDomainEntity.folderUri()));
         assertThat(mappedUiEntity.source(), is(defaultDomainEntity.source()));
         assertThat(mappedUiEntity.startDate(), is(defaultDomainEntity.startDate()));
@@ -79,6 +81,7 @@ public class JobFormMapperTest {
 
         assertThat(mappedDomainEntity.id(), is(defaultUiEntity.id()));
         assertThat(mappedDomainEntity.fileName(), is(defaultUiEntity.fileName()));
+        assertThat(mappedDomainEntity.description(), is(defaultUiEntity.description()));
         assertThat(mappedDomainEntity.folderUri(), is(defaultUiEntity.folderUri()));
         assertThat(mappedDomainEntity.source(), is(defaultUiEntity.source()));
         assertThat(mappedDomainEntity.startDate(), is(defaultUiEntity.startDate()));
@@ -94,6 +97,7 @@ public class JobFormMapperTest {
         defaultDomainEntity = JobScheduleForm.builder()
                 .id(90)
                 .version(0)
+                .description(DESCRIPTION)
                 .source("/report/uri")
                 .jobName("Job name")
                 .fileName("file name.txt")
@@ -112,6 +116,7 @@ public class JobFormMapperTest {
         defaultUiEntity = JobFormViewEntity.builder()
                 .id(90)
                 .version(0)
+                .description(DESCRIPTION)
                 .source("/report/uri")
                 .jobName("Job name")
                 .fileName("file name.txt")
