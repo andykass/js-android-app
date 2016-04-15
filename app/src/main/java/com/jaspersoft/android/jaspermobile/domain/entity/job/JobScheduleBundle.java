@@ -23,6 +23,12 @@ public abstract class JobScheduleBundle {
     public abstract List<JobScheduleForm.Recurrence> allRecurrences();
 
     @NonNull
+    public abstract List<Integer> allMonths();
+
+    @NonNull
+    public abstract List<Integer> allDays();
+
+    @NonNull
     public abstract JobScheduleForm form();
 
 
@@ -38,7 +44,11 @@ public abstract class JobScheduleBundle {
 
         public abstract Builder allRecurrences(@NonNull List<JobScheduleForm.Recurrence> units);
 
-        public abstract Builder form(@NonNull JobScheduleForm form);
+        public abstract Builder allMonths(@NonNull List<Integer> units);
+
+        public abstract Builder allDays(@NonNull List<Integer> days);
+
+        public abstract Builder form(@NonNull JobScheduleForm months);
 
         public abstract JobScheduleBundle build();
     }

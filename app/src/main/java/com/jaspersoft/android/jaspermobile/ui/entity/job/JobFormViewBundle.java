@@ -23,6 +23,12 @@ public abstract class JobFormViewBundle implements Parcelable {
     public abstract List<JobFormViewEntity.Recurrence> allRecurrences();
 
     @NonNull
+    public abstract List<CalendarViewRecurrence.Day> allDays();
+
+    @NonNull
+    public abstract List<CalendarViewRecurrence.Month> allMonths();
+
+    @NonNull
     public abstract JobFormViewEntity form();
 
     @NonNull
@@ -42,6 +48,10 @@ public abstract class JobFormViewBundle implements Parcelable {
         public abstract Builder allIntervalUnits(@NonNull List<SimpleViewRecurrence.Unit> units);
 
         public abstract Builder allRecurrences(@NonNull List<JobFormViewEntity.Recurrence> units);
+
+        public abstract Builder allDays(@NonNull List<CalendarViewRecurrence.Day> days);
+
+        public abstract Builder allMonths(@NonNull List<CalendarViewRecurrence.Month> months);
 
         public abstract Builder form(@NonNull JobFormViewEntity form);
 

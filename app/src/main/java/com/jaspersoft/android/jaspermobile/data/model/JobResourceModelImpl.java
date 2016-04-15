@@ -27,6 +27,7 @@ package com.jaspersoft.android.jaspermobile.data.model;
 import com.jaspersoft.android.jaspermobile.data.JasperRestClient;
 import com.jaspersoft.android.jaspermobile.data.utils.UniqueCompositeSubscription;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
+import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.entity.ResourceIcon;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobResource;
 import com.jaspersoft.android.jaspermobile.domain.fetchers.ThumbnailFetcher;

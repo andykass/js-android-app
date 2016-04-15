@@ -32,7 +32,8 @@ public class JobScheduleFormRecurrenceMapperTest {
 
     @Mock
     JobSimpleRecurrence domainSimpleRecurrence;
-    JobCalendarRecurrence domainCalendarRecurrence = JobCalendarRecurrence.INSTANCE;
+    @Mock
+    JobCalendarRecurrence domainCalendarRecurrence;
     JobNoneRecurrence domainNoneRecurrence = JobNoneRecurrence.INSTANCE;
 
     Trigger dataSimpleRecurrence = new Trigger.Builder()

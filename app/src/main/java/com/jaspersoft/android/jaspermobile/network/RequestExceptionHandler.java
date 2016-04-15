@@ -75,6 +75,10 @@ public class RequestExceptionHandler {
             ServiceException serviceException = ((ServiceException) exception);
             return adaptServiceMessage(serviceException);
         }
+        if (exception.getCause() instanceof ServiceException) {
+            ServiceException serviceException = (ServiceException) exception.getCause();
+            return adaptServiceMessage(serviceException);
+        }
 
         return exception.getLocalizedMessage();
     }
@@ -159,6 +163,10 @@ public class RequestExceptionHandler {
             case StatusCodes.JOB_OUTPUT_FILENAME_TOO_LONG:
                 String fileLength = exception.getArguments().get(0);
                 return mContext.getString(R.string.error_schedule_output_filename_too_long, fileLength);
+            case StatusCodes.JOB_TRIGGER_MONTHS_EMPTY:
+                return mContext.getString(R.string.error_trigger_empty_months);
+            case StatusCodes.JOB_TRIGGER_WEEK_DAYS_EMPTY:
+                return mContext.getString(R.string.error_trigger_empty_days);
             case StatusCodes.JOB_LABEL_TOO_LONG:
                 String labelLength = exception.getArguments().get(0);
                 return mContext.getString(R.string.error_schedule_label_too_long, labelLength);

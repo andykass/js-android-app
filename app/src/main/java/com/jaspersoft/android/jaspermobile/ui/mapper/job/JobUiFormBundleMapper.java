@@ -7,6 +7,7 @@ import android.support.annotation.VisibleForTesting;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleForm;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobSimpleRecurrence;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.CalendarViewRecurrence;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewEntity;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.SimpleViewRecurrence;
@@ -27,18 +28,25 @@ public final class JobUiFormBundleMapper implements UiEntityMapper<JobScheduleBu
     private final UiCollectionEntityMapper<JobSimpleRecurrence.Unit, SimpleViewRecurrence.Unit> intervalUnitMapper;
     @NonNull
     private final UiCollectionEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> recurrenceMapper;
+    @NonNull
+    private final UiCollectionEntityMapper<Integer, CalendarViewRecurrence.Month> monthMapper;
+    @NonNull
+    private final UiCollectionEntityMapper<Integer, CalendarViewRecurrence.Day> dayMapper;
 
     @VisibleForTesting
     JobUiFormBundleMapper(
             @NonNull UiEntityMapper<JobScheduleForm, JobFormViewEntity> uiFormMapper,
             @NonNull UiCollectionEntityMapper<JobScheduleForm.OutputFormat, JobFormViewEntity.OutputFormat> outputFormatMapper,
             @NonNull UiCollectionEntityMapper<JobSimpleRecurrence.Unit, SimpleViewRecurrence.Unit> intervalUnitMapper,
-            @NonNull UiCollectionEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> recurrenceMapper
-    ) {
+            @NonNull UiCollectionEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> recurrenceMapper,
+            @NonNull UiCollectionEntityMapper<Integer, CalendarViewRecurrence.Month> monthMapper,
+            @NonNull UiCollectionEntityMapper<Integer, CalendarViewRecurrence.Day> dayMapper) {
         this.uiFormMapper = uiFormMapper;
         this.outputFormatMapper = outputFormatMapper;
         this.intervalUnitMapper = intervalUnitMapper;
         this.recurrenceMapper = recurrenceMapper;
+        this.monthMapper = monthMapper;
+        this.dayMapper = dayMapper;
     }
 
     @NonNull
@@ -47,12 +55,16 @@ public final class JobUiFormBundleMapper implements UiEntityMapper<JobScheduleBu
         JobUiOutputFormatMapper outputFormatMapper = JobUiOutputFormatMapper.create(context);
         JobUiRecurrenceUnitMapper unitMapper = JobUiRecurrenceUnitMapper.create(context);
         JobUiRecurrenceMapper recurrenceMapper = JobUiRecurrenceMapper.create(context);
+        JobUiCalendarMonthMapper monthMapper = JobUiCalendarMonthMapper.create();
+        JobUiCalendarDayMapper dayMapper = JobUiCalendarDayMapper.create();
 
         return new JobUiFormBundleMapper(
                 formMapper,
                 outputFormatMapper,
                 unitMapper,
-                recurrenceMapper
+                recurrenceMapper,
+                monthMapper,
+                dayMapper
         );
     }
 
@@ -64,6 +76,8 @@ public final class JobUiFormBundleMapper implements UiEntityMapper<JobScheduleBu
         builder.allFormats(outputFormatMapper.toUiEntityList(domainEntity.allFormats()));
         builder.allIntervalUnits(intervalUnitMapper.toUiEntityList(domainEntity.allIntervalUnits()));
         builder.allRecurrences(recurrenceMapper.toUiEntityList(domainEntity.allRecurrences()));
+        builder.allMonths(monthMapper.toUiEntityList(domainEntity.allMonths()));
+        builder.allDays(dayMapper.toUiEntityList(domainEntity.allDays()));
         return builder.build();
     }
 
@@ -75,6 +89,8 @@ public final class JobUiFormBundleMapper implements UiEntityMapper<JobScheduleBu
         builder.allFormats(outputFormatMapper.toDomainEntityList(uiEntity.allFormats()));
         builder.allIntervalUnits(intervalUnitMapper.toDomainEntityList(uiEntity.allIntervalUnits()));
         builder.allRecurrences(recurrenceMapper.toDomainEntityList(uiEntity.allRecurrences()));
+        builder.allMonths(monthMapper.toDomainEntityList(uiEntity.allMonths()));
+        builder.allDays(dayMapper.toDomainEntityList(uiEntity.allDays()));
         return builder.build();
     }
 }

@@ -7,6 +7,9 @@ import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleForm;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobSimpleRecurrence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +57,38 @@ class JobScheduleRecurrenceFactory {
         }
     }
 
-    private static class CalendarRecurrenceFactory implements RecurrenceFactory {
+    static class CalendarRecurrenceFactory implements RecurrenceFactory {
+        static final List<Integer> ALL_MONTHS = Arrays.asList(
+                Calendar.JANUARY,
+                Calendar.FEBRUARY,
+                Calendar.MARCH,
+                Calendar.APRIL,
+                Calendar.MAY,
+                Calendar.JUNE,
+                Calendar.JULY,
+                Calendar.AUGUST,
+                Calendar.SEPTEMBER,
+                Calendar.OCTOBER,
+                Calendar.NOVEMBER,
+                Calendar.DECEMBER
+        );
+        static final List<Integer> ALL_DAYS = Arrays.asList(
+                Calendar.SUNDAY,
+                Calendar.MONDAY,
+                Calendar.TUESDAY,
+                Calendar.WEDNESDAY,
+                Calendar.THURSDAY,
+                Calendar.FRIDAY,
+                Calendar.SATURDAY
+        );
         @Override
         public JobScheduleForm.Recurrence createDefault() {
-            return JobCalendarRecurrence.INSTANCE;
+            return JobCalendarRecurrence.builder()
+                    .months(Collections.<Integer>emptyList())
+                    .daysInWeek(Collections.<Integer>emptyList())
+                    .minutes("0")
+                    .hours("0")
+                    .build();
         }
     }
 

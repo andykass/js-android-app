@@ -35,6 +35,7 @@
     <string name="si_fd_option_html" translatable="false">HTML</string>
     <string name="si_fd_option_pdf" translatable="false">PDF</string>
     <string name="si_fd_option_xls" translatable="false">XLS</string>
+    <string name="empty_text_place_holder" translatable="false">---</string>
 
     <!-- Screen names for analytic -->
     <string name="ja_ics" translatable="false">Input controls screen</string>

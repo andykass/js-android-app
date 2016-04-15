@@ -9,7 +9,6 @@ import com.jaspersoft.android.jaspermobile.domain.entity.job.JobNoneRecurrence;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleForm;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
-import com.jaspersoft.android.jaspermobile.ui.mapper.EntityLocalizer;
 import com.jaspersoft.android.jaspermobile.ui.mapper.UiEntityMapper;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 
@@ -23,29 +22,24 @@ public final class JasperResourceMapper implements UiEntityMapper<JasperResource
     private static final String DEFAULT_OUTPUT_PATH = "/public/Samples/Reports";
 
     @NonNull
-    private final EntityLocalizer<JasperResource> localizer;
-    @NonNull
     private final JobDataFormBundleWrapper bundleWrapper;
     @NonNull
     private final UiEntityMapper<JobScheduleBundle, JobFormViewBundle> jobUiFormBundleMapper;
 
     @VisibleForTesting
     JasperResourceMapper(
-            @NonNull EntityLocalizer<JasperResource> localizer,
             @NonNull JobDataFormBundleWrapper bundleWrapper,
             @NonNull UiEntityMapper<JobScheduleBundle, JobFormViewBundle> jobUiFormBundleMapper
     ) {
-        this.localizer = localizer;
         this.bundleWrapper = bundleWrapper;
         this.jobUiFormBundleMapper = jobUiFormBundleMapper;
     }
 
     @NonNull
     public static UiEntityMapper<JasperResource, JobFormViewBundle> create(@NonNull Context context) {
-        JasperResourceLocalizer localizer = new JasperResourceLocalizer(context);
         JobDataFormBundleWrapper bundleWrapper = JobDataFormBundleWrapper.create();
         JobUiFormBundleMapper bundleMapper = JobUiFormBundleMapper.create(context);
-        return new JasperResourceMapper(localizer, bundleWrapper, bundleMapper);
+        return new JasperResourceMapper(bundleWrapper, bundleMapper);
     }
 
     @NonNull
@@ -55,7 +49,7 @@ public final class JasperResourceMapper implements UiEntityMapper<JasperResource
         builder.id(0);
         builder.version(0);
         builder.outputFormats(Collections.singletonList(JobScheduleForm.OutputFormat.PDF));
-        builder.jobName(localizer.localize(resource));
+        builder.jobName(resource.getLabel());
         builder.folderUri(extractFolderUri(resource));
         builder.fileName(extractFileName(resource));
         builder.source(resource.getId());

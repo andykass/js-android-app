@@ -231,6 +231,13 @@
     <string name="sr_number_of_runs" translatable="false">Number of runs</string>
     <string name="sr_run_until" translatable="false">Run until a specified date</string>
     <string name="sr_run_indefinitely" translatable="false">Run indefinitely</string>
+    <string name="sr_months" translatable="false">Months</string>
+    <string name="sr_hours" translatable="false">Hours (required):</string>
+    <string name="sr_minutes" translatable="false">Minutes (required):</string>
+    <string name="sr_days" translatable="false">Days</string>
+    <string name="sr_select_days" translatable="false">Select days:</string>
+    <string name="sr_selected_days" translatable="false">Selected days:</string>
+    <string name="sr_dates_in_month" translatable="false">Dates in month:</string>
     <string name="sr_from">From page</string>
     <string name="sr_to">To page</string>
     <string name="sr_failed_to_create_local_repo">Failed to create local file storage.</string>
@@ -331,6 +338,8 @@
     <string name="error_undefined">Undefined error happened</string>
     <string name="error_saved_values_duplicate">A Saved Options with that name already exists in this folder, under another report.</string>
     <string name="error_saved_values_label_too_long">A Saved Options label is too long. The maximum length is %1$s characters.</string>
+    <string name="error_trigger_empty_months" translatable="false">There should be selected at least one month.</string>
+    <string name="error_trigger_empty_days" translatable="false">There should be selected at least one day.</string>
 
     <!-- Others -->
     <string name="loading_msg">Loading…</string>

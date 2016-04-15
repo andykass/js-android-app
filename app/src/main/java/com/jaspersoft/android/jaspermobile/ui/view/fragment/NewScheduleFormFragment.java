@@ -35,6 +35,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.dialog.CalendarDayDialogFragment;
+import com.jaspersoft.android.jaspermobile.dialog.CalendarMonthDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.DateDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.IntervalUnitDialogFragment;
 import com.jaspersoft.android.jaspermobile.dialog.NumberDialogFragment;
@@ -48,6 +50,7 @@ import com.jaspersoft.android.jaspermobile.internal.di.modules.screen.job.JobFor
 import com.jaspersoft.android.jaspermobile.internal.di.modules.activity.job.JobFormActivityModule;
 import com.jaspersoft.android.jaspermobile.ui.component.fragment.PresenterControllerFragment;
 import com.jaspersoft.android.jaspermobile.ui.contract.ScheduleFormContract;
+import com.jaspersoft.android.jaspermobile.ui.entity.job.CalendarViewRecurrence;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewEntity;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.SimpleViewRecurrence;
@@ -80,7 +83,9 @@ public class NewScheduleFormFragment extends PresenterControllerFragment<JobForm
         ScheduleFormContract.View,
         RecurrenceTypeDialogFragment.RecurrenceTypeClickListener,
         NumberDialogFragment.NumberDialogClickListener,
-        IntervalUnitDialogFragment.IntervalUnitClickListener
+        IntervalUnitDialogFragment.IntervalUnitClickListener,
+        CalendarMonthDialogFragment.MonthsSelectedListener,
+        CalendarDayDialogFragment.DaysSelectedListener
 {
     @FragmentArg
     JasperResource resource;
@@ -146,6 +151,16 @@ public class NewScheduleFormFragment extends PresenterControllerFragment<JobForm
     @Override
     public void onUnitSelected(SimpleViewRecurrence.Unit unit) {
         scheduleFormView.onUnitSelected(unit);
+    }
+
+    @Override
+    public void onDaysSelected(List<CalendarViewRecurrence.Day> selectedDays) {
+        scheduleFormView.onDaysSelected(selectedDays);
+    }
+
+    @Override
+    public void onMonthsSelected(List<CalendarViewRecurrence.Month> selectedMonths) {
+        scheduleFormView.onMonthsSelected(selectedMonths);
     }
 
     @Override

@@ -38,9 +38,7 @@ public abstract class AbstractUseCase2<Result, Argument> implements UseCase2<Res
      */
     @Override
     public Subscription execute(@NonNull Argument argument, @NonNull Subscriber<? super Result> useCaseSubscriber) {
-        if (mCommand == null) {
-            mCommand = this.buildUseCaseObservable(argument);
-        }
+        mCommand = this.buildUseCaseObservable(argument);
         return createSubscription(useCaseSubscriber);
     }
 

@@ -73,7 +73,8 @@ public class NumberDialogFragment extends BaseDialogFragment implements DialogIn
         numberEditText.setFilters(new InputFilter[]{new InputFilterMinMax(1, mMaxValue)});
 
         if (mInitValue != Integer.MIN_VALUE) {
-            numberEditText.setText(String.valueOf(mInitValue));
+            numberEditText.setText("");
+            numberEditText.append(String.valueOf(mInitValue));
         }
 
         builder.setTitle(R.string.rv_select_page);

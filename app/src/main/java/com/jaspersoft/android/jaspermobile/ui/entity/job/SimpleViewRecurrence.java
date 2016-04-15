@@ -45,7 +45,10 @@ public abstract class SimpleViewRecurrence extends JobFormViewEntity.Recurrence 
     }
 
     public final boolean runsIndefinitely() {
-        return !hasUntilDate() && occurrence() == null;
+        Integer occurrence = occurrence();
+        boolean noEndDate = !hasUntilDate();
+        boolean occurrenceMissing = occurrence == null || occurrence < 0;
+        return noEndDate && occurrenceMissing;
     }
 
     public final boolean runsTillDate() {

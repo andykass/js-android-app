@@ -54,6 +54,8 @@ public class JobDataFormBundleWrapper {
         builder.allIntervalUnits(units);
         builder.allFormats(formats);
         builder.form(form);
+        builder.allDays(JobScheduleRecurrenceFactory.CalendarRecurrenceFactory.ALL_DAYS);
+        builder.allMonths(JobScheduleRecurrenceFactory.CalendarRecurrenceFactory.ALL_MONTHS);
 
         return builder.build();
     }

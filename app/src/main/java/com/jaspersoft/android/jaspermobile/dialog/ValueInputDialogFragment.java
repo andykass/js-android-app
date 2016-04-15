@@ -30,25 +30,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
 import com.jaspersoft.android.jaspermobile.util.SimpleTextWatcher;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.TextChange;
 
 /**
  * @author Andrew Tivodar
@@ -79,8 +71,8 @@ public class ValueInputDialogFragment extends BaseDialogFragment implements Dial
 
         icValue = (EditText) customLayout.findViewById(R.id.icValue);
 
-        icValue.setText(mValue);
-        icValue.setSelection(mValue.length());
+        icValue.setText("");
+        icValue.append(mValue);
         icValue.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

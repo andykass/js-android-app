@@ -5,7 +5,6 @@ import com.jaspersoft.android.jaspermobile.domain.entity.job.JobNoneRecurrence;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleBundle;
 import com.jaspersoft.android.jaspermobile.domain.entity.job.JobScheduleForm;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewBundle;
-import com.jaspersoft.android.jaspermobile.ui.mapper.EntityLocalizer;
 import com.jaspersoft.android.jaspermobile.ui.mapper.UiEntityMapper;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResource;
 import com.jaspersoft.android.jaspermobile.util.resource.JasperResourceType;
@@ -30,8 +29,6 @@ public class JasperResourceMapperTest {
     public static final String NEW_SCHEDULE = "New schedule";
 
     @Mock
-    EntityLocalizer<JasperResource> localizer;
-    @Mock
     JobDataFormBundleWrapper bundleWrapper;
     @Mock
     UiEntityMapper<JobScheduleBundle, JobFormViewBundle> jobUiFormBundleMapper;
@@ -50,10 +47,9 @@ public class JasperResourceMapperTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(localizer.localize(any(JasperResource.class))).thenReturn(NEW_SCHEDULE);
         when(bundleWrapper.wrap(any(JobScheduleForm.class))).thenReturn(domainFormBundle);
 
-        resourceMapper = new JasperResourceMapper(localizer, bundleWrapper, jobUiFormBundleMapper);
+        resourceMapper = new JasperResourceMapper(bundleWrapper, jobUiFormBundleMapper);
     }
 
     @Test

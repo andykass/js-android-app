@@ -146,4 +146,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <include
+        layout="@layout/view_schedule_calendar_recurrence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </merge>

@@ -8,15 +8,15 @@ import com.jaspersoft.android.jaspermobile.ui.entity.job.CalendarViewRecurrence;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.JobFormViewEntity;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.NoneViewRecurrence;
 import com.jaspersoft.android.jaspermobile.ui.entity.job.SimpleViewRecurrence;
+import com.jaspersoft.android.jaspermobile.ui.mapper.UiEntityMapper;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
 public class JobUiRecurrenceMapperTest {
 
     @Mock
-    JobUiSimpleRecurrenceMapper simpleRecurrenceMapper;
+    UiEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> simpleRecurrenceMapper;
     @Mock
-    JobUiNoneRecurrenceMapper noneRecurrenceMapper;
+    UiEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> noneRecurrenceMapper;
     @Mock
-    JobUiCalendarRecurrenceMapper calendarRecurrenceMapper;
+    UiEntityMapper<JobScheduleForm.Recurrence, JobFormViewEntity.Recurrence> calendarRecurrenceMapper;
 
     @Mock
     JobSimpleRecurrence domainSimpleRecurrence;
@@ -41,7 +41,8 @@ public class JobUiRecurrenceMapperTest {
     @Mock
     NoneViewRecurrence uiNoneRecurrence;
 
-    JobCalendarRecurrence domainCalendarRecurrence = JobCalendarRecurrence.INSTANCE;
+    @Mock
+    JobCalendarRecurrence domainCalendarRecurrence;
     @Mock
     CalendarViewRecurrence uiCalendarRecurrence;
 
@@ -50,7 +51,7 @@ public class JobUiRecurrenceMapperTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        recurrenceMapper = new JobUiRecurrenceMapper(simpleRecurrenceMapper, noneRecurrenceMapper, calendarRecurrenceMapper);
+        recurrenceMapper = new JobUiRecurrenceMapper(noneRecurrenceMapper, simpleRecurrenceMapper, calendarRecurrenceMapper);
     }
 
     @Test
@@ -58,9 +59,9 @@ public class JobUiRecurrenceMapperTest {
         when(simpleRecurrenceMapper.toUiEntity(any(JobScheduleForm.Recurrence.class)))
                 .thenReturn(uiSimpleRecurrence);
 
-        JobFormViewEntity.Recurrence recurrence = recurrenceMapper.toUiEntity(domainSimpleRecurrence);
+        recurrenceMapper.toUiEntity(domainSimpleRecurrence);
 
-        assertThat(recurrence, instanceOf(SimpleViewRecurrence.class));
+        verify(simpleRecurrenceMapper).toUiEntity(domainSimpleRecurrence);
     }
 
     @Test
@@ -68,9 +69,9 @@ public class JobUiRecurrenceMapperTest {
         when(simpleRecurrenceMapper.toDomainEntity(any(JobFormViewEntity.Recurrence.class)))
                 .thenReturn(domainSimpleRecurrence);
 
-        JobScheduleForm.Recurrence recurrence = recurrenceMapper.toDomainEntity(uiSimpleRecurrence);
+        recurrenceMapper.toDomainEntity(uiSimpleRecurrence);
 
-        assertThat(recurrence, instanceOf(JobSimpleRecurrence.class));
+        verify(simpleRecurrenceMapper).toDomainEntity(uiSimpleRecurrence);
     }
 
     @Test
@@ -78,9 +79,9 @@ public class JobUiRecurrenceMapperTest {
         when(noneRecurrenceMapper.toUiEntity(any(JobScheduleForm.Recurrence.class)))
                 .thenReturn(uiNoneRecurrence);
 
-        JobFormViewEntity.Recurrence recurrence = recurrenceMapper.toUiEntity(domainNoneRecurrence);
+        recurrenceMapper.toUiEntity(domainNoneRecurrence);
 
-        assertThat(recurrence, instanceOf(NoneViewRecurrence.class));
+        verify(noneRecurrenceMapper).toUiEntity(domainNoneRecurrence);
     }
 
     @Test
@@ -90,7 +91,7 @@ public class JobUiRecurrenceMapperTest {
 
         JobScheduleForm.Recurrence recurrence = recurrenceMapper.toDomainEntity(uiNoneRecurrence);
 
-        assertThat(recurrence, instanceOf(JobNoneRecurrence.class));
+        verify(noneRecurrenceMapper).toDomainEntity(uiNoneRecurrence);
     }
 
     @Test
@@ -98,9 +99,9 @@ public class JobUiRecurrenceMapperTest {
         when(calendarRecurrenceMapper.toUiEntity(any(JobScheduleForm.Recurrence.class)))
                 .thenReturn(uiCalendarRecurrence);
 
-        JobFormViewEntity.Recurrence recurrence = recurrenceMapper.toUiEntity(domainCalendarRecurrence);
+        recurrenceMapper.toUiEntity(domainCalendarRecurrence);
 
-        assertThat(recurrence, instanceOf(CalendarViewRecurrence.class));
+        verify(calendarRecurrenceMapper).toUiEntity(domainCalendarRecurrence);
     }
 
     @Test
@@ -110,6 +111,6 @@ public class JobUiRecurrenceMapperTest {
 
         JobScheduleForm.Recurrence recurrence = recurrenceMapper.toDomainEntity(uiCalendarRecurrence);
 
-        assertThat(recurrence, instanceOf(JobCalendarRecurrence.class));
+        verify(calendarRecurrenceMapper).toDomainEntity(uiCalendarRecurrence);
     }
 }

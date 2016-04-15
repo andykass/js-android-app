@@ -179,12 +179,16 @@ public class DateTimeView extends LinearLayout {
         label.setText(title);
     }
 
+    public void setPreview(String preview) {
+        selectedDateTime.setText(preview);
+    }
+
     public void setDate(Calendar date) {
         String dateText = null;
         if (date != null) {
             dateText = mUserDateFormat.format(date.getTime());
         }
-        selectedDateTime.setText(dateText != null ? dateText : InputControlWrapper.NOTHING_SUBSTITUTE_LABEL);
+        selectedDateTime.setText(dateText != null ? dateText : getContext().getString(R.string.empty_text_place_holder));
     }
 
     public void setClearButtonVisibility(boolean visible) {

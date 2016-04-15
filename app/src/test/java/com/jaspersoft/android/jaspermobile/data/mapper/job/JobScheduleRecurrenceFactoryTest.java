@@ -8,6 +8,8 @@ import com.jaspersoft.android.jaspermobile.domain.entity.job.JobSimpleRecurrence
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
@@ -26,11 +28,13 @@ public class JobScheduleRecurrenceFactoryTest {
             .interval(100)
             .unit(JobSimpleRecurrence.Unit.MINUTE)
             .build();
-    JobCalendarRecurrence calendarRecurrence = JobCalendarRecurrence.INSTANCE;
+    @Mock
+    JobCalendarRecurrence calendarRecurrence;
     JobNoneRecurrence noneRecurrence = JobNoneRecurrence.INSTANCE;
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         recurrenceFactory = new JobScheduleRecurrenceFactory();
     }
 
