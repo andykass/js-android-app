@@ -52,16 +52,6 @@ public final class InMemoryVisualizeTemplateRepository implements VisualizeTempl
 
     @Override
     public Observable<VisualizeTemplate> get(final Profile profile, final Map<String, ?> clientParams) {
-        Observable<VisualizeTemplate> memorySource = Observable.defer(new Func0<Observable<VisualizeTemplate>>() {
-            @Override
-            public Observable<VisualizeTemplate> call() {
-                VisualizeTemplate visualizeTemplate = mCache.get(profile);
-                if (visualizeTemplate == null) {
-                    return Observable.empty();
-                }
-                return Observable.just(visualizeTemplate);
-            }
-        });
         Observable<VisualizeTemplate> diskSource = Observable.defer(new Func0<Observable<VisualizeTemplate>>() {
             @Override
             public Observable<VisualizeTemplate> call() {
@@ -111,6 +101,6 @@ public final class InMemoryVisualizeTemplateRepository implements VisualizeTempl
                     }
                 });
 
-        return Observable.concat(memorySource, diskSource).first();
+        return diskSource;
     }
 }
