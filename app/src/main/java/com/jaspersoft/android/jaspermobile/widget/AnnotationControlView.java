@@ -25,15 +25,12 @@
 package com.jaspersoft.android.jaspermobile.widget;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.dialog.AnnotationSizeDialog;
 import com.jaspersoft.android.jaspermobile.dialog.ColorPickerDialog;
 
 import org.androidannotations.annotations.Click;
@@ -67,7 +64,6 @@ public class AnnotationControlView extends RelativeLayout {
     private EventListener mEventListener;
     private int mMode;
     private int mColor;
-    private int mSize;
 
     public AnnotationControlView(Context context) {
         super(context);
@@ -88,17 +84,9 @@ public class AnnotationControlView extends RelativeLayout {
         return mMode;
     }
 
-    public void setMode(int mode) {
-        mMode = mode;
-    }
-
     public void setColor(int color) {
         mColor = color;
         currentColor.setBackgroundColor(color);
-    }
-
-    public void setSize(int size) {
-        mSize = size;
     }
 
     public void setEventListener(EventListener eventListener) {
@@ -123,18 +111,9 @@ public class AnnotationControlView extends RelativeLayout {
 
     @Click(R.id.annotationSize)
     void sizeAction() {
-        AnnotationSizeDialog annotationSizeDialog = new AnnotationSizeDialog(getContext());
-        annotationSizeDialog.setSize(mSize);
-        annotationSizeDialog.setOnEventListener(new AnnotationSizeDialog.OnAnnotationSizeListener() {
-            @Override
-            public void onAnnotationSizeSelected(int size) {
-                if (mEventListener != null) {
-                    mEventListener.onSizeChanged(size);
-                }
-                mSize = size;
-            }
-        });
-        annotationSizeDialog.show();
+       if (mEventListener != null) {
+           mEventListener.onSizeChangeRequested();
+       }
     }
 
     @Click(R.id.annotationColor)
@@ -173,7 +152,7 @@ public class AnnotationControlView extends RelativeLayout {
 
         void onClear();
 
-        void onSizeChanged(int size);
+        void onSizeChangeRequested();
 
         void onColorSelected(int color);
     }
@@ -190,7 +169,7 @@ public class AnnotationControlView extends RelativeLayout {
         }
 
         @Override
-        public void onSizeChanged(int size) {
+        public void onSizeChangeRequested() {
 
         }
 

@@ -29,11 +29,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.jaspersoft.android.jaspermobile.R;
-import com.jaspersoft.android.jaspermobile.dialog.AnnotationInputDialog;
-import com.jaspersoft.android.jaspermobile.dialog.ColorPickerDialog;
+import com.jaspersoft.android.jaspermobile.dialog.AnnotationOptionsDialog;
 import com.jaspersoft.android.jaspermobile.dialog.ProgressDialogFragment;
 import com.jaspersoft.android.jaspermobile.domain.ScreenCapture;
 import com.jaspersoft.android.jaspermobile.domain.SimpleSubscriber;
@@ -61,7 +59,7 @@ import javax.inject.Inject;
  */
 @EActivity(R.layout.activity_annotation)
 @OptionsMenu(R.menu.annotation)
-public class AnnotationActivity extends ToolbarActivity implements AnnotationControlView.EventListener, DraggableViewsContainer.OnEventListener {
+public class AnnotationActivity extends ToolbarActivity implements AnnotationControlView.EventListener {
 
     @ViewById(R.id.container)
     RelativeLayout container;
@@ -90,8 +88,6 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
         getSupportActionBar().setTitle(getString(R.string.annotation_title));
         annotationControlView.setEventListener(this);
         annotationControlView.setColor(annotationDrawing.getColor());
-        annotationControlView.setSize(annotationDrawing.getSize());
-        annotationNotes.setEventListener(this);
         annotationNotes.setEnabled(false);
     }
 
@@ -140,8 +136,6 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
         annotationControlView.setColor(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
                 ? annotationDrawing.getColor() : annotationNotes.getColor());
 
-        annotationControlView.setSize(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
-                ? annotationDrawing.getSize() : annotationNotes.getSize());
     }
 
     @Override
@@ -151,12 +145,31 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
     }
 
     @Override
-    public void onSizeChanged(int size) {
-        if (annotationControlView.getMode() == AnnotationControlView.DRAW_MODE) {
-            annotationDrawing.setSize(size);
-        } else {
-            annotationNotes.setSize(size);
-        }
+    public void onSizeChangeRequested() {
+        AnnotationOptionsDialog annotationOptionsDialog = new AnnotationOptionsDialog(this);
+        annotationOptionsDialog.setSize(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
+                ? annotationDrawing.getSize() : annotationNotes.getSize());
+        annotationOptionsDialog.setTitle(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
+                ? getString(R.string.annotation_pick_line_size) : getString(R.string.annotation_pick_font_size));
+        annotationOptionsDialog.setBorder(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
+                ? null : annotationNotes.needsBorder());
+        annotationOptionsDialog.setOnEventListener(new AnnotationOptionsDialog.OnAnnotationSizeListener() {
+            @Override
+            public void onAnnotationOptionsSelected(int size) {
+                if (annotationControlView.getMode() == AnnotationControlView.DRAW_MODE) {
+                    annotationDrawing.setSize(size);
+                } else {
+                    annotationNotes.setSize(size);
+                }
+            }
+
+            @Override
+            public void onAnnotationOptionsSelected(int size, boolean needsBorder) {
+                onAnnotationOptionsSelected(size);
+                annotationNotes.setNeedsBorder(needsBorder);
+            }
+        });
+        annotationOptionsDialog.show();
     }
 
     @Override
@@ -166,56 +179,5 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
         } else {
             annotationNotes.setColor(color);
         }
-    }
-
-    private void showTextInputDialog(int viewId) {
-        AnnotationInputDialog annotationInputDialog = new AnnotationInputDialog(this);
-        annotationInputDialog.setTitle(getString(R.string.annotation_add_note));
-        annotationInputDialog.setId(viewId);
-        annotationInputDialog.setOnEventListener(new AnnotationInputDialog.OnAnnotationInputListener() {
-            @Override
-            public void onAnnotationEntered(int id, String inputText) {
-                TextView note = (TextView) annotationNotes.findViewById(id);
-                note.setText(inputText);
-            }
-
-            @Override
-            public void onAnnotationCanceled(int id) {
-                TextView noteView = (TextView) annotationNotes.findViewById(id);
-                annotationNotes.removeView(noteView);
-            }
-        });
-        annotationInputDialog.show();
-    }
-
-    private void showTextInputDialog(int viewId, String note) {
-        AnnotationInputDialog annotationInputDialog = new AnnotationInputDialog(this);
-        annotationInputDialog.setTitle(getString(R.string.annotation_edit_note));
-        annotationInputDialog.setId(viewId);
-        annotationInputDialog.setOnEventListener(new AnnotationInputDialog.OnAnnotationInputListener() {
-            @Override
-            public void onAnnotationEntered(int id, String inputText) {
-                TextView note = (TextView) annotationNotes.findViewById(id);
-                note.setText(inputText);
-            }
-
-            @Override
-            public void onAnnotationCanceled(int id) {
-
-            }
-        });
-        annotationInputDialog.setValue(note);
-        annotationInputDialog.show();
-    }
-
-
-    @Override
-    public void onAdded(int id) {
-        showTextInputDialog(id);
-    }
-
-    @Override
-    public void onClick(int id, String title) {
-        showTextInputDialog(id, title);
     }
 }

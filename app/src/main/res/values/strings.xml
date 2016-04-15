@@ -200,7 +200,9 @@
     <string name="rv_t_external_storage_not_available">The external memory card is not available. Please insert the card and try again.</string>
     <string name="annotation_title" translatable="false">Touch to annotate…</string>
     <string name="annotation_pick_color" translatable="false">Pick color…</string>
-    <string name="annotation_pick_size" translatable="false">Pick size…</string>
+    <string name="annotation_pick_line_size" translatable="false">Pick line size…</string>
+    <string name="annotation_pick_font_size" translatable="false">Pick font size…</string>
+    <string name="annotation_enable_border" translatable="false">Add text border</string>
     <string name="annotation_add_note" translatable="false">Add note</string>
     <string name="annotation_edit_note" translatable="false">Edit note</string>
     <string name="annotation_hint" translatable="false">Enter value</string>

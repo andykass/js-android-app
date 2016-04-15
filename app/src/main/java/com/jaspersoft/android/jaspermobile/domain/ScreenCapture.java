@@ -55,10 +55,11 @@ public class ScreenCapture {
 
     public static class Factory {
         public static ScreenCapture capture(View view) {
-            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            view.draw(canvas);
-            return new ScreenCapture(bitmap);
+            view.setDrawingCacheEnabled(true);
+            view.buildDrawingCache();
+            Bitmap resource = Bitmap.createBitmap(view.getDrawingCache());
+            view.destroyDrawingCache();
+            return new ScreenCapture(resource);
         }
     }
 }

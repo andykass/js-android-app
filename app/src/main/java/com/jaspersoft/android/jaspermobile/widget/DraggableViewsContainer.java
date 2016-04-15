@@ -27,12 +27,17 @@ package com.jaspersoft.android.jaspermobile.widget;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.jaspersoft.android.jaspermobile.R;
+import com.jaspersoft.android.jaspermobile.dialog.AnnotationInputDialog;
 
 /**
  * @author Andrew Tivodar
@@ -41,10 +46,11 @@ import android.widget.TextView;
 public class DraggableViewsContainer extends RelativeLayout implements View.OnTouchListener, View.OnDragListener {
     private static final int DEFAULT_COLOR = Color.BLACK;
     private static final int DEFAULT_SIZE = 2;
+    private static final int BORDER_PADDING = 10;
 
     private int mColor;
     private int mSize;
-    private OnEventListener mEventListener;
+    private boolean mNeedsBorder;
 
     public DraggableViewsContainer(Context context) {
         super(context);
@@ -59,10 +65,6 @@ public class DraggableViewsContainer extends RelativeLayout implements View.OnTo
     public DraggableViewsContainer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
-    }
-
-    public void setEventListener(OnEventListener eventListener) {
-        mEventListener = eventListener;
     }
 
     public int getColor() {
@@ -81,22 +83,24 @@ public class DraggableViewsContainer extends RelativeLayout implements View.OnTo
         mSize = size;
     }
 
+    public void setNeedsBorder(boolean needsBorder) {
+        mNeedsBorder = needsBorder;
+    }
+
+    public boolean needsBorder() {
+        return mNeedsBorder;
+    }
+
     @Override
     public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-
-        for (int i = 0; i < getChildCount(); i++) {
-            getChildAt(i).setEnabled(enabled);
-        }
+        setOnTouchListener(enabled ? this : null);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             int viewId = addDraggableNote(event.getX(), event.getY());
-            if (mEventListener != null) {
-                mEventListener.onAdded(viewId);
-            }
+            showTextInputDialog(viewId);
         }
         return isEnabled();
     }
@@ -141,9 +145,7 @@ public class DraggableViewsContainer extends RelativeLayout implements View.OnTo
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEventListener != null) {
-                    mEventListener.onClick(v.getId(), ((TextView) v).getText().toString());
-                }
+                showTextInputDialog(v.getId(), ((TextView) v).getText().toString());
             }
         });
         textView.setOnLongClickListener(new OnLongClickListener() {
@@ -159,9 +161,49 @@ public class DraggableViewsContainer extends RelativeLayout implements View.OnTo
         return viewId;
     }
 
-    public interface OnEventListener {
-        void onAdded(int id);
+    private void showTextInputDialog(int viewId) {
+        final AnnotationInputDialog annotationInputDialog = new AnnotationInputDialog(getContext());
+        annotationInputDialog.setTitle(getContext().getString(R.string.annotation_edit_note));
+        annotationInputDialog.setId(viewId);
+        annotationInputDialog.setValue("");
+        annotationInputDialog.setOnEventListener(new AnnotationInputDialog.OnAnnotationInputListener() {
+            @Override
+            public void onAnnotationEntered(int id, String inputText) {
+                TextView note = (TextView) findViewById(id);
+                note.setText(inputText);
+                if (mNeedsBorder) {
+                    note.setBackgroundResource(R.drawable.bg_annotation_text_border);
+                    note.getBackground().setColorFilter(mColor, PorterDuff.Mode.MULTIPLY);
+                    int borderPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, BORDER_PADDING, getContext().getResources().getDisplayMetrics());
+                    note.setPadding(borderPadding, borderPadding, borderPadding, borderPadding);
+                }
+            }
 
-        void onClick(int id, String title);
+            @Override
+            public void onAnnotationCanceled(int id) {
+                TextView noteView = (TextView) findViewById(id);
+                removeView(noteView);
+            }
+        });
+        annotationInputDialog.show();
+    }
+
+    private void showTextInputDialog(int viewId, final String note) {
+        final AnnotationInputDialog annotationInputDialog = new AnnotationInputDialog(getContext());
+        annotationInputDialog.setTitle(getContext().getString(R.string.annotation_edit_note));
+        annotationInputDialog.setId(viewId);
+        annotationInputDialog.setValue(note);
+        annotationInputDialog.setOnEventListener(new AnnotationInputDialog.OnAnnotationInputListener() {
+            @Override
+            public void onAnnotationEntered(int id, String inputText) {
+                TextView note = (TextView) findViewById(id);
+                note.setText(inputText);
+            }
+
+            @Override
+            public void onAnnotationCanceled(int id) {
+            }
+        });
+        annotationInputDialog.show();
     }
 }
