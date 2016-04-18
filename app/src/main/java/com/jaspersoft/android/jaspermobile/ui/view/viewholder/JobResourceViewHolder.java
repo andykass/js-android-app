@@ -112,7 +112,7 @@ public class JobResourceViewHolder extends ResourceViewHolder implements JobReso
 
     @Override
     public void showEnabled(boolean enabled) {
-        itemView.getBackground().mutate().setColorFilter(enabled ? Color.WHITE : Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+        itemView.setBackgroundColor(enabled ? Color.WHITE : Color.LTGRAY);
         ivIcon.setAlpha(enabled ? 255 : 160);
 
         if (enabled) {
