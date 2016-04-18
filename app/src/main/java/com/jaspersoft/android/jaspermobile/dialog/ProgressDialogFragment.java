@@ -52,7 +52,6 @@ public class ProgressDialogFragment extends DialogFragment {
     private static final String TAG = ProgressDialogFragment.class.getSimpleName();
     private DialogInterface.OnCancelListener onCancelListener;
     private DialogInterface.OnShowListener onShowListener;
-    private static boolean isPreparing = false;
 
     @FragmentArg
     int loadingMessage;
@@ -82,14 +81,9 @@ public class ProgressDialogFragment extends DialogFragment {
         dialog.setOnShowListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                if (!isPreparing) {
-                    dialog.dismiss();
-                    return;
-                }
                 if (onShowListener != null) {
                     onShowListener.onShow(dialog);
                 }
-                isPreparing = false;
             }
         });
         return dialog;
@@ -107,8 +101,6 @@ public class ProgressDialogFragment extends DialogFragment {
         ProgressDialogFragment dialogFragment = getInstance(fm);
         if (dialogFragment != null) {
             dialogFragment.dismiss();
-        } else if (isPreparing) {
-            isPreparing = false;
         }
     }
 
@@ -159,8 +151,6 @@ public class ProgressDialogFragment extends DialogFragment {
                 dialogFragment.setOnCancelListener(onCancelListener);
                 dialogFragment.setOnShowListener(onShowListener);
                 dialogFragment.show(fm, TAG);
-
-                isPreparing = true;
             }
         }
 
@@ -169,8 +159,6 @@ public class ProgressDialogFragment extends DialogFragment {
             dialogFragment.setOnCancelListener(onCancelListener);
             dialogFragment.setOnShowListener(onShowListener);
             dialogFragment.show(fm, TAG);
-
-            isPreparing = true;
         }
     }
 }

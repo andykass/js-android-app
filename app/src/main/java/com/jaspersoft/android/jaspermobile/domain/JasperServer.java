@@ -97,6 +97,7 @@ public class JasperServer {
         return "JasperServer{" +
                 "baseUrl='" + baseUrl + '\'' +
                 ", edition='" + edition + '\'' +
+                ", fake=" + fake +
                 ", version=" + version +
                 '}';
     }

@@ -24,7 +24,6 @@ public class StateJasperClient implements JasperRestClient {
 
     private final JasperRestClient mFakeClient;
     private final JasperRestClient mRealClient;
-    private JasperRestClient mDelegate;
 
     public StateJasperClient(
             Profile profile,
@@ -36,65 +35,51 @@ public class StateJasperClient implements JasperRestClient {
         mServerCache = serverCache;
         mRealClient = realClient;
         mFakeClient = fakeClient;
-        updateState();
     }
 
     @Override
     public ReportService syncReportService() {
-        updateState();
-        return mDelegate.syncReportService();
+        return getDelegate().syncReportService();
     }
 
     @Override
     public FiltersService syncFilterService() {
-        updateState();
-        return mDelegate.syncFilterService();
+        return getDelegate().syncFilterService();
     }
 
     @Override
     public RepositoryService syncRepositoryService() {
-        updateState();
-        return mDelegate.syncRepositoryService();
+        return getDelegate().syncRepositoryService();
     }
 
     @Override
     public ReportScheduleService syncScheduleService() {
-        updateState();
-        return mDelegate.syncScheduleService();
+        return getDelegate().syncScheduleService();
     }
 
     @Override
     public Observable<RxReportService> reportService() {
-        updateState();
-        return mDelegate.reportService();
+        return getDelegate().reportService();
     }
 
     @Override
     public Observable<RxRepositoryService> repositoryService() {
-        updateState();
-        return mDelegate.repositoryService();
+        return getDelegate().repositoryService();
     }
 
     @Override
     public Observable<RxFiltersService> filtersService() {
-        updateState();
-        return mDelegate.filtersService();
+        return getDelegate().filtersService();
     }
 
     @Override
     public Observable<RxReportScheduleService> scheduleService() {
-        updateState();
-        return mDelegate.scheduleService();
+        return getDelegate().scheduleService();
     }
 
-    private void updateState() {
+    private JasperRestClient getDelegate() {
         JasperServer jasperServer = providesJasperServer();
-        JasperRestClient delegate = jasperServer.isFake() ? mFakeClient : mRealClient;
-        setDelegate(delegate);
-    }
-
-    private void setDelegate(JasperRestClient delegate) {
-        mDelegate = delegate;
+        return jasperServer.isFake() ? mFakeClient : mRealClient;
     }
 
     private JasperServer providesJasperServer() {

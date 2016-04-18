@@ -28,12 +28,11 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jaspersoft.android.jaspermobile.data.ComponentManager;
 import com.jaspersoft.android.jaspermobile.db.MobileDbProvider;
-import com.jaspersoft.android.jaspermobile.domain.Profile;
 import com.jaspersoft.android.jaspermobile.internal.di.components.AppComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.components.DaggerAppComponent;
 import com.jaspersoft.android.jaspermobile.internal.di.components.ProfileComponent;
-import com.jaspersoft.android.jaspermobile.internal.di.modules.ProfileModule;
 import com.jaspersoft.android.jaspermobile.internal.di.modules.app.AppModule;
 import com.jaspersoft.android.jaspermobile.network.AcceptJpegDownloader;
 import com.jaspersoft.android.jaspermobile.util.SavedItemHelper;
@@ -67,11 +66,14 @@ public class JasperMobileApplication extends Application implements GraphObject 
     AppConfigurator appConfigurator;
     @Bean
     SavedItemHelper savedItemHelper;
+    @Inject
+    ComponentManager componentManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
         getComponent().inject(this);
+        componentManager.setupProfileComponent();
 
         savedItemHelper.deleteUnsavedItems();
         forceDatabaseUpdate();
@@ -125,22 +127,12 @@ public class JasperMobileApplication extends Application implements GraphObject 
 
     @Override
     public void setProfileComponent(@Nullable ProfileComponent profileComponent) {
-        if (profileComponent == null) {
-            profileComponent = createFakeProfileComponent();
-        }
         mProfileComponent = profileComponent;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public ProfileComponent getProfileComponent() {
-        if (mProfileComponent == null) {
-            mProfileComponent = createFakeProfileComponent();
-        }
         return mProfileComponent;
-    }
-
-    private ProfileComponent createFakeProfileComponent() {
-        return getComponent().plus(new ProfileModule(Profile.getFake()));
     }
 }

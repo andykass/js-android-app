@@ -46,14 +46,16 @@ public class ComponentManager {
             return tryToSetupFirstAvailable();
         } else {
             ProfileComponent profileComponent = getCurrentProfileComponent();
-            Profile currentProfile = profileComponent.getProfile();
+            if (profileComponent != null) {
+                Profile currentProfile = profileComponent.getProfile();
 
-            if (currentProfile.equals(activeProfile)) {
-                return currentProfile;
-            } else {
-                setupProfileComponent(activeProfile);
-                return activeProfile;
+                if (currentProfile.equals(activeProfile)) {
+                    return currentProfile;
+                }
             }
+
+            setupProfileComponent(activeProfile);
+            return activeProfile;
         }
     }
 
@@ -71,12 +73,11 @@ public class ComponentManager {
         Profile profile = selectFirstAvailableProfile();
 
         if (profile == null) {
-            return Profile.getFake();
-        } else {
-            activateProfile(profile);
-            setupProfileComponent(profile);
-            return profile;
+            profile = Profile.getFake();
         }
+        activateProfile(profile);
+        setupProfileComponent(profile);
+        return profile;
     }
 
     @Nullable
@@ -117,6 +118,7 @@ public class ComponentManager {
             public void onProfileActivation(Profile profile) {
             }
         };
+
         void onProfileActivation(Profile profile);
     }
 }
