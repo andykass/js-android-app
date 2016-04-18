@@ -23,37 +23,42 @@
   ~ <http://www.gnu.org/licenses/lgpl>.
   -->
 
-<RelativeLayout android:id="@+id/container"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/reportImage"
+    <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/annotationControl" />
+        android:layout_toLeftOf="@+id/annotationControl"
+        android:background="@android:color/white">
 
-    <com.jaspersoft.android.jaspermobile.widget.AnnotationView
-        android:id="@+id/annotationDrawingContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/annotationControl" />
+        <ImageView
+            android:id="@+id/reportImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <com.jaspersoft.android.jaspermobile.widget.DraggableViewsContainer
-        android:id="@+id/annotationNotesContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/annotationControl" />
+        <com.jaspersoft.android.jaspermobile.widget.AnnotationView
+            android:id="@+id/annotationDrawingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.jaspersoft.android.jaspermobile.widget.DraggableViewsContainer
+            android:id="@+id/annotationNotesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
 
     <com.jaspersoft.android.jaspermobile.widget.AnnotationControlView_
         android:id="@+id/annotationControl"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
         android:background="#454850"
         android:gravity="center_horizontal"
-        android:padding="4dp"
-        android:layout_alignParentRight="true" />
+        android:padding="4dp"/>
 
 </RelativeLayout>

@@ -94,8 +94,6 @@ import timber.log.Timber;
 @EActivity
 public abstract class BaseDashboardActivity extends ToolbarActivity
         implements JasperWebViewClientListener, DefaultUrlPolicy.SessionListener {
-    private static final int REQUEST_DASHBOARD_ANNOTATION = 320;
-    private static final String CACHE_AUTHORITY = "com.jaspersoft.android.jaspermobile.fileprovider";
 
     @Extra
     protected ResourceLookup resource;
@@ -209,20 +207,6 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
                 navigateToAnnotationPage(item);
             }
         });
-    }
-
-    @OnActivityResult(REQUEST_DASHBOARD_ANNOTATION)
-    protected void onAnnotationDone(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-
-        Uri fileUri = data.getData();
-        Uri sharedFileUri = FileProvider.getUriForFile(this, CACHE_AUTHORITY, new File(fileUri.getPath()));
-
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        share.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
-        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message));
-        startActivity(Intent.createChooser(share, getString(R.string.share_chooser_title)));
     }
 
     //---------------------------------------------------------------------
@@ -340,7 +324,7 @@ public abstract class BaseDashboardActivity extends ToolbarActivity
     private void navigateToAnnotationPage(File file) {
         AnnotationActivity_.intent(this)
                 .imageUri(Uri.fromFile(file))
-                .startForResult(REQUEST_DASHBOARD_ANNOTATION);
+                .start();
     }
 
     protected final class GenericSubscriber<R> extends ErrorSubscriber<R> {

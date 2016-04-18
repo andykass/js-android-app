@@ -47,7 +47,7 @@ import rx.Subscriber;
  */
 @PerProfile
 public class SaveScreenCaptureCase extends AbstractUseCase<File, ScreenCapture> {
-    private static final String SCREEN_CAPTURE_NAME = "screen_capture_file.jpg";
+    private static final String SCREEN_CAPTURE_NAME = "JasperMobile shared resource.jpg";
     private static final String SCREEN_CAPTURE_SHARED_DIR = "shared_cache";
 
     private final FilesRepository mFilesRepository;
@@ -69,6 +69,7 @@ public class SaveScreenCaptureCase extends AbstractUseCase<File, ScreenCapture> 
                     boolean saved = screenCapture.saveInto(fileOutputStream);
                     if (saved) {
                         subscriber.onNext(file);
+                        subscriber.onCompleted();
                     } else {
                         subscriber.onError(new IOException("Can not create file."));
                     }

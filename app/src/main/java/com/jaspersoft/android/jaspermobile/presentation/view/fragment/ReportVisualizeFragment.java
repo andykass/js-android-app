@@ -87,8 +87,6 @@ public class ReportVisualizeFragment extends BaseFragment
 
     private static final int REQUEST_INITIAL_REPORT_PARAMETERS = 100;
     private static final int REQUEST_NEW_REPORT_PARAMETERS = 200;
-    private static final int REQUEST_REPORT_ANNOTATION = 300;
-    private static final String CACHE_AUTHORITY = "com.jaspersoft.android.jaspermobile.fileprovider";
 
     @FragmentArg
     protected ResourceLookup resource;
@@ -329,20 +327,6 @@ public class ReportVisualizeFragment extends BaseFragment
         mActionListener.refresh();
     }
 
-    @OnActivityResult(REQUEST_REPORT_ANNOTATION)
-    protected void onAnnotationDone(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-
-        Uri fileUri = data.getData();
-        Uri sharedFileUri = FileProvider.getUriForFile(getActivity(), CACHE_AUTHORITY, new File(fileUri.getPath()));
-
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        share.putExtra(Intent.EXTRA_STREAM, sharedFileUri);
-        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message));
-        startActivity(Intent.createChooser(share, getString(R.string.share_chooser_title)));
-    }
-
     //---------------------------------------------------------------------
     // ReportVisualizeView callbacks
     //---------------------------------------------------------------------
@@ -504,7 +488,7 @@ public class ReportVisualizeFragment extends BaseFragment
         Intent intent = AnnotationActivity_.intent(getContext())
                 .imageUri(Uri.fromFile(file))
                 .get();
-        startActivityForResult(intent, REQUEST_REPORT_ANNOTATION);
+        startActivity(intent);
     }
 
     @Override

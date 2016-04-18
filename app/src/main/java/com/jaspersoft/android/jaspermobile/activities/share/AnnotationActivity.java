@@ -24,9 +24,12 @@
 
 package com.jaspersoft.android.jaspermobile.activities.share;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ShareCompat;
+import android.support.v4.content.FileProvider;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -60,6 +63,7 @@ import javax.inject.Inject;
 @EActivity(R.layout.activity_annotation)
 @OptionsMenu(R.menu.annotation)
 public class AnnotationActivity extends ToolbarActivity implements AnnotationControlView.EventListener {
+    private static final String CACHE_AUTHORITY = "com.jaspersoft.android.jaspermobile.fileprovider";
 
     @ViewById(R.id.container)
     RelativeLayout container;
@@ -115,10 +119,14 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
 
             @Override
             public void onNext(File item) {
-                Intent data = new Intent();
-                data.setData(imageUri);
-                setResult(RESULT_OK, data);
-                finish();
+                Uri sharedFileUri = FileProvider.getUriForFile(AnnotationActivity.this, CACHE_AUTHORITY, item);
+
+                ShareCompat.IntentBuilder.from(AnnotationActivity.this)
+                        .setType("image/*")
+                        .setStream(sharedFileUri)
+                        .setText(getString(R.string.share_message))
+                        .setChooserTitle(R.string.share_chooser_title)
+                        .startChooser();
             }
 
             @Override
@@ -135,7 +143,6 @@ public class AnnotationActivity extends ToolbarActivity implements AnnotationCon
 
         annotationControlView.setColor(annotationControlView.getMode() == AnnotationControlView.DRAW_MODE
                 ? annotationDrawing.getColor() : annotationNotes.getColor());
-
     }
 
     @Override

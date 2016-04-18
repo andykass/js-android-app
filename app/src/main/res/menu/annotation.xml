@@ -28,8 +28,8 @@
 
     <item
         android:id="@+id/annotationDoneAction"
-        android:icon="@drawable/ic_menu_done"
-        android:title="@string/annotation_done"
+        android:icon="@drawable/ic_menu_share"
+        android:title="@string/r_cm_share"
         app:showAsAction="ifRoom" />
 
 </menu>
