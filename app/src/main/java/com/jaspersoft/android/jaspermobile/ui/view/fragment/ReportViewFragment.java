@@ -157,11 +157,20 @@ public class ReportViewFragment extends BaseFragment
 
     protected boolean filtersMenuItemVisibilityFlag, saveMenuItemVisibilityFlag;
     private Subscription onPageChangeSubscription;
+    private ProgressDialogFragment.CycleManager mProgressManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        mProgressManager = ProgressDialogFragment.builder(getFragmentManager())
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).buildManager();
 
         if (mReportPageState == null) {
             mReportPageState = new ReportPageState();
@@ -231,12 +240,14 @@ public class ReportViewFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
+        mProgressManager.resume(getActivity());
         mPresenter.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        mProgressManager.pause(getActivity());
         mPresenter.pause();
     }
 
@@ -304,19 +315,12 @@ public class ReportViewFragment extends BaseFragment
 
     @Override
     public void showLoading() {
-        ProgressDialogFragment.builder(getFragmentManager())
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        getActivity().finish();
-                    }
-                })
-                .show();
+        mProgressManager.show();
     }
 
     @Override
     public void hideLoading() {
-        ProgressDialogFragment.dismiss(getFragmentManager());
+        mProgressManager.hide(getActivity());
     }
 
     @Override

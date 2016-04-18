@@ -135,6 +135,7 @@ public class ReportVisualizeFragment extends BaseFragment
 
     protected boolean filtersMenuItemVisibilityFlag, saveMenuItemVisibilityFlag;
     private Subscription onPageChangeSubscription;
+    private ProgressDialogFragment.CycleManager mProgressManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,6 +144,13 @@ public class ReportVisualizeFragment extends BaseFragment
             mState = new ReportPageState();
         }
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_LONG);
+        mProgressManager = ProgressDialogFragment.builder(getFragmentManager())
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).buildManager();
     }
 
     @Override
@@ -207,6 +215,7 @@ public class ReportVisualizeFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
+        mProgressManager.resume(getActivity());
         setupPaginationControl();
         mPresenter.resume();
     }
@@ -214,6 +223,7 @@ public class ReportVisualizeFragment extends BaseFragment
     @Override
     public void onPause() {
         super.onPause();
+        mProgressManager.pause(getActivity());
         onPageChangeSubscription.unsubscribe();
         mPresenter.pause();
     }
@@ -462,19 +472,12 @@ public class ReportVisualizeFragment extends BaseFragment
 
     @Override
     public void showLoading() {
-        ProgressDialogFragment.builder(getFragmentManager())
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        getActivity().finish();
-                    }
-                })
-                .show();
+        mProgressManager.show();
     }
 
     @Override
     public void hideLoading() {
-        ProgressDialogFragment.dismiss(getFragmentManager());
+        mProgressManager.hide(getActivity());
     }
 
     @Override
