@@ -69,7 +69,6 @@ final class HtmlPageCreator extends PageCreator {
             data.put("pageIndex", pageIndex);
             String customJs = template.execute(data);
 
-
             DataNode indexHeadScript = DataNode.createFromEncoded("<script>" + customJs + "</script>", "");
 
             Document document = Jsoup.parse(reportExport, Charset.defaultCharset().name(), "");

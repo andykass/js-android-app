@@ -40,9 +40,11 @@ var MobileReport = (function () {
         };
 
         var _normalizeDimensions = function (params) {
+            var globalOptions = params.globalOptions;
             var chartDimensions = params.chartDimensions;
             chartDimensions.width = self.width;
             chartDimensions.height = self.height;
+            globalOptions.plotOptions = {"series": {"animation": false}};
             return params;
         };
 
@@ -78,8 +80,21 @@ var MobileReport = (function () {
                 var reportWidth = parseInt(reportTable.style.width);
                 var scale = self.width / reportWidth;
 
-                reportTable.style.transform = "scale(" + scale + ")";
-                reportTable.style.transformOrigin = "0% 0%";
+                jQuery(reportTable).css({
+                    '-webkit-transform': 'scale(' + scale + ')',
+                    '-moz-transform': 'scale(' + scale + ')',
+                    '-ms-transform': 'scale(' + scale + ')',
+                    '-o-transform': 'scale(' + scale + ')',
+                    'transform': 'scale(' + scale + ')'
+                });
+
+                jQuery(reportTable).css({
+                    '-webkit-transform-origin': '0% 0%',
+                    '-moz-transform-origin': '0% 0%',
+                    '-ms-transform-origin': '0% 0%',
+                    '-o-transform-origin': '0% 0%',
+                    'transform-origin': '0% 0%'
+                });
                 reportTable.className = "";
 
                 _setBodyVisibility(true);
@@ -140,6 +155,31 @@ var MobileReport = (function () {
         return isElastic;
     };
 
+    var Metrics = {
+        load: function (timeout) {
+            var deferred = $.Deferred();
+
+            var calculate = function () {
+                var body = document.body,
+                    html = document.documentElement;
+
+                var height = Math.max(body.scrollHeight, body.offsetHeight,
+                    html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+                var width = Math.max(body.scrollWidth, body.offsetWidth,
+                    html.clientWidth, html.scrollWidth, html.offsetWidth);
+
+                var metrics = {"width": width, "height": height};
+
+                deferred.resolve(metrics);
+            };
+
+            setTimeout(calculate, timeout);
+
+            return deferred;
+        }
+    };
+
     var RendererFactory = {
         create: function () {
             var endpoint = location.href + "getReportComponents.html";
@@ -155,14 +195,15 @@ var MobileReport = (function () {
                     var components = _parseComponents(data);
                     var isElasticReport = _isElasticReport(components);
 
-                    var width = innerWidth;
-                    var height = innerHeight;
-
-                    if (isElasticReport) {
-                        deferred.resolve(new HighChartsRenderer(width, height));
-                    } else {
-                        deferred.resolve(new TableRenderer(width, height));
-                    }
+                    Metrics.load(500).done(function (metrics) {
+                        var height = metrics.height;
+                        var width = metrics.width;
+                        if (isElasticReport) {
+                            deferred.resolve(new HighChartsRenderer(width, height));
+                        } else {
+                            deferred.resolve(new TableRenderer(width, height));
+                        }
+                    });
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     this.tryCount++;
